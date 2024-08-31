@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CADET</title>
+<link rel="icon" href="./img/logo_cadet.png" type="image/png">
+   
+   
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+  	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.min.css" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.5.4/css/fileinput.min.css" crossorigin="anonymous">
+	
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@300&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+	
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" integrity="sha512-5A8nwdMOWrSz20fDsjczgUidUBR8liPYU+WymTZP1lmY9G6Oc7HlZv156XqnsgNUzTyMefFTcsFH/tnJE/+xBg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+	<!-- Google Fonts -->
+	<link
+	  href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+	  rel="stylesheet"
+	/>
+	<!-- MDB -->
+	<link
+	  href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.1.0/mdb.min.css"
+	  rel="stylesheet"
+	/>
+	<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+	
+	<link href="
+	https://cdn.jsdelivr.net/npm/chosen-js@1.8.7/chosen.min.css
+	" rel="stylesheet">
+
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+
+    <link rel="stylesheet" href="./static/css/formValidation.css" th:href="@{/css/formValidation.css}"/>
+    <link rel="stylesheet" href="./static/css/sweetalert2.min.css" th:href="@{/css/sweetalert2.min.css}"/>
+    <link rel="stylesheet" href="./static/css/datatables.min.css" th:href="@{/css/datatables.min.css}"/>
+    <link rel="stylesheet" href="./static/css/dataTables.bootstrap5.min.css" th:href="@{/css/dataTables.bootstrap5.min.css}"/>
+    <link rel="stylesheet" href="./static/css/responsive.bootstrap5.min.css" th:href="@{/css/responsive.bootstrap5.min.css}"/>
+    <link rel="stylesheet" href="./static/css/fileinput.css" th:href="@{/css/fileinput.css}"/>
+	
+
+	
+	<style type="text/css">
+	      body {
+			font-family: "Poppins", sans-serif;
+		
+	      }
+		.text_contectado{
+/* 		    color: white; */
+		    display: inline-flex;
+		    justify-content: center;
+		    align-items: center;
+		    margin-right: 15px;
+		}
+		 .conectado {
+		    color: #4ff21d;
+		}
+		.contenedor{
+			padding: 10px;
+		}
+	</style>
+	<style type="text/css">
+		.table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td {
+		    /* padding: 8px; */
+		    line-height: 1.42857143;
+		    vertical-align: top;
+		    border-top: 1px solid #ddd;
+		    padding-top: 2px !important;
+		    padding-bottom: 2px !important;
+/* 		    font-size: 11px !important; */
+		}
+	</style>
+</head>
+<body>
+	<!-- 	HEADER -->
+	<nav class="navbar navbar-expand-lg navbar-light  bg-light bg-gradient" >
+		<div class="container-fluid">
+			<a class="navbar-brand" href="#" th:href="@{/}" >
+				<img alt="" src="img/logo_cadet.png" th:href="@{../img/logo_cadet.png}" style="width:50px" class="">
+            </a>
+		    <button
+		      data-mdb-collapse-init
+		      class="navbar-toggler"
+		      type="button"
+		      data-mdb-target="#navbarNav"
+		      aria-controls="#navbarNav"
+		      aria-expanded="false"
+		      aria-label="Toggle navigation"
+		    >
+		   <i class="fa fa-bars" aria-hidden="true"></i>
+		    </button>
+			<div class="collapse navbar-collapse" id="navbarNav">
+				<ul class="navbar-nav  me-auto mb-2 mb-lg-0">
+				
+					
+					<li class="text_contectado">
+						<div class="">
+							Conectado: <i class="fa fa-circle conectado"></i> <span sec:authentication="principal.username"></span>
+						</div>
+						
+					</li>				
+				
+			        <li class="nav-item dropdown">
+			          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+			            <i class="fa fa-paper-plane-o" aria-hidden="true"></i> REGISTROS
+			          </a>
+			          <ul class="dropdown-menu " aria-labelledby="navbarDropdown">
+
+			          	<li><a class="dropdown-item" href="#" th:href="@{/catalogos/gestion}"><i class="fa fa-bookmark-o" aria-hidden="true"></i> CATALOGOS</a></li>
+			          	<li><a class="dropdown-item" href="#" th:href="@{/socios/gestion}"><i class="fa fa-address-card" aria-hidden="true"></i> SOCIOS</a></li>
+			            
+			          </ul>
+	
+			        </li>
+				</ul>
+				&nbsp;
+				<div class="navbar-text" sec:authorize="isAuthenticated()" th:href="@{/logout}">
+			       		<a class="btn btn-secondary " th:href="@{/logout}" data-mdb-ripple-init data-mdb-ripple-color="dark" ><i class="fa fa-window-close" aria-hidden="true"></i> DESCONECTARSE</a>
+		     	 </div>
+		     	 
+			</div>
+		</div>
+	</nav>
+	<!-- FIN HEADER -->
+	
+<!-- 	<script th:src="@{/js/jquery-3.6.3.min.js}"></script> -->
+		
+	<script  src="./static/js/jquery-3.6.3.min.js" th:src="@{/js/jquery-3.6.3.min.js}"></script>
+<!-- 	<script src="#" th:src="@{/js/formValidation.min.js}"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.5.4/js/fileinput.min.js" ></script>
+
+	<!-- MDB -->
+	<script
+	  type="text/javascript"
+	  src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.1.0/mdb.umd.min.js"
+	></script>
+	
+	  <script
+		src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+		
+	<script src="
+https://cdn.jsdelivr.net/npm/chosen-js@1.8.7/chosen.jquery.min.js
+"></script>
+	<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>		
+	
+	<script type="" src="./static/js/formValidation.js" th:src="@{/js/formValidation.js}"></script>
+	<script type="" src="./static/js/framework/bootstrap.js" th:src="@{/js/framework/bootstrap.js}"></script>
+	<script type="" src="./static/js/language/es_ES.js" th:src="@{/js/language/es_ES.js}"></script>
+	<script type="" src="./static/js/jquery.loadJSON.min.js" th:src="@{/js/jquery.loadJSON.min.js}"></script>
+	<script type="" src="./static/js/sweetalert2.all.min.js" th:src="@{/js/sweetalert2.all.min.js}"></script>
+	<script type="" src="./static/js/datatables.min.js" th:src="@{/js/datatables.min.js}"></script>
+	<script type="" src="./static/js/dataTables.bootstrap5.min.js" th:src="@{/js/dataTables.bootstrap5.min.js}"></script>
+	<script type="" src="./static/js/responsive.bootstrap5.min.js" th:src="@{/js/responsive.bootstrap5.min.js}"></script>
+	<script type="" src="./static/js/jform.min.js" th:src="@{/js/jform.min.js}"></script>
+	<script type="" src="./static/js/jquery.form.min.js" th:src="@{/js/jquery.form.min.js}"></script>
+	<script type="" src="./static/js/fileinput.js" th:src="@{/js/fileinput.js}"></script>
+	<script type="" src="./static/js/locales/es.js" th:src="@{/js/locales/es.js}"></script>
+	
+	<div class="contenedor" >
+		<section  layout:fragment="content">Bienvenido al Sistema, para navegar debe seleccionar las opciones en el panel de control de la parte superio..</section>
+	</div>
+	
+	
+	<script type="text/javascript">
+// 		alert('')
+// 	$(document).ready(function(){
+		var GGESTION=0;
+// 		$('#select-anios').empty();
+
+		/*
+		$.get( "/RestAnios/", function( data ) {
+			var selecion='';
+			var today = new Date();
+			var year = today.getFullYear();
+			$(data).each(function(index,array) {
+				if(array.nombre==year){
+					seleccion='selected'
+				}else{
+					seleccion=''
+				}
+				$('body').find('#select-anios').append(
+						'<option value="'+array.id+'" accesskey="'+array.id+'" '+seleccion+'>'+
+						'<a href="">'+array.nombre+'</a>'+
+						'</option>');
+				var selecion='';
+			})
+		});*/
+// 	});
+
+	</script>
+	
+	
+	
+</body>
+</html>

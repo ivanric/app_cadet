@@ -1,0 +1,1332 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{inicio}">
+<head>
+<title>USUARIOS	</title>
+<meta http-equiv="Content-Type" content="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="">
+<link rel="icon" href="/img/logo_cadet.png" type="image/png">
+<meta name="author" content="">
+<style>
+.selected {
+	background-color: #B0BED9;
+}
+
+.contenido_gestion {
+	padding: 20px 10px 0px 10px;
+}
+ 
+.ocultar {
+    display: none;
+}
+ 
+.mostrar {
+    display: block;
+}
+</style>
+</head>
+<body layout:fragment="content">
+	<form name="formulario" role="form" id="formulario" method="post"
+		enctype="multipart/form-data" data-fv-excluded="disabled">
+
+		<div class="modal fade" id="modalAdicionar" tabindex="-1"
+			role="dialog" data-backdrop="static" data-keyboard="false"
+			aria-hidden="true" style="display: none; padding-left: 0">
+
+			<div class="modal-dialog modal-md" role="document">
+				<div class="modal-content">
+					<div class="card">
+						<div class="modal-header">
+							<div class="row" style="display: contents;">
+								<div class="col-md-2 ">
+									<b class="" style="font-size: 12px">USUARIO</b>
+								</div>
+								<div class="col-md-10" style="text-align: right;">
+									<div class="opciones_btn_modal"></div>
+								</div>
+							</div>
+						</div>
+						<div class="modal-body">
+
+							<div id="div_put"></div>
+							<input type="" name="id" value="" style="display: none"> 
+							<input type="" name="estado" value="1" style="display: none"> 
+							
+							
+							<div class="row">
+								<div class="col-md-12">
+									<div id="msg"></div>
+
+									<!-- Mensajes de Verificacion -->
+									<div id="error" class="alert alert-danger ocultar" role="alert">
+									    Las contraseñas no coinciden, vuelve a intentar !
+									</div>
+									<div id="ok" class="alert alert-success ocultar" role="alert">
+									    Las contraseñas coinciden !
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-12">
+									<div class="mb-3">
+										<label for="exampleFormControlInput1" class="form-label">Cedula</label>
+										<input placeholder="Ingrese carnet de identidad"
+											class="form-control fg-input data-per field_css"
+											name="ci" type="text" required="required">
+									</div>
+
+								</div>
+							</div>
+
+							<div class="row">
+								<div class="col-md-12">
+									<div class="mb-3">
+										<label for="exampleFormControlInput1" class="form-label">Nombre Completo</label>
+										<input placeholder="Ingrese nombre completo"
+											class="form-control fg-input data-per field_css"
+											name="nombrecompleto" type="text" required="required"
+											onkeyup="this.value = this.value.toUpperCase();">
+									</div>
+
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-12">
+									<div class="mb-3">
+										<label for="exampleFormControlInput1" class="form-label">Telefono/Celular</label>
+										<input placeholder="Celular"
+											class="form-control fg-input data-per field_css"
+											name="celular" type="number" required="required">
+									</div>
+
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-12">
+									<div class="mb-3">
+										
+									<label class="exampleFormControlInput1" for="email">Usuario :</label> <input
+										id="username" type="text" name="username" class="form-control data-per field_css"
+										required="required" autofocus="autofocus" placeholder="usuario..">
+									</div>
+
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-12">
+									<div class="mb-3">
+										<label for="exampleFormControlInput1" class="form-label">Contraseña</label>
+										<input
+											id="password1" name="password" type="password" class="form-control data-per field_css" 
+											required="required" autofocus="autofocus" autocomplete="false" autocapitalize="none" placeholder="Ingrese su contraseña">
+									</div>
+
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-12">
+									<div class="mb-3">
+										<label for="exampleFormControlInput1" class="form-label">Vuelva a Repetir la Contraseña</label>
+										<input
+											id="password2" name="password" type="password" class="form-control data-per field_css" 
+											required="required" autofocus="autofocus" autocomplete="false" autocapitalize="none" onkeyup="verificarPasswords();" placeholder="Ingrese nuevamente su contraseña">
+									</div>
+
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-12">
+									<div class="mb-3">
+										<label for="exampleFormControlInput1" class="form-label"><b>Roles</b></label>
+										<div class="roles_sistema">
+											<div class="form-check">
+											  <input class="form-check-input" name="roles" type="checkbox" value="" id="flexCheckDefault" >
+											  <label class="form-check-label nombre_rol" for="flexCheckDefault">
+											    ADMINISTRADOR
+											  </label>
+											</div>
+											<div class="form-check">
+											  <input class="form-check-input" name="roles" type="checkbox" value="" id="flexCheckChecked" >
+											  <label class="form-check-label nombre_rol" for="flexCheckChecked">
+											    CLIENTE
+											  </label>
+											</div>
+										</div>
+									</div>
+
+								</div>
+							</div>
+
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+
+	<nav class="navbar navbar-light bg-light">
+		<div class="container-fluid">
+			<span class="navbar-text"> USUARIOS </span>
+		</div>
+	</nav>
+	<div class="contenido_gestion">
+		<div class="panel-body">
+			<div class="row">
+				<div class="col-md-12">
+
+					<div class="row" style="margin-bottom: 10px;">
+						<div class="col-md-3 col-xs-12">
+							<input type="text" id="js_filtro" name="" class="form-control"
+								placeholder=" Buscar..">
+						</div>
+
+						<div class="col-md-4 col-xs-12" style="text-align: right;">
+							<div class="opciones_estado"></div>
+							<div class="form-check form-check-inline">
+
+								<div class="btn-group" role="group"
+									aria-label="Basic radio toggle button group">
+									<input type="radio" class="btn-check" name="iestado"
+										id="activos" value="1" autocomplete="off" checked> <label
+										class="btn btn-secondary" for="activos">habilitados</label>
+
+									<input type="radio" class="btn-check" name="iestado"
+										id="inactivo" value="0" autocomplete="off"> <label
+										class="btn btn-secondary" for="inactivo">deshabilitados</label>
+
+								</div>
+							</div>
+						</div>
+						<div class="col-md-3 col-xs-12" style="text-align: right;">
+							<div>
+								<span class="opciones_btn_nuevo"></span> <span
+									class="opciones_btn_eliminar"></span> <span
+									class="opciones_btn_habilitar"></span>
+							</div>
+
+						</div>
+					</div>
+				</div>
+				<div class="col-md-12 table-responsive">
+					<table id="table"
+						class="table  table-hover table-bordered  table-sm"
+						style="width: 100%; background: white;">
+						<thead class="table-dark">
+							<tr>
+								<th width="">ID</th>
+								<th>USUARIO</th>
+								<th>ESTADO</th>
+<!-- 								<th></th> -->
+								<th>Roles</th>
+						</thead>
+						<tbody>
+
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<script type="text/javascript">
+		var GOPCION=""
+// 		var result=Get_Opciones(null);
+		var GID=""
+		var GSEARCH=""
+		var GESTADO='';
+		var DTtable=''
+		var nameEntity="../RestUsuarios"
+		let G_JSON_ENTITY=null;
+		let G_JSON_PERSONA_ENTITY=null;
+// 	    function ExisteOpcion(opc){
+// 	        var resultado=false;
+// 	        for (var i = 0; i < result.AccionesUser.length; i++) {
+// 	            if(result.AccionesUser[i].codigo==opc){
+// 	                resultado=true;         
+// 	            }
+// 	        }          
+// 	        return resultado;
+// 	    }
+		
+		GSEARCH=$('#js_filtro').val()
+		GESTADO=$('input[name="iestado"]:checked').val();
+		
+		
+// 		listarTable()
+		$('#js_filtro').on('keyup',function(){
+			GSEARCH=$(this).val()
+// 			console.log(GSEARCH)
+
+		})
+		
+        
+		
+
+        $('input[name="iestado"]').on('change',function(){
+        	GESTADO=$('input[name="iestado"]:checked').val();
+        	GSEARCH=$('#js_filtro').val()
+        	setButtonCrud(GESTADO)
+        	GDATO="";//para que al momento de eliminar o habilitar se tenga que seleccionar un registro de la tabla
+        	$('#table').dataTable().fnDraw('page');
+        })
+
+        
+        DTtable=$('#table').DataTable({
+            "oLanguage": {
+                     "sUrl": "/js/Spanish.lang"
+
+            }
+        ,
+            "dom":'rt<button>ip',
+            "pageLength":10,
+             responsive:true,
+            "processing": true,
+            "serverSide": true, 
+            
+            "ajax": {
+            "type": "GET",
+              "url": nameEntity+""+"/listar",
+          	"data": function ( d ) {
+                    d.estado = GESTADO
+                    // d.estado = 1;
+                    // filtro:filtro
+             }
+            }
+            ,
+            "columns": [
+                { "data": "id" },
+                { "data": "id" },
+                { "data": "id" },
+                { "data": "id" }
+      		]
+            ,
+            "createdRow":function(row,data,index){
+                console.log(data)
+            	$('td',row).eq(0).html((data.id)+""+`<input type="hidden" value="${data.id}" class="idhidden">`).addClass('text-center');
+                $('td',row).eq(1).html(data.username).addClass('text-center');
+				let destado=''
+				if (data.estado==1) {
+					destado='<span class="badge text-bg-success">HABILITADO</span>'
+				}else{
+					destado='<span class="badge text-bg-warning">DESHABILITADO</span>'
+				}
+// 				$('td',row).eq(2).html(destado);
+                
+                $('td',row).eq(2).html(destado).addClass('text-center');
+                var roles_data=""
+                for (var i = 0; i < data.roles.length; i++){
+               	  var obj = data.roles[i];
+//                		console.log(obj.id)
+//  						console.log(obj.id)
+						var nombre=obj.nombre.substring(5,obj.nombre.length)	
+							
+            		    roles_data=roles_data+" "+nombre+" - "
+//                		for (var key in obj){
+//             		    var value = obj[key];
+//             		    console.log(value)
+// 						roles_data.trim()
+//             		}
+
+
+// 						var promesa1 = function() {
+//             	            return new Promise(function(resolver, cancelar) {
+//             	            	roles_data=roles_data+" "+obj.id
+//             	            	roles_data=roles_data.trim()
+//             	            });
+//             	        }
+// 					    var promesa2 = function() {
+// 				            return new Promise(function(resolver, cancelar) {
+				 
+// 				            	roles_data=roles_data.trim()
+// // 				            	console.log("termino");
+// 				            });
+// 				        }
+// 					    promesa1().then(promesa2).then(function() {
+					    	 
+// 				            console.log("termino");
+// 				        });
+            		    
+
+               	}
+                roles_data=roles_data.substring(0,roles_data.length-2)
+                roles_data=roles_data.trim()
+//                 console.log('data:',roles_data)
+                
+                $('td',row).eq(3).html("["+roles_data+"]").addClass('text-center');
+            } 
+        
+            ,
+            "drawCallback":function(settings){
+ 	   
+                
+// //                 $('button[data-toggle="tooltip"]').tooltip({animated: 'fade',placement: 'bottom',});
+                
+            	$('#js_filtro').on( 'keyup', function () {
+                    DTtable.search(this.value ).draw();
+                }) 
+
+            }
+        });
+        
+		
+
+
+
+		setButtonCrud(GESTADO)
+		function setButtonCrud(estado) {
+			if (estado==1) {
+				$('.opciones_btn_habilitar').html("")
+// 		 	    if(ExisteOpcion('adicionar')){
+			        $('.opciones_btn_nuevo').html(`<button id="btnAdicionar" class="btn btn-success  btn-md waves-effect " onclick="funtNewFormModal()" style="margin: 0 2px;">Nuevo</button>`)  
+// 			    }
+
+			}else{
+// 			    if(ExisteOpcion('habilitar')){
+			    	$('.opciones_btn_nuevo').html('')
+			    	$('.opciones_btn_eliminar').html('')
+			        $('.opciones_btn_habilitar').html(`<button id="btnHabilitar" class="btn btn-info  btn-md waves-effect" style="margin: 0 2px;" onclick="funtUpdateRow()">Habilitar</button>`)  
+// 			    }
+			}
+		}
+		
+		
+	  //INICIO QUERY PRINCIPAL
+
+			
+			//eventos
+			var GDATO="";
+			//click en la tabla
+			$('#table tbody').on( 'click dblclick', 'tr', function (e) {
+				
+				if(e.type=='dblclick'){//mostramos el modal para el CRUD
+// 					console.log($(this).find("td:eq(1)").text());
+					
+					addDisabledForm()
+					opcionesCrudModal();
+					getEntityId()
+	        	    
+				    document.getElementById("ok").classList.add("ocultar");
+			        document.getElementById("error").classList.add("ocultar");
+		    		document.getElementById("ok").classList.remove("mostrar");
+			        document.getElementById("error").classList.remove("mostrar");
+					
+					
+					let G_JSON_ENTITY=new Object();
+					
+					
+	          		$('#modalAdicionar').modal('show');
+				}
+				
+// 				console.log("GESTADO:",GESTADO)
+// 				console.log('event?? ', e);
+				var row = $(this).closest('tr');
+// 				console.log('row:',row);
+				var idr = parseInt(row.find('.idhidden').val(), 10);
+// 				console.log('idr:',idr);
+          		 if ( $(this).hasClass('selected') ) {
+                       $(this).removeClass('selected');
+                       GDATO=""
+                  }
+                  else {
+                      $('#table tr.selected').removeClass('selected');
+                      $(this).addClass('selected');
+                      
+           	          	 GDATO=$(this).find("td:eq(0)").text();
+//                    console.log('GDATO:',GDATO);
+                      
+                  }
+
+				GID=idr
+// 				console.log('GID:',GID);
+			})
+			
+
+			function JsonDataForm() {
+				var serialized = $('#formulario').serializeArray();
+		        var s = '';
+		        var data = new Object();
+				data.celular=$("input[name='celular']").val();
+				data.ci=$("input[name='ci']").val();
+				data.email=$("input[name='email']").val();
+				var estado_data=parseInt($("input[name='estado']").val());
+// 				console.log('estado_data:',estado_data)
+				data.estado=1;
+				data.id=null;
+				data.nombrecompleto=$("input[name='nombrecompleto']").val();
+				data.password=$("input[name='password']").val();
+				
+
+		        return data;
+			}
+
+			
+			function funtNewFormModal() {
+				$('.field_css').removeAttr('disabled') 
+				opcionesNuevo()
+				getEntityIdNew()
+	    		document.getElementById("ok").classList.add("ocultar");
+		        document.getElementById("error").classList.add("ocultar");
+	    		document.getElementById("ok").classList.remove("mostrar");
+		        document.getElementById("error").classList.remove("mostrar");
+       			$('#modalAdicionar').modal('show');
+			}
+			function funtDeleteRow() {
+				if (GDATO!="" ) {
+					updateStatusEntity(1)//si quiero dar de baja pongo 1
+				}else{
+					alert("!seleccione un registro de la lista para eliminar el registro!")
+				}
+			}
+			function funtUpdateRow() {
+				if (GDATO!="" ) {
+					updateStatusEntity(0)//si quiero dar de baja pongo 0
+				}else{
+					alert("!seleccione un registro de la lista para habilitar el registro!")
+				}
+			}
+			
+			$('#btnEditar').click(function(){
+// 				console.log(GDATO)
+				if (GDATO!="" ) {
+					opcionesEditarForm()
+					getEntityId()
+					removeDisabledForm()
+	       			$('#modalAdicionar').modal('show');
+				}else{
+					alert("!seleccione un registro de la lista para editar!")
+				}
+				
+			})
+			function addDisabledForm() {
+				
+				$('body .field_css').attr('disabled', 'disabled');
+			}
+			function removeDisabledForm() {
+				
+				$('.field_css').removeAttr('disabled');
+			}
+			function addActionform(action) {
+				$('#formulario').removeAttr("action")
+				$('#formulario').attr("action",action)
+				
+			}
+			function addPutForm(value) {
+				$('#formulario #div_put').html("")
+				
+				if(value!== undefined){
+				//+console.log("value",value)
+					$('#formulario #div_put').html(`<input type="hidden" name="_method" value="PUT">`)
+				}
+			}
+			
+			function nuevo() {
+				opcionesNuevo()
+				getEntityIdNew()
+				removeDisabledForm()
+			}
+			function editar() {
+				opcionesEditarForm()
+				getEntityId()
+                removeDisabledForm()
+			}
+			function eliminar() {
+				updateStatusEntity(1)
+
+			}
+			function opcionesNuevo() {
+				GOPCION="ADD"
+					$('.opciones_btn_modal').html('')
+                $('.opciones_btn_modal').html(`<button id="btnGuardar_modal" type="submit"  class="btn btn-success  btn-xs btn-sm waves-effect" style="margin: 0 2px;">Guardar</button>`)  
+       	        $('.opciones_btn_modal').append(`<button id="btnCancelar_modal"  type="button"  data-bs-dismiss="modal" aria-label="Close" class="btn btn-danger   btn-xs btn-sm waves-effect" style="margin: 0 2px;">Cancelar</button>`)  
+                addActionform(nameEntity)
+//        	        $('#formulario').data('formValidation').resetForm(true);
+                $('#formulario')[0].reset();
+			}
+			function opcionesEditarForm() {
+				GOPCION="EDIT"
+					$('.opciones_btn_modal').html('')
+                $('.opciones_btn_modal').html(`<button id="btnGuardar_modal" type="submit"  class="btn btn-success  btn-xs btn-sm waves-effect" style="margin: 0 2px;">Guardar</button>`)  
+       	        $('.opciones_btn_modal').append(`<button id="btnCancelar_modal"  type="button" data-bs-dismiss="modal" aria-label="Close" class="btn btn-danger   btn-xs btn-sm waves-effect" style="margin: 0 2px;">Cancelar</button>`)  
+                addActionform(nameEntity)
+//        	        $('#formulario').data('formValidation').resetForm(true);
+                $('#formulario')[0].reset();
+                
+               
+			}
+			function getEntityId() {
+//                 console.log('pedir roles mod')
+            	var check=""
+            	
+            	
+          		$('.roles_sistema').html('')
+
+          		$.get(nameEntity+'/'+GID, function(data) {
+//           			console.log('datos a modificar:',data)
+					G_JSON_ENTITY=data;
+					console.log("G_JSON_ENTITY:",G_JSON_ENTITY)
+          			$('#formulario').loadJSON(data);
+          			$('#formulario').find('input[name="id"]').val(data.persona.id);
+          			$('#formulario').find('input[name="ci"]').val(data.persona.ci);
+          			$('#formulario').find('input[name="nombrecompleto"]').val(data.persona.nombrecompleto);
+          			$('#formulario').find('input[name="celular"]').val(data.persona.celular);
+          			$('#formulario').find('input[name="password"]').val("");
+          			
+          			
+                    $.get('../RestRoles', function(result) {
+              			console.log('datos de roles:',result)
+
+                             $(result).each(function(i,d){
+                            	var check="";
+                            	$(data.roles).each(function(i1,d1){
+                					if(d.id==d1.id){
+                						check="checked"
+                					}
+                            	})
+                            	
+		                  			var nomnbre_rol=d.nombre;
+		                  			nomnbre_rol=nomnbre_rol.substring(5,nomnbre_rol.length)
+		                  			$('.roles_sistema').append(`
+                          			<div class="form-check">
+             					     <!-- <input type="hidden" name="id_roles[]" th:value="${d.id}">-->
+        							  <input class="form-check-input" name="roles" type="checkbox" value="${d.id}" id="flexCheckDefault" ${check}>
+        							  <label class="form-check-label nombre_rol" for="flexCheckDefault">
+        							  ${nomnbre_rol}
+        							  </label>
+        							</div>
+                  					
+                 					`)
+                            })
+                  			
+
+    		        }, 'json');
+          			
+          			
+          			
+		        }, 'json');
+			}
+			function getEntityIdNew() {
+				
+                console.log('pedir roles GID:',GID)
+          		$('.roles_sistema').html('')
+                $.get('../RestRoles', function(result) {
+          			console.log('datos de roles:',result)
+          			for (var i = 0; i < result.length; i++){
+
+              			console.log('data:',result[i].id)
+              			
+              			var nomnbre_rol=result[i].nombre;
+              			nomnbre_rol=nomnbre_rol.substring(5,nomnbre_rol.length)
+              			$('.roles_sistema').append(`
+                      			<div class="form-check">
+         					     <!-- <input type="hidden" name="id_roles[]" th:value="${result[i].id}">-->
+    							  <input class="form-check-input" name="roles" type="checkbox" value="${result[i].id}" id="flexCheckDefault" >
+    							  <label class="form-check-label nombre_rol" for="flexCheckDefault">
+    							  ${nomnbre_rol}
+    							  </label>
+    							</div>
+              					
+             					`)
+          			}
+
+
+          			
+          			$('#formulario').loadJSON(result);
+		        }, 'json');
+			}
+			
+			
+			function opcionesCrudModal() {
+				$('body').find('.opciones_btn_modal').html('')
+				
+				if(GESTADO!=0){
+					$('.opciones_btn_modal').html(`<button id="btnAdicionar_modal" type="button"  class="btn btn-success  btn-xs btn-sm waves-effect" style="margin: 0 2px;" onclick="nuevo()">Nuevo</button>`)  
+	    	        
+				}
+                $('.opciones_btn_modal').append(`<button id="btnEditar_modal" type="button"  class="btn btn-warning  btn-xs btn-sm waves-effect"  style="margin: 0 2px;" onclick="editar()">Editar</button>`)  
+    	        if(GESTADO!=0){
+    	        	$('.opciones_btn_modal').append(`<button id="btnEliminar_modal" type="button"  class="btn btn-danger  btn-xs btn-sm waves-effect" style="margin: 0 2px;" onclick="eliminar()">Eliminar</button>`)  
+        	        
+    	        }
+    	        $('.opciones_btn_modal').append(`<button id="btnCancelar_modal" type="button"  data-bs-dismiss="modal" aria-label="Close" class="btn btn-default   btn-xs btn-sm waves-effect" style="margin: 0 2px;">Cancelar</button>`)  
+   	        	addActionform(nameEntity)
+//     	        $('#formulario').data('formValidation').resetForm(true);
+                $('#formulario')[0].reset();
+			}
+			
+
+			
+			function saveEntityForm() {
+// 				console.log("json data:",JsonDataForm())
+				var data_ajax='';
+				
+				var roles_sistema =[];
+		        var roles_sistema_object;
+		        var check_roles = [];
+                var roles_seleccionados = [];
+
+
+
+				var tam_roles=0;
+				
+				var promesa1a = function() {
+					
+					 return new Promise(function(resolver, cancelar) {
+					 setTimeout(function() {
+						console.log("promesa1a")
+						data_ajax=JsonDataForm();
+		                $.get('../RestRoles', function(result) {
+							roles_sistema_object=result
+
+				        }, 'json');
+			                
+			            $.each($("input[name='roles']:checked"), function(){
+			            	
+			            	
+			            	check_roles.push($(this).val());
+			            });
+						 console.log('data_ajax:',data_ajax)
+					 	resolver();
+					 }, 500);
+					 });
+				 }
+				var promesa2b = function() {
+					 return new Promise(function(resolver, cancelar) {
+					 setTimeout(function() {
+						 console.log("promesa2a")
+						 
+					        for (var i = 0; i < check_roles.length; i++){
+
+								var id_rol_check=parseInt(check_roles[i]);
+//	 							console.log('id_rol_check:',id_rol_check);
+								
+						        for (var j = 0; j < roles_sistema_object.length; j++){
+//	 					        	console.log('roles_sistema_object[j]:',roles_sistema_object[j])
+									if(id_rol_check==roles_sistema_object[j].id){
+//	 									console.log('check_roles[i]_select:',check_roles[i])
+										roles_seleccionados.push(roles_sistema_object[j])
+									}
+						        }
+						       
+					        }
+//	 				        console.log("roles_seleccionados:",roles_seleccionados);
+					        data_ajax['roles']=roles_seleccionados
+						 console.log('data_ajax:',data_ajax)
+					 	resolver();
+					 }, 500);
+					 });
+				 }
+
+				promesa1a().then(promesa2b).then(function() {
+					console.log('data_ajax-fin:',data_ajax)
+// 					 console.log("fin promesa")	
+		                $.ajax({
+		              	   	url:nameEntity,
+		              	    type: "POST",
+							'contentType': "application/json",
+// 							'data': JsonDataForm(),
+							'data': JSON.stringify(data_ajax),
+		              	    'dataType': 'json',
+		              	     async: false,
+		                     success:function(res){
+								console.log('registrado',res)
+//		                          if(res.estado){
+//		                         	 $('#formulario').data('formValidation').resetForm();
+		                             $('#formulario')[0].reset();
+//		 							addRowLastTable(res.id,res.nombre)
+									
+		                             $('.modal').modal('hide')
+		                      	Swal.fire({
+		                             title:"Registrado",
+		                             text:"Se ha registrado exitosamente",
+		                             icon:"success",
+		                             timer:700,   
+		                             showConfirmButton: false 
+		                         });   
+		                        $('#table').dataTable().fnDraw('page');
+//		                          }
+		                     }
+		                 })
+				 });
+
+                 
+			}
+			
+			
+			function saveEntityForm1() {
+				var roles_sistema =[];
+		        var roles_sistema_object;
+		        var check_roles = [];
+                var roles_seleccionados = [];
+				
+				async function obtenerRoles() {
+					try {
+				    	
+// 				    	const roles_sistema_object = await $.get('../RestRoles'); // Realizar la solicitud AJAX y esperar la respuesta
+				        // Envolver la llamada a $.get dentro de una promesa
+				        const roles_sistema_object = await new Promise((resolve, reject) => {
+				            $.get('../RestRoles', function(result) {
+				                resolve(result); // Resolver la promesa con el resultado de la solicitud AJAX
+				            }, 'json').fail(function(jqXHR, textStatus, errorThrown) {
+				                reject(new Error(textStatus)); // Rechazar la promesa en caso de error
+				            });
+				        });
+				    	
+				    				    
+				        
+				        $("input[name='roles']:checked").each(function() {
+				            check_roles.push($(this).val());
+				        });
+			            
+				        for (var i = 0; i < check_roles.length; i++){
+							var id_rol_check=parseInt(check_roles[i]);
+					        for (var j = 0; j < roles_sistema_object.length; j++){
+								if(id_rol_check==roles_sistema_object[j].id){
+									roles_seleccionados.push(roles_sistema_object[j])
+								}
+					        }
+					       
+				        }
+				        
+				        return roles_seleccionados; // Devolver los roles seleccionados
+				    } catch (error) {
+				        console.error('Error al obtener los roles:', error);
+				        throw error; // Relanzar el error para que pueda ser manejado externamente
+				    }
+				}
+				
+				async function construirJsonEntity() {
+// 				    let G_JSON_COMPRA_ENTITY = {};
+					G_JSON_ENTITY=new Object()
+					
+// 					G_ARRAY_PAGO_CREDITO=new Array()
+					G_JSON_PERSONA_ENTITY=new Object()
+					
+					let id = $('body').find('input[name="id"]').val();
+				    G_JSON_ENTITY.id = id ? id : 0;
+
+				    G_JSON_ENTITY.username = $('body').find('input[name="username"]').val();
+				    G_JSON_ENTITY.password = $('body').find('input[name="password"]').val();
+				    G_JSON_ENTITY.estado = $('body').find('input[name="estado"]').val();
+
+
+				    try {
+
+				        let roles = await obtenerRoles();
+				        G_JSON_ENTITY.roles =roles;
+				    } catch (error) {
+				        console.error('Error al obtener roles:', error);
+				        G_JSON_ENTITY.roles = null;
+				    }
+			    
+
+			    	G_JSON_PERSONA_ENTITY.id=null;
+			    	G_JSON_PERSONA_ENTITY.ci=$('body').find('input[name="ci"]').val();;
+			    	G_JSON_PERSONA_ENTITY.nombrecompleto=$('body').find('input[name="nombrecompleto"]').val();
+			    	G_JSON_PERSONA_ENTITY.email=$('body').find('input[name="email"]').val();
+			    	G_JSON_PERSONA_ENTITY.celular=$('body').find('input[name="celular"]').val();
+			    	G_JSON_PERSONA_ENTITY.estado=1
+			    	
+			    	G_JSON_ENTITY.persona = G_JSON_PERSONA_ENTITY;
+
+				    return G_JSON_ENTITY;
+				}
+				
+				async function obtenerJsonEntity() {
+				    try {
+				        let jsonEntity = await construirJsonEntity();
+				        console.log("JSON SAVE PRE:",jsonEntity)
+				        return JSON.stringify(jsonEntity);
+				    } catch (error) {
+				        console.error('Error al construir el JSON de compra entity:', error);
+				        return null;
+				    }
+				}
+				
+				obtenerJsonEntity().then(json => {
+				    if (json !== null) {
+       					console.log("JSON SAVE",json)
+	                	$.ajax({
+		              	   	url:nameEntity,
+		              	    type: "POST",
+							'contentType': "application/json",
+		// 					'data': JsonDataForm(),
+							'data': json,
+		              	    'dataType': 'json',
+		                     success:function(res){
+								console.log('registrado',res)
+		                             $('#formulario')[0].reset();
+		                             $('.modal').modal('hide')
+		                      	Swal.fire({
+		                             title:"Registrado",
+		                             text:"Se ha registrado exitosamente",
+		                             icon:"success",
+		                             timer:700,   
+		                             showConfirmButton: false 
+		                         });   
+		                        $('#table').dataTable().fnDraw('page');
+		//                          }
+		                     },
+		                     error:function(err){
+		                    	 console.log(err)
+               	 				Swal.fire({
+							    	icon:'error',
+							    	title:"Cancelado",
+			                        text:"No se realizo la operacion, comunicarse con el administrador del Sistema, Gracias",
+			                        timer:2000,
+			                        showCancelButton:false,
+			                     	showConfirmButton:false
+							    })
+		                     }
+		                 })
+				        
+				        
+				    } else {
+				        console.error('Error al obtener el JSON de compra entity');
+				    }
+				});
+                 
+			}
+			function updateTable(id,objectMod){
+                $('#table > tbody  > tr').each(function(index, tr) {
+             	   
+	               	var row = $(this).closest('tr');
+	    			var idrow = parseInt(row.find('.idhidden').val(), 10);
+					//console.log('idrow:',idrow);
+                	if(id==idrow){
+                		$(this).find("td:eq(1)").html(objectMod.nombre);
+                	}
+               	 });
+			}
+			function updateEntityForm() {
+// 				var id=$('#formulario').find('input[name="id"]').val()
+// 				 console.log('mod GID:',GID)
+				
+				var objectMod;
+				
+				var data_ajax='';
+				
+				var roles_sistema =[];
+		        var roles_sistema_object;
+		        var check_roles = [];
+                var roles_seleccionados = [];
+
+
+
+				var tam_roles=0;
+				
+				var promesa1a = function() {
+					
+					 return new Promise(function(resolver, cancelar) {
+					 setTimeout(function() {
+// 						console.log("promesa1amodificar")
+						data_ajax=JsonDataForm();
+						data_ajax['id']=GID
+		                $.get('../RestRoles', function(result) {
+							roles_sistema_object=result
+
+				        }, 'json');
+			                
+			            $.each($("input[name='roles']:checked"), function(){
+			            	
+			            	
+			            	check_roles.push($(this).val());
+			            });
+// 						 console.log('data_ajax:',data_ajax)
+					 	resolver();
+					 }, 500);
+					 });
+				 }
+				var promesa2b = function() {
+					 return new Promise(function(resolver, cancelar) {
+					 setTimeout(function() {
+// 						 console.log("promesa2amodificiar")
+						 
+					        for (var i = 0; i < check_roles.length; i++){
+
+								var id_rol_check=parseInt(check_roles[i]);
+// 	 							console.log('id_rol_check:',id_rol_check);
+								
+						        for (var j = 0; j < roles_sistema_object.length; j++){
+// 	 					        	console.log('roles_sistema_object[j]_mod:',roles_sistema_object[j])
+									if(id_rol_check==roles_sistema_object[j].id){
+//	 									console.log('check_roles[i]_select:',check_roles[i])
+										roles_seleccionados.push(roles_sistema_object[j])
+									}
+						        }
+						       
+					        }
+//	 				        console.log("roles_seleccionados:",roles_seleccionados);
+					        data_ajax['roles']=roles_seleccionados
+// 						 console.log('data_ajax:',data_ajax)
+					 	resolver();
+					 }, 500);
+					 });
+				 }
+
+				promesa1a().then(promesa2b).then(function() {
+// 					console.log('data_ajax-fin-modificar:',data_ajax)
+// 					 console.log("fin promesa")	
+					 
+// 	 				console.log(JsonDataForm())
+	                $.ajax({
+	              	   	url:nameEntity+"/"+GID,
+	              	    type: "PUT",
+							'contentType': "application/json",
+							'data': JSON.stringify(data_ajax),
+	              	    'dataType': 'json',
+	              	  	async: false,
+	                     success:function(res){
+	                    	 
+// 	                    	 console.log("resp:",res)
+	                    	 objectMod=res
+// 	                    	 console.log("objectModificar:",objectMod)
+	//                     	 $('#formulario').data('formValidation').resetForm();
+	                         $('#formulario')[0].reset();
+	// 						 updateTable(id,res)
+							 
+	                         $('.modal').modal('hide')
+	                          Swal.fire({
+	                             title:"Registrado",
+	                             text:"Se ha modificado exitosamente",
+	                             icon:"success",
+	                             timer:700,   
+	                             showConfirmButton: false 
+	                         });  
+	                         $('#table').dataTable().fnDraw('page');
+	                     }
+	                	
+	                 })
+					 
+					 /*
+		                $.ajax({
+		              	   	url:nameEntity,
+		              	    type: "POST",
+							'contentType': "application/json",
+							'data': JSON.stringify(data_ajax),
+		              	    'dataType': 'json',
+		              	     async: false,
+		                     success:function(res){
+								console.log('registrado',res)
+//		                          if(res.estado){
+//		                         	 $('#formulario').data('formValidation').resetForm();
+		                             $('#formulario')[0].reset();
+//		 							addRowLastTable(res.id,res.nombre)
+									
+		                             $('.modal').modal('hide')
+		                      	Swal.fire({
+		                             title:"Registrado",
+		                             text:"Se ha registrado exitosamente",
+		                             icon:"success",
+		                             timer:700,   
+		                             showConfirmButton: false 
+		                         });   
+		                        $('#table').dataTable().fnDraw('page');
+//		                          }
+		                     }
+		                 })*/
+				 });
+				
+				
+				
+
+
+                 
+			}
+			
+			function updateEntityForm1() {
+                console.log("G_JSON_ENTITY_ANTES:",G_JSON_ENTITY)
+                
+        		var roles_sistema =[];
+		        var roles_sistema_object;
+		        var check_roles = [];
+                var roles_seleccionados = [];
+				
+				async function obtenerRoles() {
+					try {
+
+				        const roles_sistema_object = await new Promise((resolve, reject) => {
+				            $.get('../RestRoles', function(result) {
+				                resolve(result); // Resolver la promesa con el resultado de la solicitud AJAX
+				            }, 'json').fail(function(jqXHR, textStatus, errorThrown) {
+				                reject(new Error(textStatus)); // Rechazar la promesa en caso de error
+				            });
+				        });
+
+				        $("input[name='roles']:checked").each(function() {
+				            check_roles.push($(this).val());
+				        });
+			            
+				        for (var i = 0; i < check_roles.length; i++){
+							var id_rol_check=parseInt(check_roles[i]);
+					        for (var j = 0; j < roles_sistema_object.length; j++){
+								if(id_rol_check==roles_sistema_object[j].id){
+									roles_seleccionados.push(roles_sistema_object[j])
+								}
+					        }
+					       
+				        }
+				        
+				        return roles_seleccionados; // Devolver los roles seleccionados
+				    } catch (error) {
+				        console.error('Error al obtener los roles:', error);
+				        throw error; // Relanzar el error para que pueda ser manejado externamente
+				    }
+				}
+                
+                async function construirJsonEntity() {
+
+// 					G_JSON_ENTITY=new Object()
+					
+					G_JSON_PERSONA_ENTITY=G_JSON_ENTITY.persona
+					
+					let id = $('body').find('input[name="id"]').val();
+				    G_JSON_ENTITY.id = id ? id : 0;
+
+				    G_JSON_ENTITY.username = $('body').find('input[name="username"]').val();
+				    G_JSON_ENTITY.password = $('body').find('input[name="password"]').val();
+				    G_JSON_ENTITY.estado = $('body').find('input[name="estado"]').val();
+
+
+				    try {
+
+				        let roles = await obtenerRoles();
+				        G_JSON_ENTITY.roles =roles;
+				    } catch (error) {
+				        console.error('Error al obtener roles:', error);
+				        G_JSON_ENTITY.roles = null;
+				    }
+			    
+
+// 			    	G_JSON_PERSONA_ENTITY.id=null;
+			    	G_JSON_PERSONA_ENTITY.ci=$('body').find('input[name="ci"]').val();;
+			    	G_JSON_PERSONA_ENTITY.nombrecompleto=$('body').find('input[name="nombrecompleto"]').val();
+			    	G_JSON_PERSONA_ENTITY.email=null;
+			    	G_JSON_PERSONA_ENTITY.celular=$('body').find('input[name="celular"]').val();
+			    	G_JSON_PERSONA_ENTITY.estado=1
+			    	
+			    	G_JSON_ENTITY.persona = G_JSON_PERSONA_ENTITY;
+
+				    return G_JSON_ENTITY;
+				}
+                
+             	async function obtenerJsonEntity() {
+				    try {
+				        let jsonEntity = await construirJsonEntity();
+				        console.log("JSON MODIFICAR PRE:",jsonEntity)
+				        return JSON.stringify(jsonEntity);
+				    } catch (error) {
+				        console.error('Error al construir el JSON de compra entity:', error);
+				        return null;
+				    }
+				}
+                
+				obtenerJsonEntity().then(json => {
+				    if (json !== null) {
+       					console.log("JSON MODIFICAR SERVER",json)
+               
+	        	        $.ajax({
+		              	   	url:nameEntity+"/"+GID,
+		              	    type: "PUT",
+							'contentType': "application/json",
+							'data': json,
+		              	    'dataType': 'json',
+		              	  	async: false,
+		                     success:function(res){
+		                    	 objectMod=res
+		                         $('#formulario')[0].reset();
+		                         $('.modal').modal('hide')
+		                          Swal.fire({
+		                             title:"Registrado",
+		                             text:"Se ha modificado exitosamente",
+		                             icon:"success",
+		                             timer:700,   
+		                             showConfirmButton: false 
+		                         });  
+		                         $('#table').dataTable().fnDraw('page');
+		                     },
+		                     error:function(err){
+		                    	 console.log(err)
+	           	 				Swal.fire({
+							    	icon:'error',
+							    	title:"Cancelado",
+			                        text:"No se realizo la operacion, comunicarse con el administrador del Sistema, Gracias",
+			                        timer:2000,
+			                        showCancelButton:false,
+			                     	showConfirmButton:false
+							    })
+		                     }
+		                	
+		                 })
+				        
+				        
+				    } else {
+				        console.error('Error al obtener el JSON de compra entity');
+				    }
+				});
+                
+			}
+			
+			
+			function updateStatusEntity(status) {
+				console.log("GID:",GID," STATUS:",status)
+				const swalWithBootstrapButtons = Swal.mixin({
+				  customClass: {
+				    confirmButton: 'btn btn-success',
+				    cancelButton: 'btn btn-danger'
+				  },
+				  buttonsStyling: false
+				})
+				
+				swalWithBootstrapButtons.fire({
+				  title: "¿Estas Seguro de continuar?",   
+	              text: "Se registrara en el Sistema",   
+				  icon: 'warning',
+				  showCancelButton: true,
+				  confirmButtonText: 'Si, Continuar!',
+				  cancelButtonText: 'No, Cancelar!',
+				  reverseButtons: true
+				}).then((result) => {
+				  if (result.isConfirmed) {
+	       				var data= {
+       	          	    	id:GID,
+       	          	    	codigo:"",
+       	          	    	nombre:"",
+       	          	    	estado:status
+       	          	    }
+	       				console.log(JSON.stringify(data))
+       	                $.ajax({
+       	              	   	url:nameEntity+"/updateStatus",
+       	              	    type: "POST",
+
+
+       		                contentType: "application/json",
+       		                dataType:'json',
+       						'data': JSON.stringify(data),
+       	 
+       	                     success:function(res){
+       							console.log('registrado',res)
+//        							removeRowLastTable(res.id)
+       							$('#table').dataTable().fnDraw('page');
+       	                         Swal.fire({
+       	                             title:"Completado",
+       	                             text:"Se ha completado la transaccion exitosamente",
+       	                             icon:"success",
+       	                             timer:700,   
+       	                             showConfirmButton: false 
+       	                         });
+       						   		
+       	                     }
+       	                 })
+	       	                 $('.modal').modal('hide')  
+					  
+	
+				  } else if (
+				    /* Read more about handling dismissals below */
+				    result.dismiss === Swal.DismissReason.cancel
+				  ) {
+					    swalWithBootstrapButtons.fire({
+					    	icon:'error',
+					    	title:"Cancelado",
+	                        text:"Se ha cancelado operacion",
+	                        timer:800,
+	                        showCancelButton:false,
+	                     	showConfirmButton:false
+					    })
+				  }
+				})
+	
+				
+
+			}
+// 	    $('#formulario').formValidation({
+
+//        	})
+//         .on('success.form.fv', function(e){
+//             e.preventDefault();
+//             var $form = $(e.target);
+
+		$("#formulario").submit(function (event) {
+            const swalWithBootstrapButtons = Swal.mixin({
+            	  customClass: {
+            	    confirmButton: 'btn btn-success',
+            	    cancelButton: 'btn btn-danger'
+            	  },
+            	  buttonsStyling: false
+            	})
+            
+			swalWithBootstrapButtons.fire({
+				  title: "¿Estas Seguro de continuar?",   
+	              text: "Se registrara en el Sistema",   
+				  icon: 'warning',
+				  showCancelButton: true,
+				  confirmButtonText: 'Si, Continuar!',
+				  cancelButtonText: 'No, Cancelar!',
+				  reverseButtons: true
+				}).then((result) => {
+					console.log("GOPCION:",GOPCION)
+				  if (result.isConfirmed) {
+	               	   if(GOPCION=="ADD"){
+	            		   saveEntityForm1()
+	            	   }else{
+	            		   updateEntityForm1()
+	            	   }
+	               	
+				  } else if (
+				    result.dismiss === Swal.DismissReason.cancel
+				  ) {
+				    swalWithBootstrapButtons.fire({
+				    	icon:'error',
+				    	title:"Cancelado",
+                        text:"Se ha cancelado operacion",
+                        timer:700,
+                        showCancelButton:false,
+                     	showConfirmButton:false
+				    })
+				  }
+				  $('.modal').modal('hide')  
+				})
+            
+				 event.preventDefault();
+		 	 });
+//         })
+        function verificarPasswords() {
+		 
+		    // Ontenemos los valores de los campos de contrase�as 
+		    pass1 = document.getElementById('password1');
+		    pass2 = document.getElementById('password2');
+		 
+		    // Verificamos si las constrase�as no coinciden 
+		    if (pass1.value != pass2.value) {
+		    	document.getElementById("ok").classList.add("ocultar");
+		        // Si las constrase�as no coinciden mostramos un mensaje 
+		        document.getElementById("error").classList.add("mostrar");
+		        return false;
+		    } else {
+		 
+		        // Si las contrase�as coinciden ocultamos el mensaje de error
+		        document.getElementById("error").classList.remove("mostrar");
+		 
+		        // Mostramos un mensaje mencionando que las Contrase�as coinciden 
+		        document.getElementById("ok").classList.remove("ocultar");
+		 
+		        // Desabilitamos el bot�n de login 
+// 		        document.getElementById("btnGuardar_modal").disabled = true;
+		 
+		        // Refrescamos la p�gina (Simulaci�n de env�o del formulario) 
+// 		        setTimeout(function() {
+// 		            location.reload();
+// 		        }, 3000);
+		 
+		        return true;
+		    }
+		 
+		}
+		
+	</script>
+</body>
+</html>
