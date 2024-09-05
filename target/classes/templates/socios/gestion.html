@@ -71,15 +71,9 @@ td {
 			<div class="modal-dialog modal-md" role="document">
 				<div class="modal-content">
 					<div class="card">
-						<div class="modal-header">
-							<div class="row" style="display: contents;">
-								<div class="col-md-2">
-									<b class="" style="font-size: 16px">SOCIO</b>
-								</div>
-								<div class="col-md-10" style="text-align: right;">
-									<div class="opciones_btn_modal"></div>
-								</div>
-							</div>
+						<div class="modal-header" style="display: flex;flex-direction: column;">
+							<span><b>.:SOCIO:.</b></span>
+							<div class="opciones_btn_modal" style="display: flex"></div>
 						</div>
 						<div class="modal-body">
 
@@ -106,7 +100,7 @@ td {
 							<div class="row">
 								<div class="col-md-12">
 									<div class="mb-1">
-										<label for="logo" class=""><b>LOGO</b></label>
+										<label for="logo" class=""><b>LOGO DE SOCIO</b></label>
 										<input placeholder="Ingrese logo"
 											class="form-control fg-input data-per field_css"
 											name="logo" id="logo" type="file" required="required">
@@ -429,7 +423,7 @@ td {
 	</form>
 	<nav class="navbar navbar-light bg-light">
 		<div class="container-fluid">
-			<span class="navbar-text"> SOCIOS </span>
+			<span class="navbar-text"> <b>.:SOCIOS:.</b></span>
 		</div>
 	</nav>
 	<div class="contenido_gestion">
@@ -440,24 +434,19 @@ td {
 					<div class="row" style="margin-bottom: 10px;">
 						<div class="col-md-3 col-xs-12">
 							<input type="text" id="js_filtro" name="" class="form-control"
-								placeholder=" Buscar..">
+								placeholder=" Buscar por nombre de socio..">
 						</div>
 
 						<div class="col-md-4 col-xs-12" style="text-align: right;">
 							<div class="opciones_estado"></div>
 							<div class="form-check form-check-inline">
-
-								<div class="btn-group" role="group"
-									aria-label="Basic radio toggle button group">
-									<input type="radio" class="btn-check" name="iestado"
-										id="activos" value="1" autocomplete="off" checked> <label
-										class="btn btn-secondary" for="activos">habilitados</label>
-
-									<input type="radio" class="btn-check" name="iestado"
-										id="inactivo" value="0" autocomplete="off"> <label
-										class="btn btn-secondary" for="inactivo">deshabilitados</label>
-
-								</div>
+								<input type="radio" class="form-check-input " name="iestado" id="activos" value="1" autocomplete="off" checked>
+								<label for="activos">habilitados</label>
+							</div>
+							<div class="form-check form-check-inline">
+								<input type="radio" class="form-check-input" name="iestado"
+										id="inactivo" value="0" autocomplete="off"> 
+								<label for="inactivo">deshabilitados</label>
 							</div>
 						</div>
 						<div class="col-md-4 col-xs-12" style="text-align: right;">
@@ -466,10 +455,10 @@ td {
 								<span class="opciones_btn_eliminar"></span> 
 								<span class="opciones_btn_habilitar"></span>
 								<span class="opciones_btn_catalogos">
-									<button id="btnCatalogos" class="btn btn-warning  btn-md waves-effect" style="margin: 0 2px;" onclick="funcSaveCatalogo()">Catalogos</button>
+									<button id="btnCatalogos" class="btn btn-warning  btn-md waves-effect" style="margin: 0 2px;" onclick="funcSaveCatalogo()">Empresas</button>
 								</span>
 								<span class="opciones_btn_qr">
-									<button id="btnHabilitarQr" class="btn btn-secondary  btn-md waves-effect" style="margin: 0 2px;" onclick="funcRenovarQr()">Renovar QR</button>
+									<button id="btnHabilitarQr" class="btn btn-secondary  btn-md waves-effect" style="margin: 0 2px;" onclick="funcRenovarQr()">MOSTRAR  QR</button>
 								</span>
 							</div>
 
@@ -482,8 +471,8 @@ td {
 						style="width: 100%; background: white;">
 						<thead class="table-dark">
 							<tr>
-								<th width="">LOGO</th>
-								<th width="">QR</th>
+								<th width="">ID</th>
+<!-- 								<th width="">QR</th> -->
 								<th>MATRICULA</th>
 								<th>CARNET</th>
 								<th>SOCIO</th>
@@ -579,7 +568,7 @@ td {
             }
             ,
             "columns": [
-                { "data": "id" },
+//                 { "data": "id" },
                 { "data": "id" },
                 { "data": "id" },
                 { "data": "id" },
@@ -591,6 +580,7 @@ td {
             ,
             "createdRow":function(row,data,index){
 //                 console.log("DATA:",data)
+				/*
             	$('td',row).eq(0).html(
             			`
             			<div style="">
@@ -614,10 +604,19 @@ td {
             			+""
             			+`<input type="hidden" value="${data.id}" class="idhidden">`
             	).addClass('text-center');
-                $('td',row).eq(2).html(data.matricula).addClass('text-center');
-                $('td',row).eq(3).html(data.persona.ci).addClass('text-center');
-                $('td',row).eq(4).html(data.nombresocio).addClass('text-center');
-                $('td',row).eq(5).html(data.persona.celular).addClass('text-center');
+            	*/
+            	
+            	$('td',row).eq(0).html(
+            			`
+            				${index+1}
+            			`
+            			+""
+            			+`<input type="hidden" value="${data.id}" class="idhidden">`
+            	).addClass('text-center');
+                $('td',row).eq(1).html(data.matricula).addClass('text-center');
+                $('td',row).eq(2).html(data.persona.ci).addClass('text-center');
+                $('td',row).eq(3).html(data.nombresocio).addClass('text-center');
+                $('td',row).eq(4).html(data.persona.celular).addClass('text-center');
 				let legendario=''
 					if (data.lejendario==1) {
 						legendario='SI'
@@ -626,17 +625,17 @@ td {
 					}
 //	 				$('td',row).eq(2).html(destado);
 	                
-                $('td',row).eq(6).html(legendario).addClass('text-center');
+                $('td',row).eq(5).html(legendario).addClass('text-center');
                 
 				let destado=''
 				if (data.estado==1) {
-					destado='<span class="badge text-bg-success" style="font-size: 15px;">HABILITADO</span>'
+					destado='<span class="badge text-bg-success" style="">HABILITADO</span>'
 				}else{
-					destado='<span class="badge text-bg-warning" style="font-size: 15px;">DESHABILITADO</span>'
+					destado='<span class="badge text-bg-warning" style="">DESHABILITADO</span>'
 				}
 // 				$('td',row).eq(2).html(destado);
                 
-                $('td',row).eq(7).html(destado).addClass('text-center');
+                $('td',row).eq(6).html(destado).addClass('text-center');
   
             } 
         
@@ -821,7 +820,7 @@ td {
 					opcionesEmpresaForm()
 		      		$('#modalCatalogo').modal('show');
 				}else{
-					alert("!seleccione un registro para seleccionar catalogos!")
+					alert("!seleccionar el socio de la lista, para agregar empresas")
 				}
 
 			}
@@ -845,8 +844,8 @@ td {
 			  			$('#formulario3').find('input[name="fechaemision"]').val(data.fechaemision);
 			  			$('#formulario3').find('input[name="fechaexpiracion"]').val(data.fechaexpiracion);
 			  			$('#formulario3').find('.renovar-rq-socio').html(`
-			  					<a href="../qrcodes/${data.nrodocumento}.png" th:href="@{/qrcodes/${data.nrodocumento}.png}" data-fancybox="">
-								<img src="../qrcodes/${data.nrodocumento}.png" th:src="@{/qrcodes/${data.nrodocumento}.png}" alt="" class="img-thumbnail w-100">	
+			  					<a href="${nameEntity}/qr_socio/${data.nrodocumento}.png" th:href="@{${nameEntity}/qr_socio/${data.nrodocumento}}" data-fancybox="">
+								<img src="${nameEntity}/qr_socio/${data.nrodocumento}.png" th:src="@{${nameEntity}/qr_socio/${data.nrodocumento}}" alt="" class="img-thumbnail w-100">	
 								</a>
 			  					
 			  					
@@ -859,7 +858,7 @@ td {
 					opcionesRenovarQrForm()
 		      		$('#modalRenovarQr').modal('show');
 				}else{
-					alert("!SELECCIONE UN REGISTRO DE LA LISTA PARA RENOVAR QR!")
+					alert("!SELECCIONE UN REGISTRO DE LA LISTA PARA MOSTRAR Y RENOVAR QR!")
 				}
 	
 			}
@@ -990,10 +989,19 @@ td {
 						document.getElementById('lejendario').checked = false;
 					}
           			
-    			    var xhr1 = new XMLHttpRequest();
-    			    let nombrelogodefecto=data.imagen;
-    			    xhr1.open("GET", "../socioslogos/"+nombrelogodefecto);
-    			    xhr1.responseType = "blob";
+          			
+          			var xhr1 = new XMLHttpRequest();
+         			let nombrelogodefecto = data.imagen; // Nombre del archivo que deseas cargar
+					console.log("nombrelogodefecto:",nombrelogodefecto)
+         			// Configura la solicitud HTTP GET al endpoint de Spring Boot
+         			xhr1.open("GET", nameEntity + "/logo_socio/" + nombrelogodefecto, true);
+         			xhr1.responseType = "blob"; // Especifica el tipo de respuesta como Blob
+
+         			
+//     			    var xhr1 = new XMLHttpRequest();
+//     			    let nombrelogodefecto=data.nombrelogo;
+//     			    xhr1.open("GET", nameEntity+"/logo_empresa/"+nombrelogodefecto);
+//     			    xhr1.responseType = "blob";
     			    xhr1.onload = function() {
     			        var blob = xhr1.response;
     			        var file = new File([blob], nombrelogodefecto);
@@ -1016,27 +1024,27 @@ td {
                         showCancel: true,
 //    		 		  	 ,maxImageWidth: 300 // Ancho mï¿½ximo de la imagen previa en pï¿½xeles
 //    		 		     ,maxImageHeight: 300 
-    				    initialPreview: [
-    				        `<img src="../socioslogos/${nombrelogodefecto}" class="file-preview-image" alt="Vista previa" title="${nombrelogodefecto}">`
-    				    ],
-    				    initialPreviewConfig: [
-    				        {
-    				            caption: nombrelogodefecto, // Texto que aparecerÃ¡ debajo de la imagen en la vista previa
-    				            width: '200px', // Ancho de la imagen en la vista previa
-    				            url: '/', // URL opcional para el enlace de eliminaciÃ³n (en este caso, se establece como '#')
-    				            key: 1 // Clave Ãºnica para el elemento de vista previa
-    				        }
-    				    ],
-    				    fileActionSettings: {
-    				        removeIcon: '', // Vaciar el icono del botÃ³n de eliminar
-    				        removeClass: 'hide-remove', // Aplicar una clase para ocultar el botÃ³n de eliminar
-    				        removeTitle: '', // Vaciar el tÃ­tulo del botÃ³n de eliminar
-    				    },
-//     				    browseTitle: 'Mi titulo personalizado',
-//     				    browseLabel: 'Seleccionar archivo',
-    		    		initialCaption: nombrelogodefecto //para poner el nombre en la caja del file
+   				     	initialPreview: [
+			                `<img src="${nameEntity}/logo_socio/${nombrelogodefecto}" class="file-preview-image" alt="Vista previa" title="${nombrelogodefecto}">`
+			            ],
+			            initialPreviewConfig: [
+			                {
+			                    caption: nombrelogodefecto, // Texto que aparecerá debajo de la imagen en la vista previa
+			                    width: '200px', // Ancho de la imagen en la vista previa
+			                    url: '/', // URL opcional para el enlace de eliminación (en este caso, se establece como '#')
+			                    key: 1 // Clave única para el elemento de vista previa
+			                }
+			            ],
+			            fileActionSettings: {
+			                removeIcon: '', // Vaciar el icono del botón de eliminar
+			                removeClass: 'hide-remove', // Aplicar una clase para ocultar el botón de eliminar
+			                removeTitle: '', // Vaciar el título del botón de eliminar
+			            },
+			            initialCaption: nombrelogodefecto // Para poner el nombre en la caja del file
 
     				});
+          			
+          	
     			    
           			
           			

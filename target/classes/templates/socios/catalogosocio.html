@@ -466,13 +466,17 @@ td {
   	<script
 		src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
     <script type="text/javascript">
+    
+    var nameEntity="../../RestSocios"
+    var nameEntity2="../../RestCatalogos"
+    
     let id=document.getElementById("codigo").value;
     console.log("id:",id)
-    $.get("../../RestSocios"+'/findByNrodocumento/'+id, function(data) {
+    $.get(nameEntity+'/findByNrodocumento/'+id, function(data) {
 		console.log('datos a cargar:',data)
     		if (data.imagen!=null) {
 	  		    		$('.cont-imagen-socio').html(`
-	  		    				<img class=" imagen-socio " src="../../socioslogos/${data.imagen}" th:src="@{../socioslogos/${data.imagen}}" th:href="@{../socioslogos/${data.imagen}}"  alt="Imagen del Socio">
+	  		    				<img class=" imagen-socio " src="${nameEntity}/logo_socio/${data.imagen}" th:src="@{${nameEntity}/logo_socio/${data.imagen}}" th:href="@{${nameEntity}/logo_socio/${data.imagen}}"  alt="Imagen del Socio">
 	  		    		       	<div class="badge_socio">
 			            			<span class="badge bg-warning text-dark">LEGENDARIO</span>
 			            		</div>
@@ -508,9 +512,9 @@ td {
 									  <div class="row ">
 									    <div class="col-4" style="display: flex;flex-flow:wrap;justify-content: center;align-items: center;flex-direction:column;flex-flow: column; ">
 										   <!--  <label style="font-size: 10px;text-align: center;" >LOGO EMPRESA</label>-->
-										     <a href="../../logos/${item.nombrelogo}" th:href="@{../logos/${item.nombrelogo}}" data-fancybox>
+										     <a href="${nameEntity2}/logo_empresa/${item.nombrelogo}" th:href="@{${nameEntity2}/logo_empresa/${item.nombrelogo}}" data-fancybox>
 												<img
-										        src="../../logos/${item.nombrelogo}" th:href="@{../logos/${item.nombrelogo}}"
+										        src="${nameEntity2}/logo_empresa/${item.nombrelogo}" th:href="@{${nameEntity2}/logo_empresa/${item.nombrelogo}}"
 										        alt="Trendy Pants and Shoes" 
 										        style="wid:100px;" class="img-thumbnail w-100" 
 										      />
@@ -543,9 +547,9 @@ td {
 									  <div class="row ">
 									    <div class="col-4" style="display: flex;flex-flow:wrap;justify-content: center;align-items: center;flex-direction:column;flex-flow: column; ">
 										   <!--  <label style="font-size: 10px;text-align: center;" >LOGO EMPRESA</label>-->
-										    <a href="../../logos/${item.nombrelogo}" th:href="@{../logos/${item.nombrelogo}}" data-fancybox>
+										    <a href="${nameEntity2}/logo_empresa/${item.nombrelogo}" th:href="@{${nameEntity2}/logo_empresa/${item.nombrelogo}}" data-fancybox>
 												<img
-										        src="../../logos/${item.nombrelogo}" th:href="@{../logos/${item.nombrelogo}}"
+										        src="${nameEntity2}/logo_empresa/${item.nombrelogo}" th:href="@{${nameEntity2}/logo_empresa/${item.nombrelogo}}"
 										        alt="Trendy Pants and Shoes" 
 										        style="wid:100px;" class="img-thumbnail w-100" 
 										      />
@@ -597,9 +601,9 @@ td {
 					rowimg.append(`
 							
 							<div class="col-md-12">
-						     <a href="../../catalogosimg/${item1.imagen}" th:href="@{../catalogosimg/item1.imagen}" data-fancybox>
+						     <a href="${nameEntity2}/img_catalogos_empresa/${item1.imagen}" th:href="@{${nameEntity2}/img_catalogos_empresa/${item1.imagen}}" data-fancybox>
 								<img
-						        src="../../catalogosimg/${item1.imagen}" th:href="@{../catalogosimg/${item1.imagen}}"
+						        src="${nameEntity2}/img_catalogos_empresa/${item1.imagen}" th:href="@{${nameEntity2}/img_catalogos_empresa/${item1.imagen}}"
 						        alt="Trendy Pants and Shoes" 
 						         class="img-thumbnail w-100" 
 						      	/>

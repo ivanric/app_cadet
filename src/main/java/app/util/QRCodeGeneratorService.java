@@ -19,6 +19,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -72,11 +73,26 @@ public class QRCodeGeneratorService {
             e.printStackTrace();
         } 
     }
-    private String prepareOutputFileName(String nombre) {
+    private String prepareOutputFileName(String nombre) throws IOException {
 
         StringBuilder sb = new StringBuilder();
+        
+        String rutaCatalogos = obtenerRutaArchivos(Constantes.nameFolderQrSocio);
+        
+        if (rutaCatalogos == null || rutaCatalogos.isEmpty()) {
+            throw new IOException("No se pudo determinar la ruta de almacenamiento.");
+        }
+
+        // Construir la ruta completa para el archivo
+        Path rutaDirectorio = Paths.get(rutaCatalogos).toAbsolutePath();
+        
+        // Asegúrate de que la ruta sea válida y existe
+        if (!Files.exists(rutaDirectorio)) {
+            Files.createDirectories(rutaDirectorio);  // Crea el directorio si no existe
+        }
+        
 //        try {
-        	ruta_logos=Paths.get(obtenerRutaCarpetaRecursos("qrcodes")).toAbsolutePath().resolve(nombre).toString();
+        	ruta_logos=Paths.get(obtenerRutaArchivos(Constantes.nameFolderQrSocio)).toAbsolutePath().resolve(nombre).toString();
 //		} catch (Exception e) {
 			// TODO: handle exception
 //			ruta_logos="";
@@ -102,8 +118,23 @@ public class QRCodeGeneratorService {
         try {
 //            String qrCodeFilePath = prepareOutputFileName(nombre); 
 //            System.out.println("PATH QR IMAGEN PATH:"+qrCodeFilePath);
-            try {
-            	ruta_logos=Paths.get(obtenerRutaCarpetaRecursos("qrcodes")).toAbsolutePath().resolve(nombre+".png").toString();
+	        // Obtener la ruta de la carpeta de catalogos
+	        String rutaCatalogos = obtenerRutaArchivos(Constantes.nameFolderQrSocio);
+	        
+	        if (rutaCatalogos == null || rutaCatalogos.isEmpty()) {
+	            throw new IOException("No se pudo determinar la ruta de almacenamiento.");
+	        }
+
+	        // Construir la ruta completa para el archivo
+	        Path rutaDirectorio = Paths.get(rutaCatalogos).toAbsolutePath();
+	        
+	        // Asegúrate de que la ruta sea válida y existe
+	        if (!Files.exists(rutaDirectorio)) {
+	            Files.createDirectories(rutaDirectorio);  // Crea el directorio si no existe
+	        }
+        	
+        	try {
+            	ruta_logos=Paths.get(obtenerRutaArchivos(Constantes.nameFolderQrSocio)).toAbsolutePath().resolve(nombre+".png").toString();
     		} catch (Exception e) {
     			// TODO: handle exception
     			ruta_logos="";
@@ -145,6 +176,36 @@ public class QRCodeGeneratorService {
             e.printStackTrace();
         }*/
     }
+    
+	public String obtenerRutaArchivos(String carpeta) {
+	    URIS uris = new URIS();
+	    String sistemaOperativo = uris.checkOS();
+	    System.out.println("INICIANDO APP");
+	    System.out.println("SISTEMA OPERATIVO: " + sistemaOperativo);
+	    String rutaCarpeta = "";
 
+	    try {
+	        if (sistemaOperativo.contains("Linux")) {
+	            System.out.println("DANDO PERMISOS A LA CARPETA DE ARCHIVOS");
+	            darPermisosCarpeta("/home");
+	            rutaCarpeta = Paths.get("/home", carpeta).toString();
+	        } else if (sistemaOperativo.contains("Windows")) {
+	            rutaCarpeta = Paths.get("C:\\", carpeta).toString();
+	        }
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        System.out.println("Error al obtener la ruta de archivos: " + e.getMessage());
+	    }
+
+	    return rutaCarpeta;
+	}
+	private void darPermisosCarpeta(String rutaBase) throws IOException {
+	    Process p = Runtime.getRuntime().exec("chmod -R 777 " + rutaBase);
+	    try {
+	        p.waitFor();  // Esperar a que el comando termine
+	    } catch (InterruptedException e) {
+	        e.printStackTrace();
+	    }
+	}
 
 }

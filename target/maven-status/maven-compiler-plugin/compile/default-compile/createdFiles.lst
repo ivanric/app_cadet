@@ -1,5 +1,6 @@
 app\restcontroller\RestControllerGenericNormalImpl.class
 app\service\RolService.class
+app\repository\PaisRepository.class
 app\service\CatalogoServiceImpl.class
 app\service\UsuarioServiceImpl.class
 app\restcontroller\RestUsuario.class
@@ -7,6 +8,7 @@ app\service\RolServiceImpl.class
 app\repository\GenericRepositoryNormal.class
 app\repository\PersonaRepository.class
 app\service\CatalogoService.class
+app\repository\ProvinciaRepository.class
 app\entity\AnioEntity.class
 app\entity\PersonaEntity.class
 app\entity\DepartamentoEntity.class
@@ -58,6 +60,7 @@ app\service\ImagenCatalogoServiceImpl.class
 app\entity\SocioEntity.class
 app\entity\RolEntity.class
 app\controller\SocioController.class
+app\repository\DepartamentoRepository.class
 app\service\GenericServiceNormal.class
 app\repository\GenericRepository.class
 app\service\SocioServiceImpl.class

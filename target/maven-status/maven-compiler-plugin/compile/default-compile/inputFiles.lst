@@ -24,8 +24,10 @@ D:\CURSOS YOUTUBE\SPRING_BOOT_TECNOLOGIA AVANZA\cadetapp\src\main\java\app\entit
 D:\CURSOS YOUTUBE\SPRING_BOOT_TECNOLOGIA AVANZA\cadetapp\src\main\java\app\restcontroller\RestRol.java
 D:\CURSOS YOUTUBE\SPRING_BOOT_TECNOLOGIA AVANZA\cadetapp\src\main\java\app\service\UsuarioService.java
 D:\CURSOS YOUTUBE\SPRING_BOOT_TECNOLOGIA AVANZA\cadetapp\src\main\java\app\repository\UsuarioRepository.java
+D:\CURSOS YOUTUBE\SPRING_BOOT_TECNOLOGIA AVANZA\cadetapp\src\main\java\app\repository\PaisRepository.java
 D:\CURSOS YOUTUBE\SPRING_BOOT_TECNOLOGIA AVANZA\cadetapp\src\main\java\app\service\ArchivoServiceImpl.java
 D:\CURSOS YOUTUBE\SPRING_BOOT_TECNOLOGIA AVANZA\cadetapp\src\main\java\app\repository\PersonaRepository.java
+D:\CURSOS YOUTUBE\SPRING_BOOT_TECNOLOGIA AVANZA\cadetapp\src\main\java\app\repository\ProvinciaRepository.java
 D:\CURSOS YOUTUBE\SPRING_BOOT_TECNOLOGIA AVANZA\cadetapp\src\main\java\app\restcontroller\RestSocio.java
 D:\CURSOS YOUTUBE\SPRING_BOOT_TECNOLOGIA AVANZA\cadetapp\src\main\java\app\entity\ImagenesCatalogoEntity.java
 D:\CURSOS YOUTUBE\SPRING_BOOT_TECNOLOGIA AVANZA\cadetapp\src\main\java\app\service\RolService.java
@@ -38,6 +40,7 @@ D:\CURSOS YOUTUBE\SPRING_BOOT_TECNOLOGIA AVANZA\cadetapp\src\main\java\app\confi
 D:\CURSOS YOUTUBE\SPRING_BOOT_TECNOLOGIA AVANZA\cadetapp\src\main\java\app\restcontroller\RestUsuario.java
 D:\CURSOS YOUTUBE\SPRING_BOOT_TECNOLOGIA AVANZA\cadetapp\src\main\java\app\entity\ProfesionEntity.java
 D:\CURSOS YOUTUBE\SPRING_BOOT_TECNOLOGIA AVANZA\cadetapp\src\main\java\app\repository\SocioRepository.java
+D:\CURSOS YOUTUBE\SPRING_BOOT_TECNOLOGIA AVANZA\cadetapp\src\main\java\app\repository\DepartamentoRepository.java
 D:\CURSOS YOUTUBE\SPRING_BOOT_TECNOLOGIA AVANZA\cadetapp\src\main\java\app\entity\SocioEntity.java
 D:\CURSOS YOUTUBE\SPRING_BOOT_TECNOLOGIA AVANZA\cadetapp\src\main\java\app\util\URIS.java
 D:\CURSOS YOUTUBE\SPRING_BOOT_TECNOLOGIA AVANZA\cadetapp\src\main\java\app\service\CatalogoService.java

@@ -22,6 +22,7 @@ import app.repository.ImagenCatalogoRepository;
 import app.repository.InstitucionRepository;
 import app.repository.ProfesionRepository;
 import app.repository.CatalogoRepository;
+import app.util.Constantes;
 import app.util.QRCodeGeneratorService;
 
 @Service
@@ -143,7 +144,7 @@ public class CatalogoServiceImpl extends GenericServiceImplNormal<CatalogoEntity
                 		System.out.println("CATALOGO:"+catalogoitem.getOriginalFilename());
                 		
                 		String nombre="cat-isert-"+this.ImagenCatalogoRepository.getCodigo()+catalogoitem.getOriginalFilename().substring(catalogoitem.getOriginalFilename().lastIndexOf('.'));
-        				String nombreLogoCatalogo=archivoService.guargarCatalogo(catalogoitem,nombre);
+        				String nombreLogoCatalogo=archivoService.guargarArchivo(Constantes.nameFolderImgCatalogo,catalogoitem,nombre);
         				imagenesCatalogoEntity.setImagen(nombreLogoCatalogo);
         				imagenesCatalogoEntity.setEstado(1);
         				
@@ -162,7 +163,7 @@ public class CatalogoServiceImpl extends GenericServiceImplNormal<CatalogoEntity
         	if (!entity.getLogo().isEmpty()) {
         		String nombre="cod-"+this.catalogoRepository.getCodigo()+entity.getLogo().getOriginalFilename().substring(entity.getLogo().getOriginalFilename().lastIndexOf('.'));
 //    			
-				String nombreLogo=archivoService.guargarLogo(entity.getLogo(),nombre);
+				String nombreLogo=archivoService.guargarArchivo(Constantes.nameFolderLogoCatalogo,entity.getLogo(),nombre);
 				entity.setNombrelogo(nombreLogo);
 			}
 
@@ -189,7 +190,7 @@ public class CatalogoServiceImpl extends GenericServiceImplNormal<CatalogoEntity
         	if(entity.getCatalogo()!=null) {
         	  	if (!entity.getCatalogo().isEmpty()) {
         	  		for (int i = 0; i < catalogoEntity2.getImagenesCatalogos().size(); i++) {
-						this.archivoService.eliminarArchivoCatalogo(catalogoEntity2.getImagenesCatalogos().get(i).getImagen());
+						this.archivoService.eliminarArchivo(Constantes.nameFolderImgCatalogo,catalogoEntity2.getImagenesCatalogos().get(i).getImagen());
 						this.ImagenCatalogoRepository.delete(catalogoEntity2.getImagenesCatalogos().get(i));
 					}
         	  		
@@ -202,9 +203,9 @@ public class CatalogoServiceImpl extends GenericServiceImplNormal<CatalogoEntity
                 		MultipartFile catalogoitem=entity.getCatalogo().get(i);
                 		System.out.println("IMAGEN CAT:"+(i+1)+" :"+catalogoitem.getOriginalFilename());
                 		
-                		String nombre="cat-modif-"+this.ImagenCatalogoRepository.getCodigo()+catalogoitem.getOriginalFilename().substring(catalogoitem.getOriginalFilename().lastIndexOf('.'));
+                		String nombre="cat-modif-"+catalogoEntity2.getCodigo()+"-"+this.ImagenCatalogoRepository.getCodigo()+catalogoitem.getOriginalFilename().substring(catalogoitem.getOriginalFilename().lastIndexOf('.'));
         				System.out.println("NOMBRECATALOGOLOG:"+nombre);
-                		String nombreLogoCatalogo=archivoService.guargarCatalogo(catalogoitem,nombre);
+                		String nombreLogoCatalogo=archivoService.guargarArchivo(Constantes.nameFolderImgCatalogo,catalogoitem,nombre);
         				imagenesCatalogoEntity.setImagen(nombreLogoCatalogo);
         				imagenesCatalogoEntity.setEstado(1);
         				
@@ -217,10 +218,10 @@ public class CatalogoServiceImpl extends GenericServiceImplNormal<CatalogoEntity
         	entity.setImagenesCatalogos(array_imagenes_catalogo);
         	
         	if (!entity.getLogo().isEmpty()) {
-        		this.archivoService.eliminarArchivoLogo(catalogoEntity2.getNombrelogo());
+        		this.archivoService.eliminarArchivo(Constantes.nameFolderLogoCatalogo,catalogoEntity2.getNombrelogo());
         		String nombre="mod-"+catalogoEntity2.getCodigo()+entity.getLogo().getOriginalFilename().substring(entity.getLogo().getOriginalFilename().lastIndexOf('.'));
     			
-				String nombreLogo=archivoService.guargarLogo(entity.getLogo(),nombre);
+				String nombreLogo=archivoService.guargarArchivo(Constantes.nameFolderLogoCatalogo,entity.getLogo(),nombre);
 				entity.setNombrelogo(nombreLogo);
 			}
         	

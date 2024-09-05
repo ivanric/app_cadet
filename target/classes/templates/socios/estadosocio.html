@@ -394,10 +394,13 @@
   	<script
 		src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
     <script type="text/javascript">
+    
+    	var nameEntity="../../RestSocios"
+    
 		let id=document.getElementById("codigo").value;
 		console.log("DATO:",id)
     	var xhr = new XMLHttpRequest();//inicializando un objeto para realizar solicitudes HTTP asincronas
-  		xhr.open('GET', "../../RestSocios" + '/findByNrodocumento/' + id);//abre una solicitud GET y hacia la direccion establecida
+  		xhr.open('GET', nameEntity + '/findByNrodocumento/' + id);//abre una solicitud GET y hacia la direccion establecida
   		xhr.responseType = 'json';//el tipo de respuesta que espera desde el servidor
   		xhr.onload = function() {//cuando se complete la solicitud de manera exitosa
   		  if (xhr.status === 200) {//se verifica el estado de la respuesta
@@ -410,9 +413,9 @@
   		    	//CARGAR FOTO
 	    		if (objeto.imagen!=null) {
  		    			if (objeto.lejendario==1) {
- 	  		    			
+ 	  		    			console.log("IMAGEN:",objeto.imagen)
  	  	  		    		$('.cont-imagen-socio').html(`
- 	  	  		    				<img class=" imagen-socio " src="../../socioslogos/${objeto.imagen}" th:src="@{../socioslogos/${objeto.imagen}}" th:href="@{../socioslogos/${objeto.imagen}}"  alt="Imagen del Socio">
+ 	  	  		    				<img class=" imagen-socio " src="${nameEntity}/logo_socio/${objeto.imagen}" th:src="@{${nameEntity}/logo_socio/${objeto.imagen}}"  alt="Imagen del Socio">
   	  			            	<div class="badge_socio">
   			            			<span class="badge bg-warning text-dark">LEGENDARIO</span>
   			            		</div>
@@ -420,7 +423,7 @@
 					}else{
   		    			
   	  		    		$('.cont-imagen-socio').html(`
-  	  		    				<img class=" imagen-socio " src="../../socioslogos/${objeto.imagen}" th:src="@{../socioslogos/${objeto.imagen}}" th:href="@{../socioslogos/${objeto.imagen}}"  alt="Imagen del Socio">
+  	  		    				<img class=" imagen-socio " src="${nameEntity}/logo_socio/${objeto.imagen}" th:src="@{${nameEntity}/logo_socio/${objeto.imagen}}" th:href="@{${nameEntity}/logo_socio/${objeto.imagen}}"  alt="Imagen del Socio">
   	  				            
   	  		    				`)
 					}

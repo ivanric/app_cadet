@@ -59,8 +59,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 				"/socios/estadosocio/**",
 				"/socios/empresas/**",
 				"/RestSocios/findByNrodocumento/**",
-//				"/RestSocios/catalogos/**", 
-				"/RestCatalogos/buscar/**" 
+				"/RestSocios/logo_socio/**", 
+				"/RestCatalogos/buscar/**" ,
+				"/RestCatalogos/logo_empresa/**" ,
+				"/RestCatalogos/img_catalogos_empresa/**" 
 				).permitAll()
 		 
 		.anyRequest().authenticated()

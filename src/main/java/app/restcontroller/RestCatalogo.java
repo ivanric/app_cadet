@@ -1,12 +1,18 @@
 package app.restcontroller;
 
 import java.io.IOException;
+import java.net.http.HttpHeaders;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
 
+import javax.servlet.http.HttpServletRequest;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -25,6 +31,7 @@ import app.entity.CatalogoEntity;
 import app.entity.SocioEntity;
 import app.service.CatalogoServiceImpl;
 import app.util.Constantes;
+import app.util.URIS;
 
 @RestController
 @RequestMapping("/RestCatalogos") 
@@ -121,4 +128,101 @@ public class RestCatalogo extends RestControllerGenericNormalImpl<CatalogoEntity
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"error\":\"Error. Por favor intente más tarde.\"}");
         }
     }
+    
+    @GetMapping("/logo_empresa/{filename}")
+    public ResponseEntity<Resource> getFile_logo_empresa(@PathVariable String filename) {
+        try {
+            System.out.println("ENTRO LOGO CATALOgo:" + filename);
+            URIS uris = new URIS();
+            String sistemaOperativo = uris.checkOS();
+            System.out.println("INICIANDO APP");
+            System.out.println("SISTEMA OPERATIVO: " + sistemaOperativo);
+
+            Resource resource = null;
+
+            try {
+                Path filePath;
+                if (sistemaOperativo.contains("Linux")) {
+                    filePath = Paths.get("/home", Constantes.nameFolderLogoCatalogo).resolve(filename).normalize();
+                    resource = new UrlResource(filePath.toUri());
+                } else if (sistemaOperativo.contains("Windows")) {
+                    filePath = Paths.get("C:\\", Constantes.nameFolderLogoCatalogo).resolve(filename).normalize();
+                    resource = new UrlResource(filePath.toUri());
+                }
+
+                // Verifica si el recurso fue encontrado y es legible
+                if (resource != null && resource.exists() && resource.isReadable()) {
+                    String contentType = "application/octet-stream"; // Tipo de contenido por defecto
+                    try {
+                        contentType = Files.probeContentType(resource.getFile().toPath());
+                    } catch (IOException ex) {
+                        System.out.println("No se pudo determinar el tipo de archivo.");
+                    }
+
+                    return ResponseEntity.ok()
+                            .contentType(MediaType.parseMediaType(contentType))
+                            .header("Content-Disposition", "attachment; filename=\"" + resource.getFilename() + "\"")
+                            .body(resource);
+                } else {
+                    return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                System.out.println("Error al obtener la ruta de archivos: " + e.getMessage());
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
+    
+    @GetMapping("/img_catalogos_empresa/{filename}")
+    public ResponseEntity<Resource> getFile_img_catalogos_empresa(@PathVariable String filename) {
+        try {
+            System.out.println("ENTRO CATALOGO EMPRESA:" + filename);
+            URIS uris = new URIS();
+            String sistemaOperativo = uris.checkOS();
+            System.out.println("INICIANDO APP");
+            System.out.println("SISTEMA OPERATIVO: " + sistemaOperativo);
+
+            Resource resource = null;
+
+            try {
+                Path filePath;
+                if (sistemaOperativo.contains("Linux")) {
+                    filePath = Paths.get("/home", Constantes.nameFolderImgCatalogo).resolve(filename).normalize();
+                    resource = new UrlResource(filePath.toUri());
+                } else if (sistemaOperativo.contains("Windows")) {
+                    filePath = Paths.get("C:\\", Constantes.nameFolderImgCatalogo).resolve(filename).normalize();
+                    resource = new UrlResource(filePath.toUri());
+                }
+
+                // Verifica si el recurso fue encontrado y es legible
+                if (resource != null && resource.exists() && resource.isReadable()) {
+                    String contentType = "application/octet-stream"; // Tipo de contenido por defecto
+                    try {
+                        contentType = Files.probeContentType(resource.getFile().toPath());
+                    } catch (IOException ex) {
+                        System.out.println("No se pudo determinar el tipo de archivo.");
+                    }
+
+                    return ResponseEntity.ok()
+                            .contentType(MediaType.parseMediaType(contentType))
+                            .header("Content-Disposition", "attachment; filename=\"" + resource.getFilename() + "\"")
+                            .body(resource);
+                } else {
+                    return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                System.out.println("Error al obtener la ruta de archivos: " + e.getMessage());
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
+
 }

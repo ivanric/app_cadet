@@ -23,6 +23,7 @@ import app.repository.GenericRepositoryNormal;
 import app.repository.InstitucionRepository;
 import app.repository.ProfesionRepository;
 import app.repository.SocioRepository;
+import app.util.Constantes;
 import app.util.QRCodeGeneratorService;
 
 @Service
@@ -168,25 +169,32 @@ public class SocioServiceImpl extends GenericServiceImplNormal<SocioEntity, Inte
 //        	entity.setNombresocio(entity.getNombresocio());
 //        	entity.setFechaemision(entity.getFechaemision());
 //        	entity.setFechaexpiracion(entity.getFechaexpiracion());
-        	
-        	entity.setProfesion(profesionRepository.findById(1).get());
+//        	System.out.println("AGREGANDO PERSONA:"+persona2.toString());
         	entity.setPersona(persona2);
+//        	System.out.println("AGREGANDO PROFESION");
+        	entity.setProfesion(profesionRepository.findById(1).get());
+//        	System.out.println("AGREGANDO INSTITUCION");
         	entity.setInstitucion(institucionRepository.findById(1).get());
+//        	System.out.println("AGREGANDO EMPRESAS");
         	entity.setCatalogos(catalogoRepository.findByEstado(1));
         	
-        	
+//        	System.out.println("AGREGANDO LOGO DE SOCIO");
         	if (!entity.getLogo().isEmpty()) {
         		String nombre="logo-"+this.socioRepository.getCodigo()+entity.getLogo().getOriginalFilename().substring(entity.getLogo().getOriginalFilename().lastIndexOf('.'));
-//    			
-				String nombreLogo=archivoService.guargarSocioLogo(entity.getLogo(),nombre);
+    			System.out.println("NOMBRE SOCIO LOGO:"+nombre);
+				String nombreLogo=archivoService.guargarArchivo(Constantes.nameFolderLogoSocio,entity.getLogo(),nombre);
 				entity.setImagen(nombreLogo);
 			}
         	
         	System.out.println("EntityPost:"+entity.toString());
-            entity = socioRepository.save(entity);
+            
+        	entity = socioRepository.save(entity);
             return entity;
         } catch (Exception e){
-            throw new Exception(e.getMessage());
+        	e.printStackTrace();
+            System.out.println(e.getMessage());
+        	throw new Exception(e.getMessage());
+            
         }
     }
     
@@ -241,10 +249,11 @@ public class SocioServiceImpl extends GenericServiceImplNormal<SocioEntity, Inte
 			entitymod.setLejendario(entidad.getLejendario());
 
 			if (!entidad.getLogo().isEmpty()) {
-        		this.archivoService.eliminarArchivoSocioLogo(entitymod.getImagen());
+//        		this.archivoService.eliminarArchivoSocioLogo(entitymod.getImagen());
+        		this.archivoService.eliminarArchivo(Constantes.nameFolderLogoSocio,entitymod.getImagen());
         		String nombre="mod-"+entitymod.getCodigo()+entidad.getLogo().getOriginalFilename().substring(entidad.getLogo().getOriginalFilename().lastIndexOf('.'));
-    			
-				String nombreLogo=archivoService.guargarSocioLogo(entidad.getLogo(),nombre);
+        		String nombreLogo=archivoService.guargarArchivo(Constantes.nameFolderLogoSocio,entidad.getLogo(),nombre);
+				
 				entitymod.setImagen(nombreLogo);
 			}
 

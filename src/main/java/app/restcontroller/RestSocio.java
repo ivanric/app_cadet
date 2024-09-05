@@ -1,6 +1,9 @@
 package app.restcontroller;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -8,8 +11,11 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,6 +36,7 @@ import app.entity.SocioEntity;
 import app.service.SocioServiceImpl;
 import app.service.UsuarioServiceImpl;
 import app.util.Constantes;
+import app.util.URIS;
 
 @RestController
 @RequestMapping("/RestSocios") 
@@ -40,7 +47,7 @@ public class RestSocio extends RestControllerGenericNormalImpl<SocioEntity,Socio
 		String total="";
 		Map<String, Object> Data = new HashMap<String, Object>();
 		try {
-
+			System.out.println("***************MODIFICANDO CODIGO V2 LISTANDO *****************************************");
 			String search = request.getParameter("search[value]");
 			int tot=Constantes.NUM_MAX_DATATABLE;
 			System.out.println("tot:"+tot+"estado:"+estado+"search:"+search+"length:"+length+"start:"+start);
@@ -60,7 +67,7 @@ public class RestSocio extends RestControllerGenericNormalImpl<SocioEntity,Socio
 				Data.put("recordsFiltered", lista.size());
 			else
 				Data.put("recordsFiltered", total);
-			
+			System.out.println("***************MODIFICANDO CODIGO V2 LISTANDO *****************************************");
 			return ResponseEntity.status(HttpStatus.OK).body(Data);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -144,6 +151,8 @@ public class RestSocio extends RestControllerGenericNormalImpl<SocioEntity,Socio
 			
 			socioEntity.setPersona(personaEntity);
 			socioEntity.setLogo(socioDTO.getLogo());
+			
+			
 			return ResponseEntity.status(HttpStatus.OK).body(servicio.update(id,socioEntity));
 		} catch (Exception e) {//BAD_REQUEST= es error 400
 			e.printStackTrace();
@@ -206,5 +215,101 @@ public class RestSocio extends RestControllerGenericNormalImpl<SocioEntity,Socio
 //            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"error\":\"Error. Por favor intente más tarde.\"}");
 //        }
 //    }
+	
+	 @GetMapping("/logo_socio/{filename}")
+	    public ResponseEntity<Resource> getFile_logo_socio(@PathVariable String filename) {
+	        try {
+	            System.out.println("ENTRO LOGO SOCIO:" + filename);
+	            URIS uris = new URIS();
+	            String sistemaOperativo = uris.checkOS();
+	            System.out.println("INICIANDO APP");
+	            System.out.println("SISTEMA OPERATIVO: " + sistemaOperativo);
+
+	            Resource resource = null;
+
+	            try {
+	                Path filePath;
+	                if (sistemaOperativo.contains("Linux")) {
+	                    filePath = Paths.get("/home", Constantes.nameFolderLogoSocio).resolve(filename).normalize();
+	                    resource = new UrlResource(filePath.toUri());
+	                } else if (sistemaOperativo.contains("Windows")) {
+	                    filePath = Paths.get("C:\\", Constantes.nameFolderLogoSocio).resolve(filename).normalize();
+	                    resource = new UrlResource(filePath.toUri());
+	                }
+
+	                // Verifica si el recurso fue encontrado y es legible
+	                if (resource != null && resource.exists() && resource.isReadable()) {
+	                    String contentType = "application/octet-stream"; // Tipo de contenido por defecto
+	                    try {
+	                        contentType = Files.probeContentType(resource.getFile().toPath());
+	                    } catch (IOException ex) {
+	                        System.out.println("No se pudo determinar el tipo de archivo.");
+	                    }
+
+	                    return ResponseEntity.ok()
+	                            .contentType(MediaType.parseMediaType(contentType))
+	                            .header("Content-Disposition", "attachment; filename=\"" + resource.getFilename() + "\"")
+	                            .body(resource);
+	                } else {
+	                    return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+	                }
+	            } catch (Exception e) {
+	                e.printStackTrace();
+	                System.out.println("Error al obtener la ruta de archivos: " + e.getMessage());
+	                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+	            }
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+	        }
+	    }
+	 
+	 @GetMapping("/qr_socio/{filename}")
+	 public ResponseEntity<Resource> getFile_qr_socio(@PathVariable String filename) {
+        try {
+            System.out.println("ENTRO QR SOCIO:" + filename);
+            URIS uris = new URIS();
+            String sistemaOperativo = uris.checkOS();
+            System.out.println("INICIANDO APP");
+            System.out.println("SISTEMA OPERATIVO: " + sistemaOperativo);
+
+            Resource resource = null;
+
+            try {
+                Path filePath;
+                if (sistemaOperativo.contains("Linux")) {
+                    filePath = Paths.get("/home", Constantes.nameFolderQrSocio).resolve(filename).normalize();
+                    resource = new UrlResource(filePath.toUri());
+                } else if (sistemaOperativo.contains("Windows")) {
+                    filePath = Paths.get("C:\\", Constantes.nameFolderQrSocio).resolve(filename).normalize();
+                    resource = new UrlResource(filePath.toUri());
+                }
+
+                // Verifica si el recurso fue encontrado y es legible
+                if (resource != null && resource.exists() && resource.isReadable()) {
+                    String contentType = "application/octet-stream"; // Tipo de contenido por defecto
+                    try {
+                        contentType = Files.probeContentType(resource.getFile().toPath());
+                    } catch (IOException ex) {
+                        System.out.println("No se pudo determinar el tipo de archivo.");
+                    }
+
+                    return ResponseEntity.ok()
+                            .contentType(MediaType.parseMediaType(contentType))
+                            .header("Content-Disposition", "attachment; filename=\"" + resource.getFilename() + "\"")
+                            .body(resource);
+                } else {
+                    return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                System.out.println("Error al obtener la ruta de archivos: " + e.getMessage());
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
 
 }
