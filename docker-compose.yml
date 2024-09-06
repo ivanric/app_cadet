@@ -27,17 +27,22 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: cadet.2024
       POSTGRES_DB: cadetarija
-#    command: -p 5432
-#      POSTGRES_PORT: 5435
+#     command: -p 5432
+#     POSTGRES_PORT: 5435 
+    volumes:
+      - postgres_data:/var/lib/postgresql/data  # Volumen para persistir los datos de PostgreSQL
+    
   pgadmin: 
+    container_name: "pgadmin_bd"
     image: dpage/pgadmin4
     environment:
       PGADMIN_DEFAULT_EMAIL: "admin@admin.com"
       PGADMIN_DEFAULT_PASSWORD: "cadet.2024" 
     ports:
-      - "80:80"
+      - "3000:80"
     depends_on:
       - bd_posgresql
       
 volumes:
   cadet_app_data:  # Define el volumen para la aplicación cadet_app
+  postgres_data:   # Define el volumen para la base de datos PostgreSQL
