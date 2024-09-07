@@ -29,8 +29,8 @@ services:
       POSTGRES_DB: cadetarija
 #     command: -p 5432
 #     POSTGRES_PORT: 5435 
-    volumes:
-      - postgres_data:/var/lib/postgresql/data  # Volumen para persistir los datos de PostgreSQL
+#    volumes:
+#      - postgres_data:/var/lib/postgresql/data  # Volumen para persistir los datos de PostgreSQL
     
   pgadmin: 
     container_name: "pgadmin_bd"
@@ -45,4 +45,4 @@ services:
       
 volumes:
   cadet_app_data:  # Define el volumen para la aplicación cadet_app
-  postgres_data:   # Define el volumen para la base de datos PostgreSQL
+#  postgres_data:   # Define el volumen para la base de datos PostgreSQL

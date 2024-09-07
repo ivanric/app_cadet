@@ -84,7 +84,8 @@ public class CadetappApplication  extends SpringBootServletInitializer{
 	        	ProvinciaEntity proviniciaEntity=new ProvinciaEntity(1,"CERCADO",1, departamentosave); 
 	        	ProvinciaEntity provinciasave=provinciaRepository.save(proviniciaEntity);
 	        			
-	        	InstitucionEntity institucionEntity=new InstitucionEntity(1,"123456789","CADET","COLEGIO DE ADMINISTRADOR DE EMPRESAS DE TARIJA","cadet", "cadet.tarija@gmail.com", "direccion", "75119900", null, "10.100.10.20:8080", null, 1, provinciasave);
+//	        	InstitucionEntity institucionEntity=new InstitucionEntity(1,"123456789","CADET","COLEGIO DE ADMINISTRADOR DE EMPRESAS DE TARIJA","cadet", "cadet.tarija@gmail.com", "direccion", "75119900", null, "cadetarija.com", null, 1, provinciasave);
+	        	InstitucionEntity institucionEntity=new InstitucionEntity(1,"123456789","CADET","COLEGIO DE ADMINISTRADOR DE EMPRESAS DE TARIJA","cadet", "cadet.tarija@gmail.com", "direccion", "75119900", null, "192.168.100.2:8080", null, 1, provinciasave);
 	        	institucionRepository.save(institucionEntity);
 	        	
 	        	Collection<RolEntity> rolesarray=new ArrayList<RolEntity>();
