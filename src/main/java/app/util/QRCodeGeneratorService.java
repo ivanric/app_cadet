@@ -140,15 +140,15 @@ public class QRCodeGeneratorService {
 //    			ruta_logos="";
 //    		}
             
-            if (ruta_logos!="") {
+            if (ruta_logos!="" || ruta_logos!=null) {
                 File qrCodeFile = new File(ruta_logos);
                 System.out.println("******************FILE:"+qrCodeFile.toString());
-                System.out.println("******************FILE:"+qrCodeFile.exists());
+//                System.out.println("******************FILE:"+qrCodeFile.exists());
                 if (qrCodeFile.exists()) {
                     BufferedImage qrCodeImage = ImageIO.read(qrCodeFile);
                     BitMatrix bitMatrix = new MultiFormatWriter().encode(newContent, BarcodeFormat.QR_CODE, qrCodeImage.getWidth(), qrCodeImage.getHeight());
                     MatrixToImageWriter.writeToStream(bitMatrix, "png", new FileOutputStream(qrCodeFile));
-                    System.out.println("*********************QR ACTUALIZADO*******************.");
+//                    System.out.println("*********************QR ACTUALIZADO*******************.");
                 } else {
                     System.out.println("El archivo QR no existe en la ruta especificada: " + ruta_logos);
                     generateQRCode(newContent, nombre);
