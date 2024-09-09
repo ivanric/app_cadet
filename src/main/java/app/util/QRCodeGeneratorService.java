@@ -77,14 +77,14 @@ public class QRCodeGeneratorService {
 
         StringBuilder sb = new StringBuilder();
         
-        String rutaCatalogos = obtenerRutaArchivos(Constantes.nameFolderQrSocio);
+        String ruta= obtenerRutaArchivos(Constantes.nameFolderQrSocio);
         
-        if (rutaCatalogos == null || rutaCatalogos.isEmpty()) {
+        if (ruta == null || ruta.isEmpty()) {
             throw new IOException("No se pudo determinar la ruta de almacenamiento.");
         }
 
         // Construir la ruta completa para el archivo
-        Path rutaDirectorio = Paths.get(rutaCatalogos).toAbsolutePath();
+        Path rutaDirectorio = Paths.get(ruta).toAbsolutePath();
         
         // Asegúrate de que la ruta sea válida y existe
         if (!Files.exists(rutaDirectorio)) {
@@ -133,12 +133,12 @@ public class QRCodeGeneratorService {
 	            Files.createDirectories(rutaDirectorio);  // Crea el directorio si no existe
 	        }
         	
-        	try {
+//        	try {
             	ruta_logos=Paths.get(obtenerRutaArchivos(Constantes.nameFolderQrSocio)).toAbsolutePath().resolve(nombre+".png").toString();
-    		} catch (Exception e) {
+//    		} catch (Exception e) {
     			// TODO: handle exception
-    			ruta_logos="";
-    		}
+//    			ruta_logos="";
+//    		}
             
             if (ruta_logos!="") {
                 File qrCodeFile = new File(ruta_logos);

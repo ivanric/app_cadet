@@ -284,12 +284,24 @@ public class SocioServiceImpl extends GenericServiceImplNormal<SocioEntity, Inte
 			
 			//RENOVANDO QR
 			String codigoDocumento=entitymod.getNrodocumento();
-			System.out.println("NUMERO DE DOCUMENTOOOO:"+codigoDocumento);
+			System.out.println("**************************NUMERO DE DOCUMENTOOOO UPDATE QR:"+codigoDocumento);
+			
             InstitucionEntity institucionEntity=institucionRepository.findById(1).get();
+            System.out.println("**************************UPDATE HOSTTTT:");
             String bodyQR=institucionEntity.getHost()+"/socios/estadosocio/"+codigoDocumento;
             System.out.println("CONTENIDO QR:"+bodyQR);
+            
             String nombredelQR=codigoDocumento;
             qrCodeGeneratorService.updateQRCodeContent(bodyQR,nombredelQR);
+            
+
+
+//            InstitucionEntity institucionEntity=institucionRepository.findById(1).get();
+//            String bodyQR="http://"+direccionIP.getHostAddress()+":"+puertoservidor+""+"/socios/"+codigoDocumento;
+//            String bodyQR=institucionEntity.getHost()+"/socios/estadosocio/"+codigoDocumento;
+        	
+
+//            qrCodeGeneratorService.generateQRCode(bodyQR, codigoDocumento);
             
 			entitymod=genericRepository.save(entitymod);
 			return entitymod;
