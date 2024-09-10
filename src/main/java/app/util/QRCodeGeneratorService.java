@@ -34,133 +34,136 @@ import javax.imageio.ImageIO;
 public class QRCodeGeneratorService {
 
 
+	 private String ruta_logos = "";
 
-//    @Value("${qrcode.output.directory}")
-//    private String outputLocation=".//src//main//resources//static//qrcodes//";
-//	private String ruta_logos="/static/qrcodes/";
-	private String ruta_logos="";
+	    private static final String CHARSET = "UTF-8";
+	    private static final String FILE_EXTENSION = "png";
+	    private static final int QR_WIDTH = 600;
+	    private static final int QR_HEIGHT = 600;
 
-    private static final String charset = "UTF-8";
+	    private ResourceLoader resourceLoader = new DefaultResourceLoader();
 
-    private static final String strDateFormat = "yyyyMMddhhmmss";
-	private ResourceLoader resourceLoader=new DefaultResourceLoader();
+	    public String obtenerRutaArchivos(String carpeta) {
+	        URIS uris = new URIS();
+	        String sistemaOperativo = uris.checkOS();
+	        System.out.println("INICIANDO APP");
+	        System.out.println("SISTEMA OPERATIVO: " + sistemaOperativo);
+	        String rutaCarpeta = "";
 
-	 public String obtenerRutaCarpetaRecursos(String nombreCarpeta) {
-        try { 
-            Resource resource = resourceLoader.getResource("classpath:static/" + nombreCarpeta);
-            return resource.getFile().getAbsolutePath();
-        } catch (Exception e) {
-            System.out.println("Error al obtener la ruta de la carpeta de recursos: " + e.getMessage());
-            return null;
-        }
-    }
-    public void generateQRCode(String message,String nombre) {
-//        log.info("### Generating QRCode ###");
-        System.out.println("### Generating QRCode ###");
+	        try {
+	            if (sistemaOperativo.contains("Linux")) {
+	                System.out.println("DANDO PERMISOS A LA CARPETA DE ARCHIVOS");
+	                darPermisosCarpeta("/home");
+	                rutaCarpeta = Paths.get("/home", carpeta).toString();
+	            } else if (sistemaOperativo.contains("Windows")) {
+	                rutaCarpeta = Paths.get("C:\\", carpeta).toString();
+	            }
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	            System.out.println("Error al obtener la ruta de archivos: " + e.getMessage());
+	        }
 
-//        log.info("Output directory - {}", outputLocation);
-//        System.out.println("Output directory - {}"+ outputLocation);
-        try {
-            String finalMessage =message;
-//            log.info("Final Input Message - {}", finalMessage);
-            System.out.println("Final Input Message - {}"+ finalMessage);
-//            processQRcode(finalMessage, prepareOutputFileName(), charset, 400, 400);
-            processQRcode(finalMessage, prepareOutputFileName(nombre), charset, 600, 600);
+	        return rutaCarpeta;
+	    }
 
-        } catch (WriterException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } 
-    }
-    private String prepareOutputFileName(String nombre) throws IOException {
+	    private void darPermisosCarpeta(String rutaBase) throws IOException {
+	        Process p = Runtime.getRuntime().exec("chmod -R 777 " + rutaBase);
+	        try {
+	            p.waitFor(); // Esperar a que el comando termine
+	        } catch (InterruptedException e) {
+	            e.printStackTrace();
+	        }
+	    }
 
-        StringBuilder sb = new StringBuilder();
-        
-        String ruta= obtenerRutaArchivos(Constantes.nameFolderQrSocio);
-        
-        if (ruta == null || ruta.isEmpty()) {
-            throw new IOException("No se pudo determinar la ruta de almacenamiento.");
-        }
+	    public void generateQRCode(String message, String nombre) {
+	        System.out.println("### Generating QRCode ###");
 
-        // Construir la ruta completa para el archivo
-        Path rutaDirectorio = Paths.get(ruta).toAbsolutePath();
-        
-        // Asegúrate de que la ruta sea válida y existe
-        if (!Files.exists(rutaDirectorio)) {
-            Files.createDirectories(rutaDirectorio);  // Crea el directorio si no existe
-        }
-        
-//        try {
-        	ruta_logos=Paths.get(obtenerRutaArchivos(Constantes.nameFolderQrSocio)).toAbsolutePath().resolve(nombre).toString();
-//		} catch (Exception e) {
-			// TODO: handle exception
-//			ruta_logos="";
-//		}
-        
-        System.out.println("RUTA DE LOGOOOOOS:"+ruta_logos);
-        sb.append(ruta_logos).append(".png");
-//        log.info("Final output file - "+sb.toString());
-//        System.out.println("Final output file - "+sb.toString());
-        return sb.toString();
-//        return ruta_logos;
-    }
+	        try {
+	            String finalMessage = message;
+	            System.out.println("Final Input Message: " + finalMessage);
+	            processQRCode(finalMessage, prepareOutputFileName(nombre), CHARSET, QR_WIDTH, QR_HEIGHT);
 
-    private void processQRcode(String data, String path, String charset, int height, int width) throws WriterException, IOException {
-        /*the BitMatrix class represents the 2D matrix of bits*/
-       /* MultiFormatWriter is a factory class that finds the appropriate Writer subclass for
-        the BarcodeFormat requested and encodes the barcode with the supplied contents.*/
-        BitMatrix matrix = new MultiFormatWriter().encode(new String(data.getBytes(charset), charset), BarcodeFormat.QR_CODE, width, height);
-        MatrixToImageWriter.writeToFile(matrix, path.substring(path.lastIndexOf('.') + 1), new File(path));
-    }
-    
-    public void updateQRCodeContent(String newContent, String nombre) {
-        try {
-//            String qrCodeFilePath = prepareOutputFileName(nombre); 
-//            System.out.println("PATH QR IMAGEN PATH:"+qrCodeFilePath);
-	        // Obtener la ruta de la carpeta de catalogos
-	        String rutaCatalogos = obtenerRutaArchivos(Constantes.nameFolderQrSocio);
-	        
-	        if (rutaCatalogos == null || rutaCatalogos.isEmpty()) {
+	        } catch (WriterException | IOException e) {
+	            e.printStackTrace();
+	        }
+	    }
+
+	    private String prepareOutputFileName(String nombre) throws IOException {
+	        String ruta = obtenerRutaArchivos(Constantes.nameFolderQrSocio);
+
+	        if (ruta == null || ruta.isEmpty()) {
 	            throw new IOException("No se pudo determinar la ruta de almacenamiento.");
 	        }
 
-	        // Construir la ruta completa para el archivo
-	        Path rutaDirectorio = Paths.get(rutaCatalogos).toAbsolutePath();
-	        
-	        // Asegúrate de que la ruta sea válida y existe
+	        Path rutaDirectorio = Paths.get(ruta).toAbsolutePath();
+
 	        if (!Files.exists(rutaDirectorio)) {
-	            Files.createDirectories(rutaDirectorio);  // Crea el directorio si no existe
+	            System.out.println("*********CREANDO CARPETA DE QRS");
+	            Files.createDirectories(rutaDirectorio); // Crea el directorio si no existe
 	        }
-        	
-//        	try {
-            	ruta_logos=Paths.get(obtenerRutaArchivos(Constantes.nameFolderQrSocio)).toAbsolutePath().resolve(nombre+".png").toString();
-//    		} catch (Exception e) {
-    			// TODO: handle exception
-//    			ruta_logos="";
-//    		}
-            
-            if (ruta_logos!="" || ruta_logos!=null) {
-                File qrCodeFile = new File(ruta_logos);
-                System.out.println("******************FILE:"+qrCodeFile.toString());
-//                System.out.println("******************FILE:"+qrCodeFile.exists());
-                if (qrCodeFile.exists()) {
-                    BufferedImage qrCodeImage = ImageIO.read(qrCodeFile);
-                    BitMatrix bitMatrix = new MultiFormatWriter().encode(newContent, BarcodeFormat.QR_CODE, qrCodeImage.getWidth(), qrCodeImage.getHeight());
-                    MatrixToImageWriter.writeToStream(bitMatrix, "png", new FileOutputStream(qrCodeFile));
-//                    System.out.println("*********************QR ACTUALIZADO*******************.");
-                } else {
-                    System.out.println("El archivo QR no existe en la ruta especificada: " + ruta_logos);
-                    generateQRCode(newContent, nombre);
-                }
-			}else {
-				System.out.println("NO SE ENCONTRO EL QR: " + ruta_logos);
-                generateQRCode(newContent, nombre);
-			}
-  
-        } catch (IOException | WriterException e) {
-            e.printStackTrace();
-        }
+
+	        ruta_logos = Paths.get(ruta).toAbsolutePath().resolve(nombre).toString();
+	        System.out.println("RUTA DE QR FOLDER: " + ruta_logos);
+	        return ruta_logos + "." + FILE_EXTENSION;
+	    }
+
+	    private void processQRCode(String data, String path, String charset, int height, int width) throws WriterException, IOException {
+	        BitMatrix matrix = new MultiFormatWriter().encode(new String(data.getBytes(charset), charset), BarcodeFormat.QR_CODE, width, height);
+	        MatrixToImageWriter.writeToFile(matrix, FILE_EXTENSION, new File(path));
+	    }
+
+	    public void updateQRCodeContent(String newContent, String nombre) {
+	        try {
+	            String rutaCatalogos = obtenerRutaArchivos(Constantes.nameFolderQrSocio);
+
+	            if (rutaCatalogos == null || rutaCatalogos.isEmpty()) {
+	                throw new IOException("No se pudo determinar la ruta de almacenamiento.");
+	            }
+
+	            Path rutaDirectorio = Paths.get(rutaCatalogos).toAbsolutePath();
+ 
+	            if (!Files.exists(rutaDirectorio)) {
+	                Files.createDirectories(rutaDirectorio); // Crea el directorio si no existe
+	            }
+
+	            ruta_logos = Paths.get(rutaCatalogos).toAbsolutePath().resolve(nombre + "." + FILE_EXTENSION).toString();
+
+	            if (!ruta_logos.isEmpty() && ruta_logos != null) {
+	                File qrCodeFile = new File(ruta_logos);
+	                System.out.println("******************FILE: " + qrCodeFile.toString());
+
+	                if (qrCodeFile.exists()) {
+	                    BufferedImage qrCodeImage = ImageIO.read(qrCodeFile);
+	                    BitMatrix bitMatrix = new MultiFormatWriter().encode(newContent, BarcodeFormat.QR_CODE, qrCodeImage.getWidth(), qrCodeImage.getHeight());
+	                    try (FileOutputStream fos = new FileOutputStream(qrCodeFile)) {
+	                        MatrixToImageWriter.writeToStream(bitMatrix, FILE_EXTENSION, fos);
+	                    }
+	                    System.out.println("QR code updated successfully.");
+	                } else {
+	                    System.out.println("El archivo QR no existe en la ruta especificada: " + ruta_logos);
+	                    generateQRCode(newContent, nombre);
+	                }
+	            } else {
+	                System.out.println("NO SE ENCONTRO EL QR: " + ruta_logos);
+	                generateQRCode(newContent, nombre);
+	            }
+
+	        } catch (IOException | WriterException e) {
+	            e.printStackTrace();
+	        }
+	    }
+	
+//	 public String obtenerRutaCarpetaRecursos(String nombreCarpeta) {
+//        try { 
+//            Resource resource = resourceLoader.getResource("classpath:static/" + nombreCarpeta);
+//            return resource.getFile().getAbsolutePath();
+//        } catch (Exception e) {
+//            System.out.println("Error al obtener la ruta de la carpeta de recursos: " + e.getMessage());
+//            return null;
+//        }
+//    }
+	 
+
        /*
         try {
             String path = prepareOutputFileName(nombre);
@@ -175,37 +178,7 @@ public class QRCodeGeneratorService {
         } catch (IOException e) {
             e.printStackTrace();
         }*/
-    }
     
-	public String obtenerRutaArchivos(String carpeta) {
-	    URIS uris = new URIS();
-	    String sistemaOperativo = uris.checkOS();
-	    System.out.println("INICIANDO APP");
-	    System.out.println("SISTEMA OPERATIVO: " + sistemaOperativo);
-	    String rutaCarpeta = "";
-
-	    try {
-	        if (sistemaOperativo.contains("Linux")) {
-	            System.out.println("DANDO PERMISOS A LA CARPETA DE ARCHIVOS");
-	            darPermisosCarpeta("/home");
-	            rutaCarpeta = Paths.get("/home", carpeta).toString();
-	        } else if (sistemaOperativo.contains("Windows")) {
-	            rutaCarpeta = Paths.get("C:\\", carpeta).toString();
-	        }
-	    } catch (Exception e) {
-	        e.printStackTrace();
-	        System.out.println("Error al obtener la ruta de archivos: " + e.getMessage());
-	    }
-
-	    return rutaCarpeta;
-	}
-	private void darPermisosCarpeta(String rutaBase) throws IOException {
-	    Process p = Runtime.getRuntime().exec("chmod -R 777 " + rutaBase);
-	    try {
-	        p.waitFor();  // Esperar a que el comando termine
-	    } catch (InterruptedException e) {
-	        e.printStackTrace();
-	    }
-	}
+    
 
 }

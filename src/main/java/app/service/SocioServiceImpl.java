@@ -149,10 +149,11 @@ public class SocioServiceImpl extends GenericServiceImplNormal<SocioEntity, Inte
         	entity.setId(socioRepository.getIdPrimaryKey());
         	entity.setCodigo(socioRepository.getCodigo());
         	
-        	
+        	 
         	String codigoDocumento=passwordEncoder.encode(socioRepository.getCodigo()+"");
         	codigoDocumento = codigoDocumento.replace("/", "c");// Eliminar las barras '/' del resultado
         	codigoDocumento = codigoDocumento.replace(".", "a");// Eliminar las barras '/' del resultado
+        	codigoDocumento = codigoDocumento.replace("$", "d");// Eliminar las barras '/' del resultado
         	entity.setNrodocumento(codigoDocumento);        	
         	entity.setLinkqr("/RestSocios/"+codigoDocumento);
 
@@ -294,17 +295,16 @@ public class SocioServiceImpl extends GenericServiceImplNormal<SocioEntity, Inte
             
 //            String nombredelQR=codigoDocumento;
 //            qrCodeGeneratorService.updateQRCodeContent(bodyQR,nombredelQR);
-            
-
 
 //            InstitucionEntity institucionEntity=institucionRepository.findById(1).get();
 //            String bodyQR="http://"+direccionIP.getHostAddress()+":"+puertoservidor+""+"/socios/"+codigoDocumento;
 //            String bodyQR=institucionEntity.getHost()+"/socios/estadosocio/"+codigoDocumento;
         	System.out.println("*^**************************ELIMINADO QR:");
-        	String qr_nuevo="modqr-"+codigoDocumento+".png";
-            this.archivoService.eliminarArchivo(Constantes.nameFolderQrSocio,qr_nuevo);
-            qrCodeGeneratorService.generateQRCode(bodyQR, codigoDocumento);
-            System.out.println("^^^^^^^^^^^^^^^^^^^^^^^^^^^QR MODIFICADO:"+qr_nuevo);
+        	
+            this.archivoService.eliminarArchivo(Constantes.nameFolderQrSocio,codigoDocumento);
+            String qr_nuevo="modqr-"+codigoDocumento;
+            qrCodeGeneratorService.generateQRCode(bodyQR, qr_nuevo);
+            System.out.println("****************************QR MODIFICADO:"+qr_nuevo+".png");
 			entitymod=genericRepository.save(entitymod);
 			return entitymod;
 		} catch (Exception e) { 
