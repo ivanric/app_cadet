@@ -295,7 +295,7 @@ public class RestSocio extends RestControllerGenericNormalImpl<SocioEntity,Socio
 	                    } catch (IOException ex) {
 	                        System.out.println("No se pudo determinar el tipo de archivo.");
 	                    }
-
+	                    System.out.println("*************OBTENIENDO QR:"+resource.getFilename() );
 	                    return ResponseEntity.ok()
 	                            .contentType(MediaType.parseMediaType(contentType))
 	                            .header("Content-Disposition", "attachment; filename=\"" + resource.getFilename() + "\"")
@@ -305,7 +305,7 @@ public class RestSocio extends RestControllerGenericNormalImpl<SocioEntity,Socio
 	                }
 	            } catch (Exception e) {
 	                e.printStackTrace();
-	                System.out.println("Error al obtener la ruta de archivos: " + e.getMessage());
+	                System.out.println("***********************Error al obtener la ruta de archivos: " + e.getMessage());
 	                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
 	            }
 	        } catch (Exception e) {

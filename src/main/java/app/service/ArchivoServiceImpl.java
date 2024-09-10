@@ -342,7 +342,7 @@ public class ArchivoServiceImpl implements ArchivoService {
 
 		try {
 			if (archivo!=null) {
-				System.out.println("NO SE ENCONTRO ARCHIVO PARA ELIMINAR");
+				System.out.println("**********ELIMINANDO ARCHIVOO"+archivo);
 				FileSystemUtils.deleteRecursively(archivo);
 			}
 			
