@@ -338,8 +338,9 @@ public class ArchivoServiceImpl implements ArchivoService {
 	@Override
 	public void eliminarArchivo(String folder,String nombreArchivo) throws IOException {
 		// TODO Auto-generated method stub
+		System.out.println("INTENTANDO ELIMINADO ARCHJIVO:"+nombreArchivo);
 		Path archivo=linkArchivo(folder,nombreArchivo);
-
+		System.out.println("INTENTANOD PATH ELIMINAR ARCHIVO:"+archivo);
 		try {
 			if (archivo!=null) {
 				System.out.println("**********ELIMINANDO ARCHIVOO"+archivo);

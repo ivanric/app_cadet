@@ -132,65 +132,71 @@ public class SocioServiceImpl extends GenericServiceImplNormal<SocioEntity, Inte
         try{
         	System.out.println("EntitySAVE_Servicio:"+entity.toString());
         	
-        	System.out.println("IMAGEN:"+entity.getLogo().getOriginalFilename());
-        	
-        	//ADD PERSONA
-        	
-        	PersonaEntity persona=new PersonaEntity();
-        	persona.setId(personaService.getIdPrimaryKey());
-        	persona.setCi(entity.getPersona().getCi());
-        	persona.setNombrecompleto(entity.getPersona().getNombrecompleto());
-        	persona.setEmail(entity.getPersona().getEmail());
-        	persona.setCelular(entity.getPersona().getCelular());
-        	persona.setEstado(1);
-        	PersonaEntity persona2=personaService.save(persona);
-        	
+        	if (entity.getId()==null) {
+            	System.out.println("IMAGEN:"+entity.getLogo().getOriginalFilename());
+            	
+            	//ADD PERSONA
+            	
+            	PersonaEntity persona=new PersonaEntity();
+            	persona.setId(personaService.getIdPrimaryKey());
+            	persona.setCi(entity.getPersona().getCi());
+            	persona.setNombrecompleto(entity.getPersona().getNombrecompleto());
+            	persona.setEmail(entity.getPersona().getEmail());
+            	persona.setCelular(entity.getPersona().getCelular());
+            	persona.setEstado(1);
+            	PersonaEntity persona2=personaService.save(persona);
+            	
 
-        	entity.setId(socioRepository.getIdPrimaryKey());
-        	entity.setCodigo(socioRepository.getCodigo());
-        	
-        	 
-        	String codigoDocumento=passwordEncoder.encode(socioRepository.getCodigo()+"");
-        	codigoDocumento = codigoDocumento.replace("/", "c");// Eliminar las barras '/' del resultado
-        	codigoDocumento = codigoDocumento.replace(".", "a");// Eliminar las barras '/' del resultado
-        	codigoDocumento = codigoDocumento.replace("$", "d");// Eliminar las barras '/' del resultado
-        	entity.setNrodocumento(codigoDocumento);        	
-        	entity.setLinkqr(codigoDocumento+".png");
+            	entity.setId(socioRepository.getIdPrimaryKey());
+            	entity.setCodigo(socioRepository.getCodigo());
+            	
+            	 
+            	String codigoDocumento=passwordEncoder.encode(socioRepository.getCodigo()+"");
+            	codigoDocumento = codigoDocumento.replace("/", "c");// Eliminar las barras '/' del resultado
+            	codigoDocumento = codigoDocumento.replace(".", "a");// Eliminar las barras '/' del resultado
+            	codigoDocumento = codigoDocumento.replace("$", "d");// Eliminar las barras '/' del resultado
+            	entity.setNrodocumento(codigoDocumento);        	
+            	entity.setLinkqr(codigoDocumento+".png");
 
-            InstitucionEntity institucionEntity=institucionRepository.findById(1).get();
-//            String bodyQR="http://"+direccionIP.getHostAddress()+":"+puertoservidor+""+"/socios/"+codigoDocumento;
-            String bodyQR=institucionEntity.getHost()+"/socios/estadosocio/"+codigoDocumento;
-        	
-        	//GENERAR QR
-//            imagePath=imagePath+codigoDocumento+".png";
-            
-//        	MethodUtils.generateImageQRCode(bodyQR, 250, 250, imagePath);
-            qrCodeGeneratorService.generateQRCode(bodyQR, codigoDocumento);
-            
-//        	entity.setMatricula(entity.getMatricula());
-//        	entity.setNombresocio(entity.getNombresocio());
-//        	entity.setFechaemision(entity.getFechaemision());
-//        	entity.setFechaexpiracion(entity.getFechaexpiracion());
-//        	System.out.println("AGREGANDO PERSONA:"+persona2.toString());
-        	entity.setPersona(persona2);
-//        	System.out.println("AGREGANDO PROFESION");
-        	entity.setProfesion(profesionRepository.findById(1).get());
-//        	System.out.println("AGREGANDO INSTITUCION");
-        	entity.setInstitucion(institucionRepository.findById(1).get());
-//        	System.out.println("AGREGANDO EMPRESAS");
-        	entity.setCatalogos(catalogoRepository.findByEstado(1));
-        	
-//        	System.out.println("AGREGANDO LOGO DE SOCIO");
-        	if (!entity.getLogo().isEmpty()) {
-        		String nombre="logo-"+this.socioRepository.getCodigo()+entity.getLogo().getOriginalFilename().substring(entity.getLogo().getOriginalFilename().lastIndexOf('.'));
-    			System.out.println("NOMBRE SOCIO LOGO:"+nombre);
-				String nombreLogo=archivoService.guargarArchivo(Constantes.nameFolderLogoSocio,entity.getLogo(),nombre);
-				entity.setImagen(nombreLogo);
+                InstitucionEntity institucionEntity=institucionRepository.findById(1).get();
+//                String bodyQR="http://"+direccionIP.getHostAddress()+":"+puertoservidor+""+"/socios/"+codigoDocumento;
+                String bodyQR=institucionEntity.getHost()+"/socios/estadosocio/"+codigoDocumento;
+            	
+            	//GENERAR QR
+//                imagePath=imagePath+codigoDocumento+".png";
+                
+//            	MethodUtils.generateImageQRCode(bodyQR, 250, 250, imagePath);
+                qrCodeGeneratorService.generateQRCode(bodyQR, codigoDocumento);
+                
+//            	entity.setMatricula(entity.getMatricula());
+//            	entity.setNombresocio(entity.getNombresocio());
+//            	entity.setFechaemision(entity.getFechaemision());
+//            	entity.setFechaexpiracion(entity.getFechaexpiracion());
+//            	System.out.println("AGREGANDO PERSONA:"+persona2.toString());
+            	entity.setPersona(persona2);
+//            	System.out.println("AGREGANDO PROFESION");
+            	entity.setProfesion(profesionRepository.findById(1).get());
+//            	System.out.println("AGREGANDO INSTITUCION");
+            	entity.setInstitucion(institucionRepository.findById(1).get());
+//            	System.out.println("AGREGANDO EMPRESAS");
+            	entity.setCatalogos(catalogoRepository.findByEstado(1));
+            	
+//            	System.out.println("AGREGANDO LOGO DE SOCIO");
+            	if (!entity.getLogo().isEmpty()) {
+            		String nombre="logo-"+this.socioRepository.getCodigo()+entity.getLogo().getOriginalFilename().substring(entity.getLogo().getOriginalFilename().lastIndexOf('.'));
+        			System.out.println("NOMBRE SOCIO LOGO:"+nombre);
+    				String nombreLogo=archivoService.guargarArchivo(Constantes.nameFolderLogoSocio,entity.getLogo(),nombre);
+    				entity.setImagen(nombreLogo);
+    			}
+            	
+            	System.out.println("EntityPost:"+entity.toString());
+                
+            	entity = socioRepository.save(entity);
+			}else {
+				entity = socioRepository.save(entity);
 			}
         	
-        	System.out.println("EntityPost:"+entity.toString());
-            
-        	entity = socioRepository.save(entity);
+
             return entity;
         } catch (Exception e){
         	e.printStackTrace();
@@ -299,8 +305,9 @@ public class SocioServiceImpl extends GenericServiceImplNormal<SocioEntity, Inte
 //            InstitucionEntity institucionEntity=institucionRepository.findById(1).get();
 //            String bodyQR="http://"+direccionIP.getHostAddress()+":"+puertoservidor+""+"/socios/"+codigoDocumento;
 //            String bodyQR=institucionEntity.getHost()+"/socios/estadosocio/"+codigoDocumento;
+            
         	System.out.println("*^**************************ELIMINADO QR:");
-        	
+        	System.out.println("*************ELIMNANDO QR SERVICE:"+entitymod.getLinkqr());
             this.archivoService.eliminarArchivo(Constantes.nameFolderQrSocio,entitymod.getLinkqr());
             String qr_nuevo="modqr-"+codigoDocumento;
             qrCodeGeneratorService.generateQRCode(bodyQR, qr_nuevo);
