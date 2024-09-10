@@ -844,8 +844,8 @@ td {
 			  			$('#formulario3').find('input[name="fechaemision"]').val(data.fechaemision);
 			  			$('#formulario3').find('input[name="fechaexpiracion"]').val(data.fechaexpiracion);
 			  			$('#formulario3').find('.renovar-rq-socio').html(`
-			  					<a href="${nameEntity}/qr_socio/${data.nrodocumento}.png" th:href="@{${nameEntity}/qr_socio/${data.nrodocumento}}" data-fancybox="">
-								<img src="${nameEntity}/qr_socio/${data.nrodocumento}.png" th:src="@{${nameEntity}/qr_socio/${data.nrodocumento}}" alt="" class="img-thumbnail w-100">	
+			  					<a href="${nameEntity}/qr_socio/${data.linkqr}" th:href="@{${nameEntity}/qr_socio/${data.data.linkqr}}" data-fancybox="">
+								<img src="${nameEntity}/qr_socio/${data.data.linkqr}" th:src="@{${nameEntity}/qr_socio/${data.data.linkqr}}" alt="" class="img-thumbnail w-100">	
 								</a>
 			  					
 			  					

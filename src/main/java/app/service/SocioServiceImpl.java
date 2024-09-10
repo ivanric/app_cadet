@@ -155,7 +155,7 @@ public class SocioServiceImpl extends GenericServiceImplNormal<SocioEntity, Inte
         	codigoDocumento = codigoDocumento.replace(".", "a");// Eliminar las barras '/' del resultado
         	codigoDocumento = codigoDocumento.replace("$", "d");// Eliminar las barras '/' del resultado
         	entity.setNrodocumento(codigoDocumento);        	
-        	entity.setLinkqr("/RestSocios/"+codigoDocumento);
+        	entity.setLinkqr(codigoDocumento+".png");
 
             InstitucionEntity institucionEntity=institucionRepository.findById(1).get();
 //            String bodyQR="http://"+direccionIP.getHostAddress()+":"+puertoservidor+""+"/socios/"+codigoDocumento;
@@ -306,6 +306,7 @@ public class SocioServiceImpl extends GenericServiceImplNormal<SocioEntity, Inte
             qrCodeGeneratorService.generateQRCode(bodyQR, qr_nuevo);
             System.out.println("****************************QR MODIFICADO:"+qr_nuevo+".png"); 
 			entitymod=genericRepository.save(entitymod);
+			entitymod.setLinkqr(qr_nuevo+".png");
 			return entitymod;
 		} catch (Exception e) { 
 			e.printStackTrace();

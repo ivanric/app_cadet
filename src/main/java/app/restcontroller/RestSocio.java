@@ -264,52 +264,55 @@ public class RestSocio extends RestControllerGenericNormalImpl<SocioEntity,Socio
 	        }
 	    }
 	 
+	 
+		
 	 @GetMapping("/qr_socio/{filename}")
-	 public ResponseEntity<Resource> getFile_qr_socio(@PathVariable String filename) {
-        try {
-            System.out.println("ENTRO QR SOCIO:" + filename);
-            URIS uris = new URIS();
-            String sistemaOperativo = uris.checkOS();
-            System.out.println("INICIANDO APP");
-            System.out.println("SISTEMA OPERATIVO: " + sistemaOperativo);
+	    public ResponseEntity<Resource> qr_socio(@PathVariable String filename) {
+	        try {
+	            System.out.println("ENTRO qr SOCIO:" + filename);
+	            URIS uris = new URIS();
+	            String sistemaOperativo = uris.checkOS();
+	            System.out.println("INICIANDO APP");
+	            System.out.println("SISTEMA OPERATIVO: " + sistemaOperativo);
 
-            Resource resource = null;
+	            Resource resource = null;
 
-            try {
-                Path filePath;
-                if (sistemaOperativo.contains("Linux")) {
-                    filePath = Paths.get("/home", Constantes.nameFolderQrSocio).resolve(filename).normalize();
-                    resource = new UrlResource(filePath.toUri());
-                } else if (sistemaOperativo.contains("Windows")) {
-                    filePath = Paths.get("C:\\", Constantes.nameFolderQrSocio).resolve(filename).normalize();
-                    resource = new UrlResource(filePath.toUri());
-                }
+	            try {
+	                Path filePath;
+	                if (sistemaOperativo.contains("Linux")) {
+	                    filePath = Paths.get("/home", Constantes.nameFolderQrSocio).resolve(filename).normalize();
+	                    resource = new UrlResource(filePath.toUri());
+	                } else if (sistemaOperativo.contains("Windows")) {
+	                    filePath = Paths.get("C:\\", Constantes.nameFolderQrSocio).resolve(filename).normalize();
+	                    resource = new UrlResource(filePath.toUri());
+	                }
 
-                // Verifica si el recurso fue encontrado y es legible
-                if (resource != null && resource.exists() && resource.isReadable()) {
-                    String contentType = "application/octet-stream"; // Tipo de contenido por defecto
-                    try {
-                        contentType = Files.probeContentType(resource.getFile().toPath());
-                    } catch (IOException ex) {
-                        System.out.println("No se pudo determinar el tipo de archivo.");
-                    }
+	                // Verifica si el recurso fue encontrado y es legible
+	                if (resource != null && resource.exists() && resource.isReadable()) {
+	                    String contentType = "application/octet-stream"; // Tipo de contenido por defecto
+	                    try {
+	                        contentType = Files.probeContentType(resource.getFile().toPath());
+	                    } catch (IOException ex) {
+	                        System.out.println("No se pudo determinar el tipo de archivo.");
+	                    }
 
-                    return ResponseEntity.ok()
-                            .contentType(MediaType.parseMediaType(contentType))
-                            .header("Content-Disposition", "attachment; filename=\"" + resource.getFilename() + "\"")
-                            .body(resource);
-                } else {
-                    return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-                System.out.println("Error al obtener la ruta de archivos: " + e.getMessage());
-                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
-        }
-    }
+	                    return ResponseEntity.ok()
+	                            .contentType(MediaType.parseMediaType(contentType))
+	                            .header("Content-Disposition", "attachment; filename=\"" + resource.getFilename() + "\"")
+	                            .body(resource);
+	                } else {
+	                    return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+	                }
+	            } catch (Exception e) {
+	                e.printStackTrace();
+	                System.out.println("Error al obtener la ruta de archivos: " + e.getMessage());
+	                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+	            }
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+	        }
+	    }
+
 
 }
