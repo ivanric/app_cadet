@@ -309,7 +309,16 @@ public class SocioServiceImpl extends GenericServiceImplNormal<SocioEntity, Inte
         	System.out.println("*^**************************ELIMINADO QR:");
         	System.out.println("*************ELIMNANDO QR SERVICE:"+entitymod.getLinkqr());
             this.archivoService.eliminarArchivo(Constantes.nameFolderQrSocio,entitymod.getLinkqr());
-            String qr_nuevo="modqr-"+codigoDocumento;
+            
+       	 
+	       	String codigoDocumento_md=passwordEncoder.encode(entitymod.getCodigo()+"");
+	       	codigoDocumento_md = codigoDocumento.replace("/", "c");// Eliminar las barras '/' del resultado
+	       	codigoDocumento_md = codigoDocumento.replace(".", "a");// Eliminar las barras '/' del resultado
+	       	codigoDocumento_md = codigoDocumento.replace("$", "d");// Eliminar las barras '/' del resultado
+	       	entitymod.setNrodocumento(codigoDocumento);        	
+//	       	entitymod.setNrodocumento(codigoDocumento_md);  
+            
+            String qr_nuevo="modqr-"+codigoDocumento_md;
             qrCodeGeneratorService.generateQRCode(bodyQR, qr_nuevo);
             System.out.println("****************************QR MODIFICADO:"+qr_nuevo+".png"); 
             entitymod.setLinkqr(qr_nuevo+".png");

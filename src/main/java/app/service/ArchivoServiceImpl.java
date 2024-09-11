@@ -247,7 +247,7 @@ public class ArchivoServiceImpl implements ArchivoService {
 	@Override
 	public Path linkArchivo(String folder,String nombreArchivo) throws IOException {
 		// TODO Auto-generated method stub
-		System.out.println("Nombre de archvo:"+nombreArchivo);
+		System.out.println("Nombre de archvo a buscar link antes de eliminar:"+nombreArchivo);
         String rutaCatalogos = obtenerRutaArchivos(folder);
         
         if (rutaCatalogos == null || rutaCatalogos.isEmpty()) {
@@ -264,7 +264,7 @@ public class ArchivoServiceImpl implements ArchivoService {
         if (nombreArchivo!=null) {
         	Path rutaArchivo = rutaDirectorio.resolve(nombreArchivo);
 //          Files.copy(archivo.getInputStream(), rutaArchivo, StandardCopyOption.REPLACE_EXISTING);
-            System.out.println("Guardando archivo en la ruta: " + rutaArchivo);
+            System.out.println("ruta de archivo encontrado: " + rutaArchivo);
     		if (rutaArchivo!=null) {
     			
 //    			return Paths.get(obtenerRutaArchivos(folder)).toAbsolutePath().resolve(nombreArchivo);//almacenamos el archivo
