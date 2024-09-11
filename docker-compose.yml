@@ -43,6 +43,6 @@ services:
     depends_on:
       - bd_posgresql
       
-volumes:
+#volumes:
 #  cadet_app_data:  # Define el volumen para la aplicación cadet_app
 #  postgres_data:   # Define el volumen para la base de datos PostgreSQL
