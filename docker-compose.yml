@@ -13,8 +13,8 @@ services:
       - DATABASE_PASSWORD=cadet.2024
     depends_on:
      -  bd_posgresql
-#    volumes:
-#      - cadet_app_data:/home  # Define un volumen llamado 'cadet_app_data' montado en '/home' del contenedor
+    volumes:
+      - cadet_app_data:/home  # Define un volumen llamado 'cadet_app_data' montado en '/home' del contenedor
   bd_posgresql:   
     container_name: "cadet_bd"
     image: postgres:11
@@ -43,6 +43,6 @@ services:
     depends_on:
       - bd_posgresql
       
-#volumes:
-#  cadet_app_data:  # Define el volumen para la aplicación cadet_app
+volumes:
+  cadet_app_data:  # Define el volumen para la aplicación cadet_app
 #  postgres_data:   # Define el volumen para la base de datos PostgreSQL

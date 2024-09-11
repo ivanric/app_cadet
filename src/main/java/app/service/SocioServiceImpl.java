@@ -320,7 +320,7 @@ public class SocioServiceImpl extends GenericServiceImplNormal<SocioEntity, Inte
             
             String qr_nuevo="qr-"+codigoDocumento_md;
             qrCodeGeneratorService.generateQRCode(bodyQR, qr_nuevo);
-            System.out.println("****************************QR MODIFICADO:"+qr_nuevo+".png"); 
+            System.out.println("****************************QR NUEVO MODIFICADO:"+qr_nuevo+".png"); 
             entitymod.setLinkqr(qr_nuevo+".png");
 			entitymod=genericRepository.save(entitymod);
 			
