@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tarjeta de Socio</title>
+    <link rel="icon" href="../../img/logo_cadet.png" type="image/png">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+  	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.min.css" crossorigin="anonymous">
+   	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" integrity="sha512-5A8nwdMOWrSz20fDsjczgUidUBR8liPYU+WymTZP1lmY9G6Oc7HlZv156XqnsgNUzTyMefFTcsFH/tnJE/+xBg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.5.4/css/fileinput.min.css" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" integrity="sha512-5A8nwdMOWrSz20fDsjczgUidUBR8liPYU+WymTZP1lmY9G6Oc7HlZv156XqnsgNUzTyMefFTcsFH/tnJE/+xBg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+	
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@300&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+
+	<!-- Google Fonts -->
+	<link
+	  href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+	  rel="stylesheet"
+	/>
+	<!-- MDB -->
+	<link
+	  href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.1.0/mdb.min.css"
+	  rel="stylesheet"
+	/>
+		<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+    
+    <style>
+    	@import url('https://fonts.googleapis.com/css?family=Montserrat');
+        body {
+    		width: 100%;
+    		height: auto;
+			font-family: "Poppins", sans-serif;
+              background-color: #eaeaea; 
+             display: flex;
+		    justify-content: center;
+		    align-items: center;
+   		    background-image: url(../../img/poster3.png);
+		    background-size: cover;
+		    background-repeat: no-repeat;
+		    
+        }
+
+        .tarjeta {
+/* 		    box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px; */
+		    overflow: hidden;
+		    /* border-radius: 10px; */
+		    /* width: 25rem; */
+		    /* margin: 10px; */
+/* 		    background-image: url(../../img/fondocatalogo.png); */
+/* 		    background-size: contain; */
+/* 		    background-repeat: no-repeat; */
+		    height: auto;
+		    width: auto;
+        }
+
+        .titulo {
+/*             background-color: #ffffff; */
+            color: #3eba3e; /* Cambiado a verde */
+            text-align: center;
+            padding-top: 12px; /* Añadido un padding para separar el texto del borde */
+            border-radius: 10px 10px 0 0;
+        	display: flex;
+        	justify-content: center;
+        	align-items: center;
+        	font-weight: 900;
+        }
+
+        .titulo img {
+            width: 50px; /* Ajustar el tamaño */
+          
+        }
+
+  
+
+        .contenido {
+			align-items:center;
+        }
+		.logo_cadet{
+			width: 120px;
+			margin: 2rem
+		}
+        .datos-socio {
+            flex: 1;
+            padding: 20px;
+            border-bottom: 1px solid #ccc;
+        }
+
+        .datos-socio h2 {
+            margin-top: 0;
+        }
+
+
+        .dato span {
+            font-weight: bold;
+        }
+		.cont-imagen-socio{
+			text-align: center;
+		    padding: 10px;
+		}
+        .imagen-socio {
+		    width: 190px;
+		    height: 190px;
+	        border-radius: 6px;
+        }
+
+        .boton-socio {
+            background-color: #f0f0f0;
+            color: #000;
+            text-align: center;
+            padding: 10px;
+            border-radius: 0 0 10px 10px;
+            text-decoration: none; /* Eliminar subrayado */
+            display: flex;
+		    height: 4rem;
+		    align-items: center;
+		    justify-content: center;
+		    font-weight: 900;
+		    font-size: 18px;
+        }
+		.boton-activo-socio{
+			background-color: #3eba3e;
+			color: #fff;
+		}
+		.boton-inactivo-socio{
+			background-color: #ff6900;
+			color: #fff;
+		}
+		.detallesocio{
+		    margin: 10px;
+		}
+		.nombresocio {
+   			color: #333;
+			text-transform: uppercase;
+			font-weight: 600;
+			font-size: 22px;
+		}
+		.profesion{
+		   font-family: arial, cursive;
+   			
+		}
+		.decripcion_empresa{
+			font-size: 10px;
+			text-align: justify;
+		}
+		
+    </style>
+    <style>
+.selected {
+	background-color: #B0BED9;
+}
+
+.contenido_gestion {
+	padding: 20px 10px 0px 10px;
+}
+ 
+.ocultar {
+    display: none;
+}
+ 
+.mostrar {
+    display: block;
+}
+
+td {
+    vertical-align: middle !important;
+}
+.input_cata{
+	background: #ffffff;
+    width:60%;
+    border: none;
+    height: 2em;
+    padding: 0 0.5rem;
+    outline: none;
+}
+.label_cata{
+	background: #ffffff;
+    width: 40%; 
+    border: none;
+    padding: 0 0.5rem;
+    align-items: center;
+    display: flex;
+    font-weight: 900;
+}
+.input_group_cata{
+	display: flex;
+}
+
+.select2-results{
+	position:relative;
+	z-index: 9000;
+}
+.titulo_socio{
+	text-align: center;
+    margin-bottom: 0;
+    font-weight: bold;
+    padding: 6px;
+}
+.card_socio{
+/* 	padding: 10px; */
+/* 	    padding-top: 10rem; */
+}
+.titulo_descuentos{
+	border-radius: 2px;
+    background-color: #01c339;
+    padding: 1px;
+    text-align: center;
+    font-weight: bold;
+	color: white;
+}
+.boton_catalogo{
+	width: 100%;
+    border: none;
+    background: #0884af;
+    border: none;
+    border-radius: 4px;
+    color: white;
+    font-weight: bold;
+    font-size: 12px;
+    transition: background-color 0.3s ease, transform 0.3s ease; /* Transición */
+    margin: 2px;
+        
+}
+.boton_catalogo:hover{
+	background: #1a24c8;
+	transform: scale(1.01);
+}
+.boton_card{
+	    font-size: 9px;
+    height: 21px;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    border-radius: 2px;
+	
+}
+.card_boton_opc{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+
+</style>
+</head>
+<body>
+
+	<form name="formulario" role="form" id="formulario" method="post"
+		enctype="multipart/form-data" data-fv-excluded="disabled">
+
+		<div class="modal fade" id="modalAdicionar" tabindex="-1"
+			role="dialog" data-backdrop="static" data-keyboard="false"
+			aria-hidden="true" style="display: none; padding-left: 0">
+
+			<div class="modal-dialog modal-md" role="document">
+				<div class="modal-content">
+					<div class="card">
+						<div class="modal-header">
+		<h5 class="modal-title title-catalogo"></h5> 
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      
+						</div>
+						<div class="modal-body">
+							<div class="images_catalogo">
+								<div class="rowimg row"></div>
+							</div>
+
+
+
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+	<div class="">
+    <div class="tarjeta" id="targeta">
+    	<input type="hidden" th:value="${codigosocio}" id="codigo">
+    			<img src="../../img/logo_cadet_blanco.png" th:href="@{../img/logo_cadet_blanco.png}"  alt="Imagen izquierda" class="logo_cadet">	
+							
+				<div class="card_socio">
+
+<!-- 							
+				        	<div class="titulo">
+								<span><b>COLEGIO DE ADMINISTRADORES <br>DE EMPRESAS DE TARIJA</b></span>
+							</div>-->
+								
+					        <div class="contenido">
+					         	<div class="cont-imagen-socio">
+									<img class=" imagen-socio " src="../../img/user.png" th:href="@{../img/user.png}"  alt="Imagen del Socio">
+			            
+								</div>
+								<div class="row mt-1">
+									<div class="col-md-12 input_group_cata">
+										<label for="exampleFormControlInput1" class="label_cata">Cedula</label>
+										<input placeholder="Ingrese carnet de identidad" class="input_cata fg-input data-per field_css"
+												name="ci" type="text" required="required" readonly="readonly">
+										
+									</div>
+							
+								</div>
+								<div class="row">
+									<div class="col-md-12 input_group_cata">
+										<label for="exampleFormControlInput1" class="label_cata">Matricula</label>
+										<input placeholder="Ingrese carnet de identidad" class="input_cata fg-input data-per field_css"
+												name="matricula" type="text" required="required" readonly="readonly">
+									</div>
+				
+								</div>
+	
+								<div class="row">
+									<div class="col-md-12 input_group_cata">
+										
+										<label for="exampleFormControlInput1" class="label_cata">Nombre</label>
+	
+										<input placeholder="LIC. Nombre Completo del Socio.." class="input_cata fg-input data-per field_css"
+												name="nombresocio" type="text" required="required"
+												onkeyup="this.value = this.value.toUpperCase();" readonly="readonly">
+										
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-12 input_group_cata">
+									
+										<label for="exampleFormControlInput1" class="label_cata">Celular</label>
+										<input placeholder="Celular" class="input_cata form-control fg-input data-per field_css"
+												name="celular" type="number" required="required" readonly="readonly">
+										
+	
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-12 input_group_cata">
+										
+									  <label for="exampleFormControlInput1" class="label_cata">F.Emision</label>		
+									  <input placeholder="Ingrese Fecha Emision" class="input_cata fg-input data-per field_css"
+														name="fechaemision" type="date" required="required" id="fechaemision"
+													    value="" readonly="readonly">
+									
+	
+									</div>
+								</div>
+		
+								<div class="row">
+									<div class="col-md-12 input_group_cata">
+										
+									  <label for="exampleFormControlInput1" class="label_cata">F.Expiracion</label>		
+									  <input placeholder="Ingrese Fecha Expiracion" class="input_cata fg-input data-per field_css"
+														name="fechaexpiracion" type="date" required="required" id="fechaexpiracion"
+													    value="" readonly="readonly">
+										
+	
+									</div>
+								</div>
+								<div class="titulo_descuentos" >
+									  EMPRESAS</div>
+								<!-- Tabs navs -->
+								<ul class="nav nav-tabs nav-justified " id="ex1" role="tablist">
+								  <li class="nav-item" role="presentation">
+								    <a
+								      data-mdb-tab-init
+								      class="nav-link active"
+								      id="ex3-tab-1"
+								      href="#ex3-tabs-1"
+								      role="tab"
+								      aria-controls="ex3-tabs-1"
+								      aria-selected="true"
+								      >SERVICIOS</a
+								    >
+								  </li>
+								  <li class="nav-item" role="presentation">
+								    <a
+								      data-mdb-tab-init
+								      class="nav-link"
+								      id="ex3-tab-2"
+								      href="#ex3-tabs-2"
+								      role="tab"
+								      aria-controls="ex3-tabs-2"
+								      aria-selected="false"
+								      >PRODUCTOS</a
+								    >
+								  </li>
+								
+								</ul>
+								<!-- Tabs navs -->
+								
+								<!-- Tabs content -->
+								<div class="tab-content" id="ex2-content">
+								  <div
+								    class="tab-pane fade show active"
+								    id="ex3-tabs-1"
+								    role="tabpanel"
+								    aria-labelledby="ex3-tab-1"
+								  >
+	   								<div class="descuentos_socios_serv" style="max-width: 450px;">
+									<!--  
+										<div  class=" card border border-primary shadow-0 p-1">
+										  <div class="row ">
+										    <div class="col-4" style="display: flex;flex-flow:wrap;justify-content: center;align-items: center;flex-direction:column;flex-flow: column; ">
+											     <label style="font-size: 10px;text-align: center;" >LOGO EMPRESA</label>
+											     <a href="/img/user.png" th:href="@{../../img/user.png}" data-fancybox>
+													<img
+											        src="/img/user.png" th:href="@{../img/user.png}"
+											        alt="Trendy Pants and Shoes"
+											        style="" class="img-thumbnail w-100"
+											      />
+												</a>
+											   <button class="btn btn-success btn-sm">Catalogo</button>
+											    
+										    </div>
+										    <div class="col-8">
+										      <div class="card-body">
+										        <h5 class="titulo_empresa" id="titulo_empresa">Card title</h5>
+										        <p class="decripcion_empresa" id="decripcion_empresa">
+										          This is a wider card with supporting text
+										        </p>
+										        <p class="card-text">
+										          <small class="text-muted descuento_empresa" id="descuento_empresa">Descuento 30%</small>
+										        </p>
+										      </div>
+										    </div>
+										  </div>
+										  </div>  -->
+									</div>
+								  </div>
+								  <div
+								    class="tab-pane fade"
+								    id="ex3-tabs-2"
+								    role="tabpanel"
+								    aria-labelledby="ex3-tab-2"
+								  >
+   	   									<div class="descuentos_socios_prod" style="max-width: 450px;">
+	
+										</div>
+								  </div>
+								
+								</div>
+								<!-- Tabs content -->
+						
+								
+
+
+							</div>
+						
+						</div>
+
+
+
+    </div>
+    </div>
+    
+    <script  src="#" th:src="@{/js/jquery-3.6.3.min.js}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.5.4/js/fileinput.min.js" ></script>
+
+	<!-- MDB -->
+	<script
+	  type="text/javascript"
+	  src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.1.0/mdb.umd.min.js"
+	></script>
+	
+  	<script
+		src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+    <script type="text/javascript">
+    
+    var nameEntity="../../RestSocios"
+    var nameEntity2="../../RestCatalogos"
+    
+    let id=document.getElementById("codigo").value;
+    console.log("id:",id)
+    $.get(nameEntity+'/findByNrodocumento/'+id, function(data) {
+		console.log('datos a cargar:',data)
+    		if (data.imagen!=null) {
+	  		    		$('.cont-imagen-socio').html(`
+	  		    				<img class=" imagen-socio " src="${nameEntity}/logo_socio/${data.imagen}" th:src="@{${nameEntity}/logo_socio/${data.imagen}}" th:href="@{${nameEntity}/logo_socio/${data.imagen}}"  alt="Imagen del Socio">
+	  		    		       	<div class="badge_socio">
+			            			<span class="badge bg-warning text-dark">LEGENDARIO</span>
+			            		</div>
+	  		    				`)
+			} else {
+ 		    		$('.cont-imagen-socio').html(`
+ 		    				<img class=" imagen-socio " src="../../img/user.png" th:src="@{../img/user.png}" th:href="@{../img/user.png}"  alt="Imagen del Socio">
+ 				            
+ 		    				`)
+			}
+//			$('#formulario2').loadJSON(data);
+			$('#targeta').find('input[name="id"]').val(data.id);
+			$('#targeta').find('input[name="codigo"]').val(data.codigo);
+			$('#targeta').find('input[name="ci"]').val(data.persona.ci);
+			$('#targeta').find('input[name="matricula"]').val(data.matricula);
+			$('#targeta').find('input[name="nombresocio"]').val(data.nombresocio);
+			$('#targeta').find('input[name="celular"]').val(data.persona.celular);
+			$('#targeta').find('input[name="fechaemision"]').val(data.fechaemision);
+			$('#targeta').find('input[name="fechaexpiracion"]').val(data.fechaexpiracion);
+
+		    $.each(data.catalogos, function (idx, item) {
+			 	if (item.estado==1) {
+			 		
+			 		
+			 		
+			 		console.log("cata:",item)
+			 		let tipo=""
+			 		
+			 		if (item.tipo=="s") {
+						tipo="SERVICIO"
+							$('.descuentos_socios_serv').append(`
+									<div  class=" card border shadow-0 p-1 m-1">
+									  <div class="row ">
+									    <div class="col-4" style="display: flex;flex-flow:wrap;justify-content: center;align-items: center;flex-direction:column;flex-flow: column; ">
+										   <!--  <label style="font-size: 10px;text-align: center;" >LOGO EMPRESA</label>-->
+										     <a href="${nameEntity2}/logo_empresa/${item.nombrelogo}" th:href="@{${nameEntity2}/logo_empresa/${item.nombrelogo}}" data-fancybox>
+												<img
+										        src="${nameEntity2}/logo_empresa/${item.nombrelogo}" th:href="@{${nameEntity2}/logo_empresa/${item.nombrelogo}}"
+										        alt="Trendy Pants and Shoes" 
+										        style="wid:100px;" class="img-thumbnail w-100" 
+										      />
+											</a>
+										<div class="card_boton_opc">
+											<button class="boton_card btn btn-primary btn-sm" onclick="mostrarCatalogo(${item.id})" data-mdb-ripple-init><i class="fa fa-picture-o" aria-hidden="true"></i></button>
+											<button class="boton_card btn btn-warning btn-sm" onclick="mostrarGPS(${item.latitud},${item.longitud},'${item.nombre}')" data-mdb-ripple-init ><i class="fa fa-map-marker" aria-hidden="true"></i></button>   
+										    
+									    </div> 
+									    </div>
+									    <div class="col-8">
+									      <div class="">
+									      	
+									        <h6 class="titulo_empresa" id="titulo_empresa"><b>${item.nombre}</b></h6>
+									        <p class="decripcion_empresa" id="decripcion_empresa">
+									          ${item.descripcion}
+									        </p>
+									        <p class="card-text">
+									         <span class="badge badge-info descuento_empresa">${item.descuento} % DESCUENTO</span>
+									        </p>
+									      </div>
+									    </div>
+									  </div>
+									  </div> 
+							`)
+			 		}else{
+						tipo="PRODUCTO"
+						$('.descuentos_socios_prod').append(`
+									<div  class=" card border  shadow-0 p-1 m-1">
+									  <div class="row ">
+									    <div class="col-4" style="display: flex;flex-flow:wrap;justify-content: center;align-items: center;flex-direction:column;flex-flow: column; ">
+										   <!--  <label style="font-size: 10px;text-align: center;" >LOGO EMPRESA</label>-->
+										    <a href="${nameEntity2}/logo_empresa/${item.nombrelogo}" th:href="@{${nameEntity2}/logo_empresa/${item.nombrelogo}}" data-fancybox>
+												<img
+										        src="${nameEntity2}/logo_empresa/${item.nombrelogo}" th:href="@{${nameEntity2}/logo_empresa/${item.nombrelogo}}"
+										        alt="Trendy Pants and Shoes" 
+										        style="wid:100px;" class="img-thumbnail w-100" 
+										      />
+											</a>
+											<div class="card_boton_opc">
+												<button class="boton_card btn btn-primary btn-sm" onclick="mostrarCatalogo(${item.id})" data-mdb-ripple-init><i class="fa fa-picture-o" aria-hidden="true"></i></button>
+												<button class="boton_card btn btn-warning btn-sm" onclick="mostrarGPS(${item.latitud},${item.longitud},'${item.nombre}')" data-mdb-ripple-init ><i class="fa fa-map-marker" aria-hidden="true"></i></button>   
+											    
+										    </div> 									    
+									    </div>
+									    <div class="col-8">
+									      <div class="">
+									        <h6 class="titulo_empresa" id="titulo_empresa"><b>${item.nombre}</b></h6>
+									        <p class="decripcion_empresa" id="decripcion_empresa">
+									          ${item.descripcion}
+									        </p>
+									        <p class="card-text">
+									          <span class="badge badge-info descuento_empresa">${item.descuento} % DESCUENTO</span>
+									        </p>
+									      </div>
+									    </div>
+									  </div>
+									  </div> 
+							`)
+					}
+// 			 		$('select[name="catalogos"]').append('<option value="' + item.id + '">' + 'EMPRESA [ '+ item.nombre+' ] - DESCUENTO [ '+ item.descuento +' % ] - TIPO [ '+tipo+' ]  </option>');
+			 		
+				}
+		    })
+					
+		    }, 'json');
+    
+    
+    	function mostrarCatalogo(id) {
+    		let id_d=id;
+    		console.log("ID:",id_d)
+    		$(".title-catalogo").html("")
+    		
+    		$.get("../../RestCatalogos"+'/buscar/'+id, function(data1) {
+    			console.log(data1)
+// 				$(".images_catalogo").html("")
+				$(".title-catalogo").html(data1.nombre+" - CATALOGO")
+				$(".rowimg").html("")
+				
+				let rowimg=$(".rowimg") 
+				$.each(data1.imagenesCatalogos, function (idx, item1) {
+					console.log("item1:",item1)
+					
+					rowimg.append(`
+							
+							<div class="col-md-12">
+						     <a href="${nameEntity2}/img_catalogos_empresa/${item1.imagen}" th:href="@{${nameEntity2}/img_catalogos_empresa/${item1.imagen}}" data-fancybox>
+								<img
+						        src="${nameEntity2}/img_catalogos_empresa/${item1.imagen}" th:href="@{${nameEntity2}/img_catalogos_empresa/${item1.imagen}}"
+						        alt="Trendy Pants and Shoes" 
+						         class="img-thumbnail w-100" 
+						      	/>
+				        	 </a>
+							</div>
+					
+					
+					`)
+				})
+				
+				
+
+				
+    			$('#modalAdicionar').modal('show');
+
+
+    		})
+    		
+			
+		}
+    	
+    	function mostrarGPS(lat, lng, title) {
+    		  const encodedTitle = encodeURIComponent(title);
+    		  const googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=${lat},${lng}(${encodedTitle})`;
+              window.open(googleMapsUrl, '_blank');
+              
+//               const encodedTitle = encodeURIComponent(title);
+//               const googleMapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}&destination_place_id=${encodedTitle}`;
+//               window.open(googleMapsUrl, '_blank');
+    		}
+    	
+    </script>
+</body>
+
+</html>

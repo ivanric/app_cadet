@@ -115,68 +115,133 @@ public class CatalogoServiceImpl extends GenericServiceImplNormal<CatalogoEntity
       }
 	}
 
+
 	
-    @Override
-    @Transactional
-    public CatalogoEntity save(CatalogoEntity entity) throws Exception {
-        try{
-        	System.out.println("EntitySAVE_Servicio:"+entity.toString());
-        	
-        	//ADD PERSONA
-//        	MultipartFile logo=entity.get;
-//        	System.out.println("LOGONOMBRE:"+logo.getOriginalFilename());
-        	System.out.println("LOGO: "+entity.getLogo().getOriginalFilename());
-//        	for (MultipartFile file: entity.getCatalogo()) {
-//				System.out.println("CATALOGO:"+file.getOriginalFilename());
-//			}
-        	
-        	List<ImagenesCatalogoEntity> array_imagenes_catalogo=new ArrayList<>();
-        	
-        	if(entity.getCatalogo()!=null) {
-        	  	if (!entity.getCatalogo().isEmpty()) {
+	
+	@Override
+	@Transactional
+	public CatalogoEntity save(CatalogoEntity entity) throws Exception {
+	    try {
+	        System.out.println("EntitySAVE_Servicio:" + entity.toString());
 
-            		for (int i = 0; i < entity.getCatalogo().size(); i++) {
-                		ImagenesCatalogoEntity imagenesCatalogoEntity=new ImagenesCatalogoEntity();
-                		imagenesCatalogoEntity.setId(ImagenCatalogoRepository.getIdPrimaryKey());
-                		imagenesCatalogoEntity.setCodigo(ImagenCatalogoRepository.getCodigo());
-                		
-                		MultipartFile catalogoitem=entity.getCatalogo().get(i);
-                		System.out.println("CATALOGO:"+catalogoitem.getOriginalFilename());
-                		
-                		String nombre="cat-isert-"+this.ImagenCatalogoRepository.getCodigo()+catalogoitem.getOriginalFilename().substring(catalogoitem.getOriginalFilename().lastIndexOf('.'));
-        				String nombreLogoCatalogo=archivoService.guargarArchivo(Constantes.nameFolderImgCatalogo,catalogoitem,nombre);
-        				imagenesCatalogoEntity.setImagen(nombreLogoCatalogo);
-        				imagenesCatalogoEntity.setEstado(1);
-        				
-        				ImagenesCatalogoEntity imagenesCatalogoEntity2=ImagenCatalogoRepository.save(imagenesCatalogoEntity);
-        				array_imagenes_catalogo.add(imagenesCatalogoEntity2);
-            		}
-    			}
+	        List<ImagenesCatalogoEntity> array_imagenes_catalogo = new ArrayList<>();
+
+	        // Guardar imágenes del catálogo
+	        if (entity.getCatalogo() != null && !entity.getCatalogo().isEmpty()) {
+	            for (int i = 0; i < entity.getCatalogo().size(); i++) {
+	                ImagenesCatalogoEntity imagenesCatalogoEntity = new ImagenesCatalogoEntity();
+	                imagenesCatalogoEntity.setId(ImagenCatalogoRepository.getIdPrimaryKey());
+	                imagenesCatalogoEntity.setCodigo(ImagenCatalogoRepository.getCodigo());
+
+	                MultipartFile catalogoitem = entity.getCatalogo().get(i);
+	                System.out.println("CATALOGO:" + catalogoitem.getOriginalFilename());
+
+	                // Guardar en el sistema de archivos local
+	                String nombreLocal = "cat-isert-" + this.ImagenCatalogoRepository.getCodigo() +
+	                                     catalogoitem.getOriginalFilename().substring(catalogoitem.getOriginalFilename().lastIndexOf('.'));
+	                
+	                
+//	                String nombreLogoCatalogoLocal = archivoService.guargarArchivo(Constantes.nameFolderImgCatalogo, catalogoitem, nombreLocal);
+//	                imagenesCatalogoEntity.setImagen(nombreLogoCatalogoLocal);
+	                imagenesCatalogoEntity.setImagen(nombreLocal);
+
+	                // Guardar en Google Drive
+	                String idArchivoCatalogoDrive = archivoService.guargarArchivoDrive(Constantes.nameFolderImgCatalogo, catalogoitem, nombreLocal);
+	                imagenesCatalogoEntity.setImagenDriveId(idArchivoCatalogoDrive);
+
+	                imagenesCatalogoEntity.setEstado(1);
+
+	                ImagenesCatalogoEntity imagenesCatalogoEntity2 = ImagenCatalogoRepository.save(imagenesCatalogoEntity);
+	                array_imagenes_catalogo.add(imagenesCatalogoEntity2);
+	            }
+	        }
+
+	        entity.setImagenesCatalogos(array_imagenes_catalogo);
+
+	        entity.setId(catalogoRepository.getIdPrimaryKey());
+	        entity.setCodigo(catalogoRepository.getCodigo());
+
+	        // Guardar logo
+	        if (!entity.getLogo().isEmpty()) {
+	            String nombreLocal = "cod-" + this.catalogoRepository.getCodigo() +
+	                                 entity.getLogo().getOriginalFilename().substring(entity.getLogo().getOriginalFilename().lastIndexOf('.'));
+
+	            // Guardar en el sistema de archivos local
+//	            String nombreLogoLocal = archivoService.guargarArchivo(Constantes.nameFolderLogoCatalogo, entity.getLogo(), nombreLocal);
+//	            entity.setNombrelogo(nombreLogoLocal);
+	            entity.setNombrelogo(nombreLocal);
+
+	            // Guardar en Google Drive
+	            String idArchivoLogoDrive = archivoService.guargarArchivoDrive(Constantes.nameFolderLogoCatalogo, entity.getLogo(), nombreLocal);
+	            entity.setNombrelogoDriveId(idArchivoLogoDrive);
+	        }
+
+	        System.out.println("EntityPost:" + entity.toString());
+	        entity = catalogoRepository.save(entity);
+	        return entity;
+	    } catch (Exception e) {
+	        // Considera agregar más detalles en el mensaje de error
+	        throw new Exception("Error al guardar el catálogo: " + e.getMessage(), e);
+	    }
+	}
 
 
-        	}
-        	entity.setImagenesCatalogos(array_imagenes_catalogo);
-        	
-        	entity.setId(catalogoRepository.getIdPrimaryKey());
-        	entity.setCodigo(catalogoRepository.getCodigo());
-        	
-        	if (!entity.getLogo().isEmpty()) {
-        		String nombre="cod-"+this.catalogoRepository.getCodigo()+entity.getLogo().getOriginalFilename().substring(entity.getLogo().getOriginalFilename().lastIndexOf('.'));
-//    			
-				String nombreLogo=archivoService.guargarArchivo(Constantes.nameFolderLogoCatalogo,entity.getLogo(),nombre);
-				entity.setNombrelogo(nombreLogo);
-			}
+	/*
+	@Override
+	@Transactional
+	public CatalogoEntity save(CatalogoEntity entity) throws Exception {
+	    try {
+	        System.out.println("EntitySAVE_Servicio:" + entity.toString());
 
-        	System.out.println("EntityPost:"+entity.toString());
-            entity = catalogoRepository.save(entity);
-            return entity;
-        } catch (Exception e){
-            throw new Exception(e.getMessage());
-        }
-    }
-    
-    
-    
+	        List<ImagenesCatalogoEntity> array_imagenes_catalogo = new ArrayList<>();
+
+	        // Guardar las imágenes de catálogo en Google Drive
+	        if (entity.getCatalogo() != null) {
+	            if (!entity.getCatalogo().isEmpty()) {
+	                for (int i = 0; i < entity.getCatalogo().size(); i++) {
+	                    ImagenesCatalogoEntity imagenesCatalogoEntity = new ImagenesCatalogoEntity();
+	                    imagenesCatalogoEntity.setId(ImagenCatalogoRepository.getIdPrimaryKey());
+	                    imagenesCatalogoEntity.setCodigo(ImagenCatalogoRepository.getCodigo());
+
+	                    MultipartFile catalogoitem = entity.getCatalogo().get(i);
+	                    System.out.println("CATALOGO:" + catalogoitem.getOriginalFilename());
+
+	                    String nombre = "cat-isert-" + this.ImagenCatalogoRepository.getCodigo() +
+	                                    catalogoitem.getOriginalFilename().substring(catalogoitem.getOriginalFilename().lastIndexOf('.'));
+	                    String idArchivoCatalogo = archivoService.guargarArchivoDrive(Constantes.nameFolderImgCatalogo, catalogoitem, nombre);
+	                    imagenesCatalogoEntity.setImagen(idArchivoCatalogo);  // Guardar el ID del archivo en Google Drive
+	                    imagenesCatalogoEntity.setEstado(1);
+
+	                    ImagenesCatalogoEntity imagenesCatalogoEntity2 = ImagenCatalogoRepository.save(imagenesCatalogoEntity);
+	                    array_imagenes_catalogo.add(imagenesCatalogoEntity2);
+	                }
+	            }
+	        }
+
+	        entity.setImagenesCatalogos(array_imagenes_catalogo);
+
+	        entity.setId(catalogoRepository.getIdPrimaryKey());
+	        entity.setCodigo(catalogoRepository.getCodigo());
+
+	        // Guardar el logo en Google Drive
+	        if (!entity.getLogo().isEmpty()) {
+	            String nombre = "cod-" + this.catalogoRepository.getCodigo() +
+	                            entity.getLogo().getOriginalFilename().substring(entity.getLogo().getOriginalFilename().lastIndexOf('.'));
+
+	            String idArchivoLogo = archivoService.guargarArchivoDrive(Constantes.nameFolderLogoCatalogo, entity.getLogo(), nombre);
+	            entity.setNombrelogo(idArchivoLogo);  // Guardar el ID del archivo en Google Drive
+	        }
+
+	        System.out.println("EntityPost:" + entity.toString());
+	        entity = catalogoRepository.save(entity); 
+	        return entity;
+	    } catch (Exception e) {
+	    	e.printStackTrace();
+	        throw new Exception(e.getMessage());
+	    }
+	}
+*/
+    /*
 	@Override
 	@Transactional
 	public CatalogoEntity update(Integer id, CatalogoEntity entity) throws Exception {
@@ -233,7 +298,88 @@ public class CatalogoServiceImpl extends GenericServiceImplNormal<CatalogoEntity
 			throw new Exception(e.getMessage());
 		}
 	}
-    
+    */	
+	
+	@Override
+	@Transactional
+	public CatalogoEntity update(Integer id, CatalogoEntity entity) throws Exception {
+	    try {
+	        System.out.println("Modificar Entity Service: " + entity.toString());
+	        // Obtener el catálogo existente
+	        CatalogoEntity catalogoEntity2 = catalogoRepository.findById(id).get();
+	        System.out.println("CATALOGO BD: " + catalogoEntity2.toString());
+	        List<ImagenesCatalogoEntity> array_imagenes_catalogo = new ArrayList<>();
+
+	        // Eliminar imágenes del catálogo
+	        if (entity.getCatalogo() != null) {
+	            if (!entity.getCatalogo().isEmpty()) {
+	                // Eliminar imágenes locales y en Google Drive
+	                for (ImagenesCatalogoEntity imgEntity : catalogoEntity2.getImagenesCatalogos()) {
+	                    String nombreImagen = imgEntity.getImagen();
+	                    // Eliminar archivo local
+//	                    this.archivoService.eliminarArchivo(Constantes.nameFolderImgCatalogo, nombreImagen);
+	                    // Eliminar archivo en Google Drive
+	                    this.archivoService.eliminarArchivoDrive(Constantes.nameFolderImgCatalogo, nombreImagen);
+	                    this.ImagenCatalogoRepository.delete(imgEntity);
+	                }
+	                
+	                System.out.println("LISTA CATALOGOS TAM: " + entity.getCatalogo().size());
+	                // Agregar nuevas imágenes
+	                for (MultipartFile catalogoitem : entity.getCatalogo()) {
+	                    ImagenesCatalogoEntity imagenesCatalogoEntity = new ImagenesCatalogoEntity();
+	                    imagenesCatalogoEntity.setId(ImagenCatalogoRepository.getIdPrimaryKey());
+	                    imagenesCatalogoEntity.setCodigo(ImagenCatalogoRepository.getCodigo());
+
+	                    String nombre = "cat-modif-" + catalogoEntity2.getCodigo() + "-" + this.ImagenCatalogoRepository.getCodigo() + catalogoitem.getOriginalFilename().substring(catalogoitem.getOriginalFilename().lastIndexOf('.'));
+	                    System.out.println("NOMBRECATALOGOLOG: " + nombre);
+
+	                    // Guardar archivo local
+//	                    String nombreLogoCatalogo = archivoService.guargarArchivo(Constantes.nameFolderImgCatalogo, catalogoitem, nombre);
+//	                    imagenesCatalogoEntity.setImagen(nombreLogoCatalogo);
+	                    imagenesCatalogoEntity.setImagen(nombre);
+	                    // Guardar archivo en Google Drive
+	                    String idArchivoCatalogoDrive=archivoService.guargarArchivoDrive(Constantes.nameFolderImgCatalogo, catalogoitem, nombre);
+	                    imagenesCatalogoEntity.setImagenDriveId(idArchivoCatalogoDrive);
+	                    
+	                    
+	                    imagenesCatalogoEntity.setEstado(1);
+
+	                    ImagenesCatalogoEntity imagenesCatalogoEntity2 = ImagenCatalogoRepository.save(imagenesCatalogoEntity);
+	                    array_imagenes_catalogo.add(imagenesCatalogoEntity2);
+	                }
+	            }
+	        }
+
+	        entity.setImagenesCatalogos(array_imagenes_catalogo);
+
+	        // Actualizar el logo
+	        if (!entity.getLogo().isEmpty()) {
+	            // Eliminar logo local
+	            this.archivoService.eliminarArchivo(Constantes.nameFolderLogoCatalogo, catalogoEntity2.getNombrelogo());
+	            // Eliminar logo en Google Drive
+	            this.archivoService.eliminarArchivoDrive(Constantes.nameFolderLogoCatalogo, catalogoEntity2.getNombrelogo());
+
+	            String nombre = "mod-" + catalogoEntity2.getCodigo() + entity.getLogo().getOriginalFilename().substring(entity.getLogo().getOriginalFilename().lastIndexOf('.'));
+	            
+//	            String nombreLogo = archivoService.guargarArchivo(Constantes.nameFolderLogoCatalogo, entity.getLogo(), nombre);
+//	            entity.setNombrelogo(nombreLogo);
+	            entity.setNombrelogo(nombre);
+	            // Guardar nuevo logo en Google Drive
+	            String idArchivoLogoDrive= archivoService.guargarArchivoDrive(Constantes.nameFolderLogoCatalogo, entity.getLogo(), nombre);
+	            entity.setNombrelogoDriveId(idArchivoLogoDrive);
+	            
+	            
+	        }
+
+	        entity = genericRepository.save(entity);
+	        return entity;
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        System.out.println(e.getMessage());
+	        throw new Exception(e.getMessage());
+	    }
+	}
+
 
 
 }

@@ -1,0 +1,1170 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{inicio}">
+<head>
+<title>CATALOGOS</title>
+<meta http-equiv="Content-Type" content="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="">
+<link rel="icon" href="./img/logo_cadet.png" type="image/png">
+<meta name="author" content="">
+<style>
+.selected {
+	background-color: #B0BED9;
+}
+
+.contenido_gestion {
+	padding: 20px 10px 0px 10px;
+}
+ 
+.ocultar {
+    display: none;
+}
+ 
+.mostrar {
+    display: block;
+}
+
+td {
+    vertical-align: middle !important;
+}
+/* s */
+.hide-remove {
+    display: none !important;
+}
+
+.mi_mapa{
+	width: auto;
+	height: 300px;
+}
+</style>
+</head>
+<body layout:fragment="content">
+	<form name="formulariogps" role="form" id="formulariogps" method="post"
+		enctype="multipart/form-data" data-fv-excluded="disabled">
+
+		<div class="modal fade" id="modalgps" tabindex="-1"
+			role="dialog" data-backdrop="static" data-keyboard="false"
+			aria-hidden="true" style="display: none; padding-left: 0;z-index: 1057">
+
+			<div class="modal-dialog modal-xl" role="document">
+				<div class="modal-content">
+					<div class="card">
+				      	<div class="modal-header">
+					        <h5 class="modal-title">Seleccionar Mapa</h5>
+					        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				      	</div>
+						<div class="modal-body">
+							<div class="row">
+								<div class="col-md-12">
+									<div class="row">
+										<div class="col-md-4">
+											<div class="mb-1">
+												<input placeholder="longitud" readonly="readonly"
+													class="form-control fg-input data-per field_css"
+													name="longitud" type="text" required="required" onkeyup="this.value = this.value.toUpperCase();">
+											</div>
+		
+										</div>
+										
+										<div class="col-md-4">
+											<div class="mb-1">
+												<input placeholder="latitud" readonly="readonly"
+													class="form-control fg-input data-per field_css"
+													name="latitud" type="text" required="required" onkeyup="this.value = this.value.toUpperCase();">
+											</div>
+		
+										</div>
+										<div class="col-md-4">
+											<div class="mb-1">
+												<button type="button" class="btn btn-success" data-bs-dismiss="modal" aria-label="Close">Aceptar</button>
+											</div>
+		
+										</div>
+									</div>
+								</div>
+								<div class="col-md-12">
+	
+
+								</div>
+							</div>
+
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+
+	<form name="formulario" role="form" id="formulario" method="post"
+		enctype="multipart/form-data" data-fv-excluded="disabled">
+
+		<div class="modal fade" id="modalAdicionar" tabindex="-1"
+			role="dialog" data-backdrop="static" data-keyboard="false"
+			aria-hidden="true" style="display: none; padding-left: 0">
+
+			<div class="modal-dialog modal-fullscreen" role="document">
+				<div class="modal-content">
+					<div class="card">
+						<div class="modal-header" style="display: flex;flex-direction: column;">
+							<span><b>.:EMPRESA:.</b></span>
+							<div class="opciones_btn_modal" style="display: flex"></div>
+						</div>
+						<div class="modal-body">
+
+							<div id="div_put"></div>
+							<input type="" name="id" value="" style="display: none"> 
+							<input type="" name="codigo" value="" style="display: none"> 
+							<input type="" name="estado" value="1" style="display: none"> 
+							
+							<div class="row">
+								<div  class="col-md-5">
+									<div class="row">
+										<div class="col-md-12">
+											<div class="mb-1">
+												<label for="logo" class=""><b>LOGO EMPRESA</b></label>
+												<input placeholder="Ingrese logo"
+													class="form-control fg-input data-per field_css"
+													name="logo" id="logo" type="file" required="required">
+											</div>
+		
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-md-12">
+											<div class="mb-1">
+												<label for="exampleFormControlInput1" class=""><b>Nombre</b></label>
+												<input placeholder="Ingrese nombre de empresa"
+													class="form-control fg-input data-per field_css"
+													name="nombre" type="text" required="required" onkeyup="this.value = this.value.toUpperCase();">
+											</div>
+		
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-md-12">
+											<div class="mb-1">
+												<label for="exampleFormControlInput1" class=""><b>Descripción</b></label>
+												<textarea rows="" cols="" placeholder="Ingrese el descripcion " 
+													class="form-control fg-input data-per field_css" name="descripcion" id="descripcion"
+														required="required"></textarea>
+											</div>
+		
+										</div>
+									</div>
+
+									<div class="row">
+										<div class="col-md-12">
+											<div class="mb-1">
+												<label for="exampleFormControlInput1" class=""><b>Descuento(%)</b></label>
+												<input placeholder="descuento.."
+													class="form-control fg-input data-per field_css"
+													name="descuento" type="number" required="required">
+											</div>
+		
+										</div>
+									</div>
+									
+									<div class="row">
+										<div class="col-md-12">
+											<div class="mb-1">
+												<label for="exampleFormControlInput1" class=""><b>Tipo</b></label>
+													<select required="required" class="form-select field_css" aria-label=".form-select-sm example" id="tipo" name="tipo"> 
+													  <option selected value="">Seleccionar</option>
+													  <option  value="s">SERVICIO</option>
+													  <option  value="p">PRODUCTO</option>
+													 
+													</select>
+											</div>
+		
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-md-2">
+											<div class="mb-1">
+												<label for="exampleFormControlInput1" class=""><b>GPS:</b></label>
+												<button 
+													class="form-control btn btn-success data-per field_css" data-mdb-ripple-init
+													name="buscar" type="button"  onclick="seleccionarmapa()">MAPA</button>
+											</div>
+		
+										</div>
+										<div class="col-md-2">
+											<div class="mb-1">
+												<label for="exampleFormControlInput1" class=""><b>MAPA:</b></label>
+												<button 
+													class="form-control btn btn-warning data-per field_css" data-mdb-ripple-init
+													name="buscar" type="button"  onclick="resetmapa()">CENTRAR</button>
+											</div>
+		
+										</div>
+										<div class="col-md-4">
+											<div class="mb-1">
+												<label for="exampleFormControlInput1" class=""><b>Longitud</b></label>
+												<input placeholder="longitud" readonly="readonly"
+													class="form-control fg-input data-per field_css"
+													name="longitud" type="text" required="required" onkeyup="this.value = this.value.toUpperCase();">
+											</div>
+		
+										</div>
+										
+										<div class="col-md-4">
+											<div class="mb-1">
+												<label for="exampleFormControlInput1" class=""><b>Latitud</b></label>
+												<input placeholder="latitud" readonly="readonly"
+													class="form-control fg-input data-per field_css"
+													name="latitud" type="text" required="required" onkeyup="this.value = this.value.toUpperCase();">
+											</div>
+		
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-md-12">
+	
+											<div class="mb-1">
+												<div class="mi_mapa" id="mi_mapa">
+									
+												</div>
+												
+												<label for="exampleFormControlInput1" class=""><b>Dirección</b></label>
+												<input placeholder="Describa la direccion"
+													class="form-control fg-input data-per field_css"
+													name="direccion" type="text" required="required" onkeyup="this.value = this.value.toUpperCase();">
+										
+											</div>
+		
+										</div>
+									</div>
+								</div>
+								<div  class="col-md-7">
+									<div class="row">
+										<div class="col-md-12">
+											<div class="mb-3">
+												<label for="logo" class="form-label"><b>CATALOGO</b></label>
+												<input placeholder="Ingrese catalogo"
+													class="form-control fg-input data-per field_css"
+													name="catalogo" id="catalogo" type="file" multiple="multiple" required="required">
+											</div>
+		
+										</div>
+									</div>
+								</div>
+							</div>
+							
+
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+
+	<nav class="navbar navbar-light bg-light">
+		<div class="container-fluid">
+			<span class="navbar-text"><b> .:EMPRESAS:. </b>  </span>
+		</div>
+	</nav>
+	<div class="contenido_gestion">
+		<div class="panel-body">
+			<div class="row">
+				<div class="col-md-12">
+
+					<div class="row" style="margin-bottom: 10px;">
+						<div class="col-md-3 col-xs-12">
+							<input type="text" id="js_filtro" name="" class="form-control"
+								placeholder=" Buscar por nombre de empresa..">
+						</div>
+
+						<div class="col-md-4 col-xs-12" style="text-align: right;">
+							<div class="opciones_estado"></div>
+							<div class="form-check form-check-inline">
+								<input type="radio" class="form-check-input " name="iestado" id="activos" value="1" autocomplete="off" checked>
+								<label for="activos">habilitados</label>
+							</div>
+							<div class="form-check form-check-inline">
+								<input type="radio" class="form-check-input" name="iestado"
+										id="inactivo" value="0" autocomplete="off"> 
+								<label for="inactivo">deshabilitados</label>
+							</div>
+						</div>
+						<div class="col-md-3 col-xs-12" style="text-align: right;">
+							<div>
+								<span class="opciones_btn_nuevo"></span> 
+								<span class="opciones_btn_eliminar"></span> 
+								<span class="opciones_btn_habilitar"></span>
+
+							</div>
+
+						</div>
+					</div>
+				</div>
+				<div class="col-md-12 table-responsive">
+					<table id="table"
+						class="table  table-hover table-bordered  table-sm"
+						style="width: 100%; background: white;">
+						<thead class="table-dark">
+							<tr>
+								<th width="">ID</th>
+								<th>EMPRESA</th>
+								<th>DIRECCION</th>
+								<th>DESCUENTO</th>
+								<th>TIPO</th>
+								<th>ESTADO</th>
+						</thead>
+						<tbody>
+
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<script type="text/javascript">
+		var GOPCION=""
+// 		var result=Get_Opciones(null);
+		var GID=""
+		var GSEARCH=""
+		var GESTADO='';
+		var DTtable=''
+		var nameEntity="../RestCatalogos"
+		let G_JSON_ENTITY=null;
+		let G_JSON_PERSONA_ENTITY=null;
+		
+		let G_JSON_IMAGENES=null;
+		let G_ARRAY_IMAGENES=null;
+// 	    function ExisteOpcion(opc){
+// 	        var resultado=false;
+// 	        for (var i = 0; i < result.AccionesUser.length; i++) {
+// 	            if(result.AccionesUser[i].codigo==opc){
+// 	                resultado=true;         
+// 	            }
+// 	        }          
+// 	        return resultado;
+// 	    }
+		$('#formulario').find('input[name="logo"]').fileinput({
+		  	language:'es'
+		});
+
+		$('#formulario').find('input[name="catalogo"]').fileinput({
+		  	language:'es'
+// 		  	,showUpload: false
+// 		  	,showCaption: true,
+//          showCancel: true
+		});
+		
+		GSEARCH=$('#js_filtro').val()
+		GESTADO=$('input[name="iestado"]:checked').val();
+		
+		
+// 		listarTable()
+		$('#js_filtro').on('keyup',function(){
+			GSEARCH=$(this).val()
+// 			console.log(GSEARCH)
+
+		})
+		
+        
+		
+
+        $('input[name="iestado"]').on('change',function(){
+        	GESTADO=$('input[name="iestado"]:checked').val();
+        	GSEARCH=$('#js_filtro').val()
+        	setButtonCrud(GESTADO)
+        	GDATO="";//para que al momento de eliminar o habilitar se tenga que seleccionar un registro de la tabla
+        	$('#table').dataTable().fnDraw('page');
+        })
+
+        
+        DTtable=$('#table').DataTable({
+            "oLanguage": {
+                     "sUrl": "../js/Spanish.lang"
+
+            }
+        ,
+            "dom":'rt<button>ip',
+            "pageLength":10,
+             responsive:true,
+            "processing": true,
+            "serverSide": true, 
+            
+            "ajax": {
+            "type": "GET",
+              "url": nameEntity+""+"/listar",
+          	"data": function ( d ) {
+                    d.estado = GESTADO
+                    // d.estado = 1;
+                    // filtro:filtro
+             }
+            }
+            ,
+            "columns": [
+                { "data": "id" },
+                { "data": "id" },
+                { "data": "id" },
+                { "data": "id" },
+                { "data": "id" },
+                { "data": "id" }
+      		]
+            ,
+            "createdRow":function(row,data,index){
+//                 console.log(data)
+//             	$('td',row).eq(0).html(
+//             			`
+//             			<div style="">
+// 							<a href="../logos/${data.nombrelogo}" th:href="@{/logos/${data.nombrelogo}}" data-fancybox>
+// 								<img src="../logos/${data.nombrelogo}" th:src="@{/logos/${data.nombrelogo}}" alt="" class="img-thumbnail rounded img-fluid" style="">	
+// 							</a>
+// 						</div>
+//             			`
+//             			+""
+//             			+`<input type="hidden" value="${data.id}" class="idhidden">`
+//             	).addClass('text-center');
+            	$('td',row).eq(0).html(
+            			`
+            				${index+1}
+            			`
+            			+""
+            			+`<input type="hidden" value="${data.id}" class="idhidden">`
+            	).addClass('text-center');
+                $('td',row).eq(1).html(data.nombre).addClass('text-center');
+                $('td',row).eq(2).html(data.direccion).addClass('text-center');
+                $('td',row).eq(3).html(data.descuento+" %").addClass('text-center');
+				let dtipo=''
+					if (data.tipo=="s") {
+						dtipo='SERVICIO'
+					}else{
+						dtipo='PRODUCTO'
+					}
+			    $('td',row).eq(4).html(dtipo).addClass('text-center');
+				let destado=''
+				if (data.estado==1) {
+					destado='<span class="badge text-bg-success" style="">HABILITADO</span>'
+				}else{
+					destado='<span class="badge text-bg-warning" style="">DESHABILITADO</span>'
+				}
+// 				$('td',row).eq(2).html(destado);
+                
+                $('td',row).eq(5).html(destado).addClass('text-center');
+  
+            } 
+        
+            ,
+            "drawCallback":function(settings){
+ 	   
+                
+// //                 $('button[data-toggle="tooltip"]').tooltip({animated: 'fade',placement: 'bottom',});
+                
+            	$('#js_filtro').on( 'keyup', function () {
+                    DTtable.search(this.value ).draw();
+                }) 
+
+            }
+        });
+        
+		
+
+
+
+		setButtonCrud(GESTADO)
+		function setButtonCrud(estado) {
+			if (estado==1) {
+				$('.opciones_btn_habilitar').html("")
+// 		 	    if(ExisteOpcion('adicionar')){
+			        $('.opciones_btn_nuevo').html(`<button id="btnAdicionar" class="btn btn-success  btn-md waves-effect " onclick="funtNewFormModal()" style="margin: 0 2px;">Nuevo</button>`)  
+// 			    }
+
+			}else{
+// 			    if(ExisteOpcion('habilitar')){
+			    	$('.opciones_btn_nuevo').html('')
+			    	$('.opciones_btn_eliminar').html('')
+			        $('.opciones_btn_habilitar').html(`<button id="btnHabilitar" class="btn btn-info  btn-md waves-effect" style="margin: 0 2px;" onclick="funtUpdateRow()">Habilitar</button>`)  
+// 			    }
+			}
+		}
+		
+		
+	  //INICIO QUERY PRINCIPAL
+
+			
+			//eventos
+			var GDATO="";
+			//click en la tabla
+			$('#table tbody').on( 'click dblclick', 'tr', function (e) {
+				
+				if(e.type=='dblclick'){//mostramos el modal para el CRUD
+// 					console.log($(this).find("td:eq(1)").text());
+					
+					addDisabledForm()
+					opcionesCrudModal();
+					getEntityId()
+	        	    
+
+					
+					
+					let G_JSON_ENTITY=new Object();
+					
+					
+	          		$('#modalAdicionar').modal('show');
+				}
+				
+// 				console.log("GESTADO:",GESTADO)
+// 				console.log('event?? ', e);
+				var row = $(this).closest('tr');
+// 				console.log('row:',row);
+				var idr = parseInt(row.find('.idhidden').val(), 10);
+// 				console.log('idr:',idr);
+          		 if ( $(this).hasClass('selected') ) {
+                       $(this).removeClass('selected');
+                       GDATO=""
+                  }
+                  else {
+                      $('#table tr.selected').removeClass('selected');
+                      $(this).addClass('selected');
+                      
+           	          	 GDATO=$(this).find("td:eq(0)").text();
+//                    console.log('GDATO:',GDATO);
+                      
+                  }
+
+				GID=idr
+// 				console.log('GID:',GID);
+			})
+			
+
+			function JsonDataForm() {
+				var serialized = $('#formulario').serializeArray();
+		        var s = '';
+		        var data = new Object();
+				data.celular=$("input[name='celular']").val();
+				data.ci=$("input[name='ci']").val();
+				data.email=$("input[name='email']").val();
+				var estado_data=parseInt($("input[name='estado']").val());
+// 				console.log('estado_data:',estado_data)
+				data.estado=1;
+				data.id=null;
+				data.nombrecompleto=$("input[name='nombrecompleto']").val();
+				data.password=$("input[name='password']").val();
+				
+
+		        return data;
+			}
+
+			
+			function funtNewFormModal() {
+				$('.field_css').removeAttr('disabled') 
+				opcionesNuevo()
+				getEntityIdNew()
+	
+       			$('#modalAdicionar').modal('show');
+			}
+			function funtDeleteRow() {
+				if (GDATO!="" ) {
+					updateStatusEntity(1)//si quiero dar de baja pongo 1
+				}else{
+					alert("!seleccione un registro de la lista para eliminar el registro!")
+				}
+			}
+			function funtUpdateRow() {
+				if (GDATO!="" ) {
+					updateStatusEntity(0)//si quiero dar de baja pongo 0
+				}else{
+					alert("!seleccione un registro de la lista para habilitar el registro!")
+				}
+			}
+			
+			$('#btnEditar').click(function(){
+// 				console.log(GDATO)
+				if (GDATO!="" ) {
+					opcionesEditarForm()
+					getEntityId()
+					removeDisabledForm()
+	       			$('#modalAdicionar').modal('show');
+				}else{
+					alert("!seleccione un registro de la lista para editar!")
+				}
+				
+			})
+			function addDisabledForm() {
+				
+				$('body .field_css').attr('disabled', 'disabled');
+			}
+			function removeDisabledForm() {
+				
+				$('.field_css').removeAttr('disabled');
+			}
+			function addActionform(action) {
+				$('#formulario').removeAttr("action")
+				$('#formulario').attr("action",action)
+				
+			}
+			function addPutForm(value) {
+				$('#formulario #div_put').html("")
+				
+				if(value!== undefined){
+				//+console.log("value",value)
+					$('#formulario #div_put').html(`<input type="hidden" name="_method" value="PUT">`)
+				}
+			}
+			
+			function nuevo() {
+				opcionesNuevo()
+				getEntityIdNew()
+				removeDisabledForm()
+			}
+			function editar() {
+				opcionesEditarForm()
+				getEntityId()
+                removeDisabledForm()
+			}
+			function eliminar() {
+				updateStatusEntity(1)
+
+			}
+			function opcionesNuevo() {
+				GOPCION="ADD"
+					$('.opciones_btn_modal').html('')
+                $('.opciones_btn_modal').html(`<button id="btnGuardar_modal" type="submit"  class="btn btn-success  btn-xs btn-sm waves-effect" style="margin: 0 2px;">Guardar</button>`)  
+       	        $('.opciones_btn_modal').append(`<button id="btnCancelar_modal"  type="button"  data-bs-dismiss="modal" aria-label="Close" class="btn btn-danger   btn-xs btn-sm waves-effect" style="margin: 0 2px;">Cancelar</button>`)  
+                addActionform(nameEntity)
+//        	        $('#formulario').data('formValidation').resetForm(true);
+				
+                var opciones = document.getElementById("tipo").getElementsByTagName("option");
+				 for(var i = 0; i < opciones.length; i++) {
+				   opciones[i].removeAttribute("selected");
+				 }
+				//seleccionar el primero elementos de select_proveedor
+               var select = document.getElementById("tipo");
+               var primerOpcion = select.getElementsByTagName("option")[0]; // Ã�ndice de la primera opciÃ³n es 0
+               primerOpcion.setAt
+                $('#formulario')[0].reset();
+			}
+			function opcionesEditarForm() {
+				GOPCION="EDIT"
+					$('.opciones_btn_modal').html('')
+                $('.opciones_btn_modal').html(`<button id="btnGuardar_modal" type="submit"  class="btn btn-success  btn-xs btn-sm waves-effect" style="margin: 0 2px;">Guardar</button>`)  
+       	        $('.opciones_btn_modal').append(`<button id="btnCancelar_modal"  type="button" data-bs-dismiss="modal" aria-label="Close" class="btn btn-danger   btn-xs btn-sm waves-effect" style="margin: 0 2px;">Cancelar</button>`)  
+                addActionform(nameEntity)
+//        	        $('#formulario').data('formValidation').resetForm(true);
+                $('#formulario')[0].reset();
+                
+               
+			}
+			function getEntityId() {
+//                 console.log('pedir roles mod')
+            	var check=""
+            	
+           	    let elem_prov = document.getElementById("tipo").getElementsByTagName("option");
+			    for(var i = 0; i < elem_prov.length; i++) {
+			    	elem_prov[i].removeAttribute("selected");
+			    }  	
+          		$('.roles_sistema').html('')
+
+          		$.get(nameEntity+'/'+GID, function(data) {
+//           			console.log('datos a modificar:',data)
+					G_JSON_ENTITY=data;
+					console.log("G_JSON_ENTITY_MMODIFICAR :",G_JSON_ENTITY)
+//           			$('#formulario').loadJSON(data);
+          			$('#formulario').find('input[name="id"]').val(data.id);
+          			$('#formulario').find('input[name="codigo"]').val(data.codigo);
+          			$('#formulario').find('input[name="nombre"]').val(data.nombre);
+          			$('#formulario').find('textarea[name="descripcion"]').text(data.descripcion);
+          			$('#formulario').find('input[name="direccion"]').val(data.direccion);
+          			$('#formulario').find('input[name="descuento"]').val(data.descuento);
+          			$('#formulario').find('input[name="longitud"]').val(data.longitud);
+          			$('#formulario').find('input[name="latitud"]').val(data.latitud);
+         			document.querySelectorAll("#tipo > option").forEach(function(option) {
+           			    if (option.value == data.tipo) {
+           			        option.selected = true;
+           			    }
+           			});
+         			
+         			
+         			var xhr1 = new XMLHttpRequest();
+         			let nombrelogodefecto = data.nombrelogo; // Nombre del archivo que deseas cargar
+         			// Configura la solicitud HTTP GET al endpoint de Spring Boot
+         			xhr1.open("GET", nameEntity + "/logo_empresa/" + nombrelogodefecto, true);
+         			xhr1.responseType = "blob"; // Especifica el tipo de respuesta como Blob
+
+    			    xhr1.onload = function() {
+    			        var blob = xhr1.response;
+    			        var file = new File([blob], nombrelogodefecto);
+    			        var inputFile = document.getElementById('logo');
+    			        var fileList = new DataTransfer();
+    			        fileList.items.add(file);
+    			        inputFile.files = fileList.files;
+    			        inputFile.title = nombrelogodefecto;
+    			    };
+    			    xhr1.send();
+    				
+    				$('#formulario').find('input[name="logo"]').fileinput('destroy');
+    				
+    				
+    				$('#formulario').find('input[name="logo"]').fileinput({
+    				  	language:'es',
+    				    showUpload: false, // Ocultar el botÃ³n de carga
+    				    showRemove: true, 
+                        showCaption: true,
+                        showCancel: true,
+//    		 		  	 ,maxImageWidth: 300 // Ancho mï¿½ximo de la imagen previa en pï¿½xeles
+//    		 		     ,maxImageHeight: 300 
+   				     	initialPreview: [
+			                `<img src="${nameEntity}/logo_empresa/${nombrelogodefecto}" class="file-preview-image" alt="Vista previa" title="${nombrelogodefecto}">`
+			            ],
+			            initialPreviewConfig: [
+			                {
+			                    caption: nombrelogodefecto, // Texto que aparecerá debajo de la imagen en la vista previa
+			                    width: '200px', // Ancho de la imagen en la vista previa
+			                    url: '/', // URL opcional para el enlace de eliminación (en este caso, se establece como '#')
+			                    key: 1 // Clave única para el elemento de vista previa
+			                }
+			            ],
+			            fileActionSettings: {
+			                removeIcon: '', // Vaciar el icono del botón de eliminar
+			                removeClass: 'hide-remove', // Aplicar una clase para ocultar el botón de eliminar
+			                removeTitle: '', // Vaciar el título del botón de eliminar
+			            },
+			            initialCaption: nombrelogodefecto // Para poner el nombre en la caja del file
+
+    				});
+    			    	
+    				var inputFile2 = document.getElementById('catalogo');
+    				var fileList2 = new DataTransfer();
+    				var imagesLoaded = 0;
+
+    				data.imagenesCatalogos.forEach(function(imagenCatalogo, index) {
+//     					console.log("imagenCatalogo:",imagenCatalogo)
+    					let nombreArchivo2 = imagenCatalogo.imagen;
+    					console.log("nombreArchivo2:",nombreArchivo2)
+    				    var xhr2 = new XMLHttpRequest();
+    				    xhr2.open("GET", nameEntity + "/img_catalogos_empresa/" +  nombreArchivo2 + "/", true);
+    				    xhr2.responseType = "blob";
+
+    				    xhr2.onload = function() {
+    				        if (xhr2.status === 200) {
+    				            var blob = xhr2.response;
+    				            var filei = new File([blob], nombreArchivo2);
+    				            fileList2.items.add(filei);
+    				            imagesLoaded++;
+
+    				            if (imagesLoaded === data.imagenesCatalogos.length) {
+    				                inputFile2.files = fileList2.files;
+
+    				 
+    				            }
+    				        }
+    				    };
+
+    				    xhr2.send();
+    				});
+    	
+    				$('#formulario').find('input[name="catalogo"]').fileinput('destroy');
+//     				var imagenes = ['/img/imagen1.jpg', '/img/imagen2.jpg', '/img/imagen3.jpg']; // Rutas de las imÃ¡genes
+
+    				var initialPreview = [];
+               		var initialPreviewConfig = [];
+
+	                data.imagenesCatalogos.forEach(function(imagenCatalogo, i) {
+	                    var src = nameEntity + "/img_catalogos_empresa/" + imagenCatalogo.imagen; // Asegúrate de que la ruta sea correcta
+	                    var caption = imagenCatalogo.imagen;
+// 	                    var caption = 'Imagen ' + (i + 1);
+	
+	                    // Agregar vista previa de la imagen
+	                    initialPreview.push("<img src='" + src + "' class='file-preview-image' alt='Vista previa' title='" + caption + "'>");
+	
+	                    // Configurar la vista previa de la imagen
+	                    var config = {
+	                        caption: caption,
+	                        width: '200px',
+	                        url: '/',
+	                        key: i + 1
+	                    };
+	
+	                    // Agregar configuración de la vista previa de la imagen
+	                    initialPreviewConfig.push(config);
+	                });
+	                
+	                // Crear el texto del initialCaption con el número de imágenes cargadas
+	                var initialCaption = data.imagenesCatalogos.length + ' archivos seleccionados';
+
+	                $('#formulario').find('input[name="catalogo"]').fileinput({
+	                    language: 'es',
+	                    showUpload: false,
+	                    showRemove: true, 
+	                    showCaption: true,
+	                    showCancel: true,
+	                    multiple: true, // Permite la selección de múltiples archivos
+	                    initialPreview: initialPreview,
+	                    initialPreviewConfig: initialPreviewConfig,
+	                    fileActionSettings: {
+	                        removeIcon: '',
+	                        removeClass: 'hide-remove',
+	                        removeTitle: ''
+	                    },
+	                    initialCaption: initialCaption // Establecer el texto inicial con el número de imágenes
+	                });
+					
+         			
+		        }, 'json');
+			}
+			function getEntityIdNew() {
+				
+			    var xhr = new XMLHttpRequest();
+			    let nombrelogodefecto="logo.jpg";
+			    xhr.open("GET", "../img/"+nombrelogodefecto);
+			    xhr.responseType = "blob";
+			    xhr.onload = function() {
+			        var blob = xhr.response;
+			        var file = new File([blob], nombrelogodefecto);
+			        var inputFile = document.getElementById('logo');
+			        var fileList = new DataTransfer();
+			        fileList.items.add(file);
+			        inputFile.files = fileList.files;
+			        inputFile.title = nombrelogodefecto;
+			    };
+			    xhr.send();
+				
+// 				alert('form')
+				$('#formulario').find('input[name="logo"]').fileinput('destroy');
+				
+				
+				$('#formulario').find('input[name="logo"]').fileinput({
+				  	language:'es',
+				    showUpload: false, // Ocultar el botÃ³n de carga
+				    showRemove: true, 
+                    showCaption: true,
+                    showCancel: true,
+//		 		  	 ,maxImageWidth: 300 // Ancho mï¿½ximo de la imagen previa en pï¿½xeles
+//		 		     ,maxImageHeight: 300 
+				    initialPreview: [
+				        `<img src="../img/${nombrelogodefecto}" class="file-preview-image" alt="Vista previa" title="${nombrelogodefecto}">`
+				    ],
+				    initialPreviewConfig: [
+				        {
+				            caption: nombrelogodefecto, // Texto que aparecerÃ¡ debajo de la imagen en la vista previa
+				            width: '200px', // Ancho de la imagen en la vista previa
+				            url: '/', // URL opcional para el enlace de eliminaciÃ³n (en este caso, se establece como '#')
+				            key: 1 // Clave Ãºnica para el elemento de vista previa
+				        }
+				    ],
+				    fileActionSettings: {
+				        removeIcon: '', // Vaciar el icono del botÃ³n de eliminar
+				        removeClass: 'hide-remove', // Aplicar una clase para ocultar el botÃ³n de eliminar
+				        removeTitle: '', // Vaciar el tÃ­tulo del botÃ³n de eliminar
+				    },
+// 				    browseTitle: 'Mi tÃ­tulo personalizado',
+// 				    browseLabel: 'Seleccionar archivo',
+		    		initialCaption: nombrelogodefecto //para poner el nombre en la caja del file
+
+				});
+	
+				$('#formulario').find('input[name="catalogo"]').fileinput('destroy');
+				
+				
+				$('#formulario').find('input[name="catalogo"]').fileinput({
+				  	language:'es',
+				    showUpload: false, // Ocultar el botÃ³n de carga
+				    showRemove: true, 
+                    showCaption: true,
+                    showCancel: true
+				});
+
+				
+			}
+			
+			
+			function opcionesCrudModal() {
+				$('body').find('.opciones_btn_modal').html('')
+				
+				if(GESTADO!=0){
+					$('.opciones_btn_modal').html(`<button id="btnAdicionar_modal" type="button"  class="btn btn-success  btn-xs btn-sm waves-effect" style="margin: 0 2px;" onclick="nuevo()">Nuevo</button>`)  
+	    	        
+				}
+                $('.opciones_btn_modal').append(`<button id="btnEditar_modal" type="button"  class="btn btn-warning  btn-xs btn-sm waves-effect"  style="margin: 0 2px;" onclick="editar()">Editar</button>`)  
+    	        if(GESTADO!=0){
+    	        	$('.opciones_btn_modal').append(`<button id="btnEliminar_modal" type="button"  class="btn btn-danger  btn-xs btn-sm waves-effect" style="margin: 0 2px;" onclick="eliminar()">Eliminar</button>`)  
+        	        
+    	        }
+    	        $('.opciones_btn_modal').append(`<button id="btnCancelar_modal" type="button"  data-bs-dismiss="modal" aria-label="Close" class="btn btn-default   btn-xs btn-sm waves-effect" style="margin: 0 2px;">Cancelar</button>`)  
+   	        	addActionform(nameEntity)
+//     	        $('#formulario').data('formValidation').resetForm(true);
+                $('#formulario')[0].reset();
+			}
+			
+
+	
+			
+			
+			function saveEntityForm1() {
+				
+                 
+                 let formData = new FormData(document.getElementById('formulario'))
+                 console.log("forDAta:",formData)
+				 let imagenform = formData.get('logo');
+                 
+             	$.ajax({
+              	   	url:nameEntity+"/guardar",
+              	    type: "POST",
+//						'contentType': "application/json",
+					contentType: false,
+					processData: false,
+//						'contentType':false,
+					data: formData,
+//	              	    'dataType': 'json',
+                     success:function(res){
+						console.log('registrado',res)
+                             $('#formulario')[0].reset();
+                             $('.modal').modal('hide')
+                      	Swal.fire({
+                             title:"Registrado",
+                             text:"Se ha registrado exitosamente",
+                             icon:"success",
+                             timer:700,   
+                             showConfirmButton: false 
+                         });   
+                        $('#table').dataTable().fnDraw('page');
+//                          }
+                     },
+                     error:function(err){
+                    	 console.log(err)
+       	 				Swal.fire({
+					    	icon:'error',
+					    	title:"Cancelado",
+	                        text:"No se realizo la operacion, comunicarse con el administrador del Sistema, Gracias",
+	                        timer:2000,
+	                        showCancelButton:false,
+	                     	showConfirmButton:false
+					    })
+                     }
+                 })
+			}
+
+
+			
+			function updateEntityForm1() {
+
+                let formData = new FormData(document.getElementById('formulario'))
+                console.log("ID MOD:",GID)
+                console.log("forDAta mod:",formData)
+				 let imagenform = formData.get('logo');
+    	        $.ajax({
+              	   	url:nameEntity+"/modificar/"+GID,
+              	    type: "POST",
+//					'contentType': "application/json",
+					contentType: false,
+					processData: false,
+//					'contentType':false,
+					data: formData,
+//              	    'dataType': 'json',
+                     success:function(res){
+                    	 objectMod=res
+                         $('#formulario')[0].reset();
+                         $('.modal').modal('hide')
+                          Swal.fire({
+                             title:"Registrado",
+                             text:"Se ha modificado exitosamente",
+                             icon:"success",
+                             timer:700,   
+                             showConfirmButton: false 
+                         });  
+                         $('#table').dataTable().fnDraw('page');
+                     },
+                     error:function(err){
+                    	 console.log(err)
+       	 				Swal.fire({
+					    	icon:'error',
+					    	title:"Cancelado",
+	                        text:"No se realizo la operacion, comunicarse con el administrador del Sistema, Gracias",
+	                        timer:2000,
+	                        showCancelButton:false,
+	                     	showConfirmButton:false
+					    })
+                     }
+                	
+                 })
+			}
+			
+			function updateTable(id,objectMod){
+                $('#table > tbody  > tr').each(function(index, tr) {
+             	   
+	               	var row = $(this).closest('tr');
+	    			var idrow = parseInt(row.find('.idhidden').val(), 10);
+					//console.log('idrow:',idrow);
+                	if(id==idrow){
+                		$(this).find("td:eq(1)").html(objectMod.nombre);
+                	}
+               	 });
+			}
+			function updateStatusEntity(status) {
+				console.log("GID:",GID," STATUS:",status)
+				const swalWithBootstrapButtons = Swal.mixin({
+				  customClass: {
+				    confirmButton: 'btn btn-success',
+				    cancelButton: 'btn btn-danger'
+				  },
+				  buttonsStyling: false
+				})
+				
+				swalWithBootstrapButtons.fire({
+				  title: "¿Estas Seguro de continuar?",   
+	              text: "Se registrara en el Sistema",   
+				  icon: 'warning',
+				  showCancelButton: true,
+				  confirmButtonText: 'Si, Continuar!',
+				  cancelButtonText: 'No, Cancelar!',
+				  reverseButtons: true
+				}).then((result) => {
+				  if (result.isConfirmed) {
+	       				var data= {
+       	          	    	id:GID,
+       	          	    	codigo:"",
+       	          	    	nombre:"",
+       	          	    	estado:status
+       	          	    }
+	       				console.log(JSON.stringify(data))
+       	                $.ajax({
+       	              	   	url:nameEntity+"/updateStatus",
+       	              	    type: "POST",
+
+
+       		                contentType: "application/json",
+       		                dataType:'json',
+       						'data': JSON.stringify(data),
+       	 
+       	                     success:function(res){
+       							console.log('registrado',res)
+//        							removeRowLastTable(res.id)
+       							$('#table').dataTable().fnDraw('page');
+       	                         Swal.fire({
+       	                             title:"Completado",
+       	                             text:"Se ha completado la transaccion exitosamente",
+       	                             icon:"success",
+       	                             timer:700,   
+       	                             showConfirmButton: false 
+       	                         });
+       						   		
+       	                     }
+       	                 })
+	       	                 $('.modal').modal('hide')  
+					  
+	
+				  } else if (
+				    /* Read more about handling dismissals below */
+				    result.dismiss === Swal.DismissReason.cancel
+				  ) {
+					    swalWithBootstrapButtons.fire({
+					    	icon:'error',
+					    	title:"Cancelado",
+	                        text:"Se ha cancelado operacion",
+	                        timer:800,
+	                        showCancelButton:false,
+	                     	showConfirmButton:false
+					    })
+				  }
+				})
+	
+				
+
+			}
+// 	    $('#formulario').formValidation({
+
+//        	})
+//         .on('success.form.fv', function(e){
+//             e.preventDefault();
+//             var $form = $(e.target);
+
+		$("#formulario").submit(function (event) {
+            const swalWithBootstrapButtons = Swal.mixin({
+            	  customClass: {
+            	    confirmButton: 'btn btn-success',
+            	    cancelButton: 'btn btn-danger'
+            	  },
+            	  buttonsStyling: false
+            	})
+            
+			swalWithBootstrapButtons.fire({
+				  title: "¿Estas Seguro de continuar?",   
+	              text: "Se registrara en el Sistema",   
+				  icon: 'warning',
+				  showCancelButton: true,
+				  confirmButtonText: 'Si, Continuar!',
+				  cancelButtonText: 'No, Cancelar!',
+				  reverseButtons: true
+				}).then((result) => {
+					console.log("GOPCION:",GOPCION)
+				  if (result.isConfirmed) {
+	               	   if(GOPCION=="ADD"){
+	            		   saveEntityForm1()
+	            	   }else{
+	            		   updateEntityForm1()
+	            	   }
+	               	
+				  } else if (
+				    result.dismiss === Swal.DismissReason.cancel
+				  ) {
+				    swalWithBootstrapButtons.fire({
+				    	icon:'error',
+				    	title:"Cancelado",
+                        text:"Se ha cancelado operacion",
+                        timer:700,
+                        showCancelButton:false,
+                     	showConfirmButton:false
+				    })
+				  }
+				  $('.modal').modal('hide')  
+				})
+            
+				 event.preventDefault();
+		 	 });
+//         })
+
+		
+	</script>
+	<script type="text/javascript">
+	
+			let map=null;
+			function seleccionarmapa() {
+
+				map=L.map('mi_mapa').setView([-21.53242,-64.72462],16)
+				
+				L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+				    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+				}).addTo(map);
+				
+				map.on('click',onMapClick)
+				
+				
+				
+// 				$('#modalgps').modal('show') 
+
+			}
+			function onMapClick(e) {
+// 				alert('Posicion:'+e.latlng)
+			    const lat = e.latlng.lat;
+	            const lng = e.latlng.lng;
+// 	            alert('Latitud: ' + lat + ', Longitud: ' + lng);
+
+	            $('body').find('input[name="longitud"]').val(lng)
+	            $('body').find('input[name="latitud"]').val(lat)
+			}
+			
+			function resetmapa() {
+				  const defaultZoom = 16;
+				    const defaultCenter = [-21.53242, -64.72462];
+
+				    // Restablecer la vista del mapa directamente
+				    if (map) {
+				        map.setView(defaultCenter, defaultZoom);
+				    }
+			}
+			
+
+
+	</script>
+</body>
+</html>

@@ -26,24 +26,30 @@ public class ImagenesCatalogoEntity implements Serializable {
 	private Integer codigo; 
 	@Column(name = "imagen")
 	private String imagen;
+	
+	
+	@Column(name = "imagenDriveId")
+	private String imagenDriveId;
 	@Column(name = "estado")
 	private Integer estado; 
 	
 	@Transient //importante para que no cargue una compra previa
     @ManyToOne(cascade = CascadeType.REFRESH)//para refrescar
     @JoinColumn(name = "fk_catalogo")  
-    private CatalogoEntity catalogo; 
-	
+    private CatalogoEntity catalogo;
+
 	public ImagenesCatalogoEntity() {
-//		super();
+		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public ImagenesCatalogoEntity(Integer id, Integer codigo, String imagen, Integer estado, CatalogoEntity catalogo) {
+	public ImagenesCatalogoEntity(Integer id, Integer codigo, String imagen, String imagenDriveId, Integer estado,
+			CatalogoEntity catalogo) {
 		super();
 		this.id = id;
 		this.codigo = codigo;
 		this.imagen = imagen;
+		this.imagenDriveId = imagenDriveId;
 		this.estado = estado;
 		this.catalogo = catalogo;
 	}
@@ -72,6 +78,14 @@ public class ImagenesCatalogoEntity implements Serializable {
 		this.imagen = imagen;
 	}
 
+	public String getImagenDriveId() {
+		return imagenDriveId;
+	}
+
+	public void setImagenDriveId(String imagenDriveId) {
+		this.imagenDriveId = imagenDriveId;
+	}
+
 	public Integer getEstado() {
 		return estado;
 	}
@@ -86,6 +100,7 @@ public class ImagenesCatalogoEntity implements Serializable {
 
 	public void setCatalogo(CatalogoEntity catalogo) {
 		this.catalogo = catalogo;
-	}
-
+	} 
+	
+	
 }

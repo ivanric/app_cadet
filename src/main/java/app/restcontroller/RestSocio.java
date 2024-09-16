@@ -1,9 +1,11 @@
 package app.restcontroller;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.security.GeneralSecurityException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,9 +13,11 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.data.repository.query.Param;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -28,11 +32,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.google.api.services.drive.Drive;
+
+import app.config.GoogleDriveConfig;
 import app.dto.SocioDTO;
 import app.entity.CatalogoEntity;
 import app.entity.PersonaEntity;
 import app.entity.SocioEntity;
 import app.entity.SocioEntity;
+import app.service.ArchivoService;
 import app.service.SocioServiceImpl;
 import app.service.UsuarioServiceImpl;
 import app.util.Constantes;
@@ -41,7 +49,18 @@ import app.util.URIS;
 @RestController
 @RequestMapping("/RestSocios") 
 public class RestSocio extends RestControllerGenericNormalImpl<SocioEntity,SocioServiceImpl> {
-
+	
+	@Autowired private ArchivoService archivoService;
+	
+	@Autowired
+    private GoogleDriveConfig googleDriveConfig;
+	
+	//drive
+    private Drive getDriveService() throws IOException, GeneralSecurityException {
+        return googleDriveConfig.getDriveService();
+    }
+	
+	
 	@GetMapping("/listar")
 	public ResponseEntity<?> getAll(HttpServletRequest request,@Param("draw")int draw,@Param("length")int length,@Param("start")int start,@Param("estado")int estado)throws IOException{
 		String total="";
@@ -216,103 +235,183 @@ public class RestSocio extends RestControllerGenericNormalImpl<SocioEntity,Socio
 //        }
 //    }
 	
-	 @GetMapping("/logo_socio/{filename}")
-	    public ResponseEntity<Resource> getFile_logo_socio(@PathVariable String filename) {
+	@GetMapping("/logo_socio/{filename}")
+    public ResponseEntity<Resource> getFile_logo_socio_drive(@PathVariable String filename) {
+        try {
+            // Obtener el ID de la carpeta de logos en Google Drive
+            String folderId = archivoService.getOrCreateFolder(Constantes.nameFolderLogoSocio);
+            
+            // Obtener el ID del archivo en Google Drive utilizando el método existente
+            String fileId = archivoService.obtenerIdArchivoDrivePorNombre(filename, folderId);
+            
+            if (fileId != null) {
+                // Obtener el servicio de Google Drive
+                Drive driveService = getDriveService();
+
+                // Descargar el archivo desde Google Drive como InputStream
+                InputStream inputStream = driveService.files().get(fileId).executeMediaAsInputStream();
+                InputStreamResource resource = new InputStreamResource(inputStream);
+
+                // Determinar el tipo de contenido del archivo
+                String contentType = "application/octet-stream"; // Tipo por defecto
+                try {
+                    contentType = Files.probeContentType(Paths.get(filename));
+                } catch (IOException e) {
+                    System.out.println("No se pudo determinar el tipo de archivo.");
+                }
+
+                // Devolver el archivo como respuesta
+                return ResponseEntity.ok()
+                        .contentType(MediaType.parseMediaType(contentType))
+                        .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"" + filename + "\"")
+                        .body(resource);
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
+	
+	/*
+	@GetMapping("/logo_socio/{filename}")
+	public ResponseEntity<Resource> getFile_logo_socio(@PathVariable String filename) {
+	    try {
+	        System.out.println("ENTRO LOGO SOCIO:" + filename);
+	        URIS uris = new URIS();
+	        String sistemaOperativo = uris.checkOS();
+	        System.out.println("INICIANDO APP");
+	        System.out.println("SISTEMA OPERATIVO: " + sistemaOperativo);
+	
+	        Resource resource = null;
+	
 	        try {
-	            System.out.println("ENTRO LOGO SOCIO:" + filename);
-	            URIS uris = new URIS();
-	            String sistemaOperativo = uris.checkOS();
-	            System.out.println("INICIANDO APP");
-	            System.out.println("SISTEMA OPERATIVO: " + sistemaOperativo);
-
-	            Resource resource = null;
-
-	            try {
-	                Path filePath;
-	                if (sistemaOperativo.contains("Linux")) {
-	                    filePath = Paths.get("/home", Constantes.nameFolderLogoSocio).resolve(filename).normalize();
-	                    resource = new UrlResource(filePath.toUri());
-	                } else if (sistemaOperativo.contains("Windows")) {
-	                    filePath = Paths.get("C:\\", Constantes.nameFolderLogoSocio).resolve(filename).normalize();
-	                    resource = new UrlResource(filePath.toUri());
+	            Path filePath;
+	            if (sistemaOperativo.contains("Linux")) {
+	                filePath = Paths.get("/home", Constantes.nameFolderLogoSocio).resolve(filename).normalize();
+	                resource = new UrlResource(filePath.toUri());
+	            } else if (sistemaOperativo.contains("Windows")) {
+	                filePath = Paths.get("C:\\", Constantes.nameFolderLogoSocio).resolve(filename).normalize();
+	                resource = new UrlResource(filePath.toUri());
+	            }
+	
+	            // Verifica si el recurso fue encontrado y es legible
+	            if (resource != null && resource.exists() && resource.isReadable()) {
+	                String contentType = "application/octet-stream"; // Tipo de contenido por defecto
+	                try {
+	                    contentType = Files.probeContentType(resource.getFile().toPath());
+	                } catch (IOException ex) {
+	                    System.out.println("No se pudo determinar el tipo de archivo.");
 	                }
-
-	                // Verifica si el recurso fue encontrado y es legible
-	                if (resource != null && resource.exists() && resource.isReadable()) {
-	                    String contentType = "application/octet-stream"; // Tipo de contenido por defecto
-	                    try {
-	                        contentType = Files.probeContentType(resource.getFile().toPath());
-	                    } catch (IOException ex) {
-	                        System.out.println("No se pudo determinar el tipo de archivo.");
-	                    }
-
-	                    return ResponseEntity.ok()
-	                            .contentType(MediaType.parseMediaType(contentType))
-	                            .header("Content-Disposition", "attachment; filename=\"" + resource.getFilename() + "\"")
-	                            .body(resource);
-	                } else {
-	                    return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-	                }
-	            } catch (Exception e) {
-	                e.printStackTrace();
-	                System.out.println("Error al obtener la ruta de archivos: " + e.getMessage());
-	                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+	
+	                return ResponseEntity.ok()
+	                        .contentType(MediaType.parseMediaType(contentType))
+	                        .header("Content-Disposition", "attachment; filename=\"" + resource.getFilename() + "\"")
+	                        .body(resource);
+	            } else {
+	                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
 	            }
 	        } catch (Exception e) {
 	            e.printStackTrace();
+	            System.out.println("Error al obtener la ruta de archivos: " + e.getMessage());
 	            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
 	        }
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
 	    }
+	}
+	*/
 	 
-	 
-		
-	 @GetMapping("/qr_socio/{filename}")
-	    public ResponseEntity<Resource> qr_socio(@PathVariable String filename) {
+	/*	
+	@GetMapping("/qr_socio/{filename}")
+	public ResponseEntity<Resource> qr_socio(@PathVariable String filename) {
+	    try {
+	        System.out.println("ENTRO qr SOCIO:" + filename);
+	        URIS uris = new URIS();
+	        String sistemaOperativo = uris.checkOS();
+	        System.out.println("INICIANDO APP");
+	        System.out.println("SISTEMA OPERATIVO: " + sistemaOperativo);
+	
+	        Resource resource = null;
+	
 	        try {
-	            System.out.println("ENTRO qr SOCIO:" + filename);
-	            URIS uris = new URIS();
-	            String sistemaOperativo = uris.checkOS();
-	            System.out.println("INICIANDO APP");
-	            System.out.println("SISTEMA OPERATIVO: " + sistemaOperativo);
-
-	            Resource resource = null;
-
-	            try {
-	                Path filePath;
-	                if (sistemaOperativo.contains("Linux")) {
-	                    filePath = Paths.get("/home", Constantes.nameFolderQrSocio).resolve(filename).normalize();
-	                    resource = new UrlResource(filePath.toUri());
-	                } else if (sistemaOperativo.contains("Windows")) {
-	                    filePath = Paths.get("C:\\", Constantes.nameFolderQrSocio).resolve(filename).normalize();
-	                    resource = new UrlResource(filePath.toUri());
+	            Path filePath;
+	            if (sistemaOperativo.contains("Linux")) {
+	                filePath = Paths.get("/home", Constantes.nameFolderQrSocio).resolve(filename).normalize();
+	                resource = new UrlResource(filePath.toUri());
+	            } else if (sistemaOperativo.contains("Windows")) {
+	                filePath = Paths.get("C:\\", Constantes.nameFolderQrSocio).resolve(filename).normalize();
+	                resource = new UrlResource(filePath.toUri());
+	            }
+	
+	            // Verifica si el recurso fue encontrado y es legible
+	            if (resource != null && resource.exists() && resource.isReadable()) {
+	                String contentType = "application/octet-stream"; // Tipo de contenido por defecto
+	                try {
+	                    contentType = Files.probeContentType(resource.getFile().toPath());
+	                } catch (IOException ex) {
+	                    System.out.println("No se pudo determinar el tipo de archivo.");
 	                }
-
-	                // Verifica si el recurso fue encontrado y es legible
-	                if (resource != null && resource.exists() && resource.isReadable()) {
-	                    String contentType = "application/octet-stream"; // Tipo de contenido por defecto
-	                    try {
-	                        contentType = Files.probeContentType(resource.getFile().toPath());
-	                    } catch (IOException ex) {
-	                        System.out.println("No se pudo determinar el tipo de archivo.");
-	                    }
-	                    System.out.println("*************OBTENIENDO QR:"+resource.getFilename() );
-	                    return ResponseEntity.ok()
-	                            .contentType(MediaType.parseMediaType(contentType))
-	                            .header("Content-Disposition", "attachment; filename=\"" + resource.getFilename() + "\"")
-	                            .body(resource);
-	                } else {
-	                    return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-	                }
-	            } catch (Exception e) {
-	                e.printStackTrace();
-	                System.out.println("***********************Error al obtener la ruta de archivos: " + e.getMessage());
-	                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+	                System.out.println("*************OBTENIENDO QR:"+resource.getFilename() );
+	                return ResponseEntity.ok()
+	                        .contentType(MediaType.parseMediaType(contentType))
+	                        .header("Content-Disposition", "attachment; filename=\"" + resource.getFilename() + "\"")
+	                        .body(resource);
+	            } else {
+	                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
 	            }
 	        } catch (Exception e) {
 	            e.printStackTrace();
+	            System.out.println("***********************Error al obtener la ruta de archivos: " + e.getMessage());
 	            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
 	        }
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
 	    }
+	}*/
+	
+	@GetMapping("/qr_socio/{filename}")
+	public ResponseEntity<Resource> qr_socio(@PathVariable String filename) {
+	    try {
+	    	System.out.println("filenameQR:"+filename);
+	        // Obtener el ID de la carpeta en Google Drive
+	        String folderId = archivoService.getOrCreateFolder(Constantes.nameFolderQrSocio);
+
+	        // Obtener el ID del archivo en Google Drive utilizando el método existente
+	        String fileId = archivoService.obtenerIdArchivoDrivePorNombre(filename, folderId);
+
+	        if (fileId != null) {
+	            // Obtener el servicio de Google Drive
+	            Drive driveService = getDriveService();
+
+	            // Descargar el archivo desde Google Drive como InputStream
+	            InputStream inputStream = driveService.files().get(fileId).executeMediaAsInputStream();
+	            Resource resource = new InputStreamResource(inputStream);
+
+	            // Determinar el tipo de contenido del archivo
+	            String contentType = "application/octet-stream"; // Tipo por defecto
+	            try {
+	                contentType = Files.probeContentType(Paths.get(filename));
+	            } catch (IOException e) {
+	                System.out.println("No se pudo determinar el tipo de archivo.");
+	            }
+
+	            // Devolver el archivo como respuesta
+	            return ResponseEntity.ok()
+	                    .contentType(MediaType.parseMediaType(contentType))
+	                    .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"" + filename + "\"")
+	                    .body(resource);
+	        } else {
+	            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+	        }
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+	    }
+	}
 
 
 }

@@ -30,13 +30,13 @@ public class SocioController {
 //		log.info("BookResourceImpl - generateImageQRCode");
 		System.out.println("DATO:"+id); 
 		modelo.addAttribute("codigosocio", id);	
-		return "socios/estadosocio";
+		return "socios/estadosociodrive";
 	}
     @RequestMapping("/empresas/{id}")
  	public String showCatalogoSocio(@PathVariable("id") String id,Model modelo) {
 // 		log.info("BookResourceImpl - generateImageQRCode");
  		System.out.println("DATO:"+id); 
  		modelo.addAttribute("codigosocio", id);	
- 		return "socios/catalogosocio";
+ 		return "socios/catalogosociodrive";
  	}
 }

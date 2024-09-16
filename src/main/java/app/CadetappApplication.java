@@ -83,15 +83,20 @@ public class CadetappApplication  extends SpringBootServletInitializer{
 	        	
 	        	ProvinciaEntity proviniciaEntity=new ProvinciaEntity(1,"CERCADO",1, departamentosave); 
 	        	ProvinciaEntity provinciasave=provinciaRepository.save(proviniciaEntity);
-	        			
-//	        	InstitucionEntity institucionEntity=new InstitucionEntity(1,"123456789","CADET","COLEGIO DE ADMINISTRADOR DE EMPRESAS DE TARIJA","cadet", "cadet.tarija@gmail.com", "direccion", "75119900", null, "cadetarija.com", null, 1, provinciasave);
-	        	InstitucionEntity institucionEntity=new InstitucionEntity(1,"123456789","CADET","COLEGIO DE ADMINISTRADOR DE EMPRESAS DE TARIJA","cadet", "cadet.tarija@gmail.com", "direccion", "75119900", null, "192.168.100.2:8080", null, 1, provinciasave);
-	        	institucionRepository.save(institucionEntity);
+	        	
+	        	InstitucionEntity institucionEntitybd = institucionRepository.findById(1).orElseThrow(() -> new Exception("Institución no encontrada"));
+		        
+	        	if (institucionEntitybd==null) {
+//		        	InstitucionEntity institucionEntity=new InstitucionEntity(1,"123456789","CADET","COLEGIO DE ADMINISTRADOR DE EMPRESAS DE TARIJA","cadet", "cadet.tarija@gmail.com", "direccion", "75119900", null, "cadetarija.com", null, 1, provinciasave);
+		        	InstitucionEntity institucionEntity=new InstitucionEntity(1,"123456789","CADET","COLEGIO DE ADMINISTRADOR DE EMPRESAS DE TARIJA","cadet", "cadet.tarija@gmail.com", "direccion", "75119900", null, "192.168.100.2:8080", null, 1, provinciasave);
+		        	institucionRepository.save(institucionEntity);
+				}
+ 
 	        	
 	        	Collection<RolEntity> rolesarray=new ArrayList<RolEntity>();
 			 	
-			 	RolEntity rolEntity=new RolEntity("ROLE_ADMIN",1);
-			 	RolEntity rolsave=rolRepository.save(rolEntity);
+			 	RolEntity rolEntity=new RolEntity("ROLE_ADMIN",1); 
+			 	RolEntity rolsave=rolRepository.save(rolEntity); 
 			 	rolesarray.add(rolsave);
 			 	// Inserta datos en la base de datos al iniciar la aplicación
 				PersonaEntity persona=new PersonaEntity(1, "1234567891", "cadet", "cadet.tarija@gmail.com", 75119900, 1);

@@ -21,6 +21,7 @@ D:\CURSOS YOUTUBE\SPRING_BOOT_TECNOLOGIA AVANZA\cadetapp\src\main\java\app\servi
 D:\CURSOS YOUTUBE\SPRING_BOOT_TECNOLOGIA AVANZA\cadetapp\src\main\java\app\service\PersonaService.java
 D:\CURSOS YOUTUBE\SPRING_BOOT_TECNOLOGIA AVANZA\cadetapp\src\main\java\app\util\MethodUtils.java
 D:\CURSOS YOUTUBE\SPRING_BOOT_TECNOLOGIA AVANZA\cadetapp\src\main\java\app\entity\ProvinciaEntity.java
+D:\CURSOS YOUTUBE\SPRING_BOOT_TECNOLOGIA AVANZA\cadetapp\src\main\java\app\config\GoogleDriveConfig.java
 D:\CURSOS YOUTUBE\SPRING_BOOT_TECNOLOGIA AVANZA\cadetapp\src\main\java\app\restcontroller\RestRol.java
 D:\CURSOS YOUTUBE\SPRING_BOOT_TECNOLOGIA AVANZA\cadetapp\src\main\java\app\service\UsuarioService.java
 D:\CURSOS YOUTUBE\SPRING_BOOT_TECNOLOGIA AVANZA\cadetapp\src\main\java\app\repository\UsuarioRepository.java
@@ -51,7 +52,9 @@ D:\CURSOS YOUTUBE\SPRING_BOOT_TECNOLOGIA AVANZA\cadetapp\src\main\java\app\repos
 D:\CURSOS YOUTUBE\SPRING_BOOT_TECNOLOGIA AVANZA\cadetapp\src\main\java\app\entity\DepartamentoEntity.java
 D:\CURSOS YOUTUBE\SPRING_BOOT_TECNOLOGIA AVANZA\cadetapp\src\main\java\app\restcontroller\RestControllerGeneric.java
 D:\CURSOS YOUTUBE\SPRING_BOOT_TECNOLOGIA AVANZA\cadetapp\src\main\java\app\service\SocioServiceImpl.java
+D:\CURSOS YOUTUBE\SPRING_BOOT_TECNOLOGIA AVANZA\cadetapp\src\main\java\app\service\GoogleDriveService.java
 D:\CURSOS YOUTUBE\SPRING_BOOT_TECNOLOGIA AVANZA\cadetapp\src\main\java\app\service\PersonaServiceImpl.java
+D:\CURSOS YOUTUBE\SPRING_BOOT_TECNOLOGIA AVANZA\cadetapp\src\main\java\app\util\QRCodeGeneratorServiceDrive.java
 D:\CURSOS YOUTUBE\SPRING_BOOT_TECNOLOGIA AVANZA\cadetapp\src\main\java\app\repository\ProfesionRepository.java
 D:\CURSOS YOUTUBE\SPRING_BOOT_TECNOLOGIA AVANZA\cadetapp\src\main\java\app\service\ImagenCatalogoService.java
 D:\CURSOS YOUTUBE\SPRING_BOOT_TECNOLOGIA AVANZA\cadetapp\src\main\java\app\controller\RegistroControlador.java
@@ -60,6 +63,7 @@ D:\CURSOS YOUTUBE\SPRING_BOOT_TECNOLOGIA AVANZA\cadetapp\src\main\java\app\util\
 D:\CURSOS YOUTUBE\SPRING_BOOT_TECNOLOGIA AVANZA\cadetapp\src\main\java\app\service\ImagenCatalogoServiceImpl.java
 D:\CURSOS YOUTUBE\SPRING_BOOT_TECNOLOGIA AVANZA\cadetapp\src\main\java\app\service\GenericServiceImplNormal.java
 D:\CURSOS YOUTUBE\SPRING_BOOT_TECNOLOGIA AVANZA\cadetapp\src\main\java\app\ServletInitializer.java
+D:\CURSOS YOUTUBE\SPRING_BOOT_TECNOLOGIA AVANZA\cadetapp\src\main\java\app\restcontroller\RestGoogleDriveController.java
 D:\CURSOS YOUTUBE\SPRING_BOOT_TECNOLOGIA AVANZA\cadetapp\src\main\java\app\dto\SocioDTO.java
 D:\CURSOS YOUTUBE\SPRING_BOOT_TECNOLOGIA AVANZA\cadetapp\src\main\java\app\controller\SocioController.java
 D:\CURSOS YOUTUBE\SPRING_BOOT_TECNOLOGIA AVANZA\cadetapp\src\main\java\app\controller\UsuarioController.java

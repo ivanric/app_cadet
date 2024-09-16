@@ -25,6 +25,7 @@ import app.repository.ProfesionRepository;
 import app.repository.SocioRepository;
 import app.util.Constantes;
 import app.util.QRCodeGeneratorService;
+import app.util.QRCodeGeneratorServiceDrive;
 
 @Service
 public class SocioServiceImpl extends GenericServiceImplNormal<SocioEntity, Integer> implements SocioService {
@@ -37,7 +38,7 @@ public class SocioServiceImpl extends GenericServiceImplNormal<SocioEntity, Inte
 	@Autowired private BCryptPasswordEncoder passwordEncoder;
 	@Autowired private ArchivoService archivoService;
 	@Autowired
-	QRCodeGeneratorService qrCodeGeneratorService;
+	private QRCodeGeneratorServiceDrive qrCodeGeneratorService;
 //	private final String imagePath = "./src/main/resources/static/qrcodes/QRCode.png";
 //	private  String imagePath = "./src/main/resources/static/qrcodes/";
 	
@@ -125,7 +126,7 @@ public class SocioServiceImpl extends GenericServiceImplNormal<SocioEntity, Inte
       }
 	}
 
-
+/*
     @Override
     @Transactional
     public SocioEntity save(SocioEntity entity) throws Exception {
@@ -204,7 +205,87 @@ public class SocioServiceImpl extends GenericServiceImplNormal<SocioEntity, Inte
         	throw new Exception(e.getMessage());
             
         }
-    }
+    }*/
+	
+	
+	@Override
+	@Transactional
+	public SocioEntity save(SocioEntity entity) throws Exception {
+	    try {
+	        System.out.println("EntitySAVE_Servicio:" + entity.toString());
+
+	        if (entity.getId() == null) {
+	            System.out.println("IMAGEN:" + entity.getLogo().getOriginalFilename());
+
+	            // ADD PERSONA
+	            PersonaEntity persona = new PersonaEntity();
+	            persona.setId(personaService.getIdPrimaryKey());
+	            persona.setCi(entity.getPersona().getCi());
+	            persona.setNombrecompleto(entity.getPersona().getNombrecompleto());
+	            persona.setEmail(entity.getPersona().getEmail());
+	            persona.setCelular(entity.getPersona().getCelular());
+	            persona.setEstado(1);
+	            PersonaEntity persona2 = personaService.save(persona);
+
+	            entity.setId(socioRepository.getIdPrimaryKey());
+	            entity.setCodigo(socioRepository.getCodigo());
+
+	            String codigoDocumento = passwordEncoder.encode(socioRepository.getCodigo() + "");
+	            codigoDocumento = codigoDocumento.replace("/", "c"); // Eliminar las barras '/' del resultado
+	            codigoDocumento = codigoDocumento.replace(".", "a"); // Eliminar los puntos '.' del resultado
+	            codigoDocumento = codigoDocumento.replace("$", "d"); // Eliminar los signos '$' del resultado
+	            entity.setNrodocumento(codigoDocumento);
+	            entity.setLinkqr(codigoDocumento + ".png");
+
+	            InstitucionEntity institucionEntity = institucionRepository.findById(1).get();
+	            String bodyQR = institucionEntity.getHost() + "/socios/estadosocio/" + codigoDocumento;
+
+	            // GENERAR QR localmete y en drive guarda
+//	            qrCodeGeneratorService.generateQRCode(bodyQR, codigoDocumento);
+	            qrCodeGeneratorService.generateQRCode(bodyQR,"QR - "+entity.getPersona().getCi());
+
+	            entity.setPersona(persona2);
+	            entity.setProfesion(profesionRepository.findById(1).get());
+	            entity.setInstitucion(institucionRepository.findById(1).get());
+	            entity.setCatalogos(catalogoRepository.findByEstado(1));
+
+	            // Guardar logo del socio en el sistema de archivos local y en Google Drive
+	            if (!entity.getLogo().isEmpty()) {
+//	                String nombre = "logo-" + this.socioRepository.getCodigo() +
+//	                        entity.getLogo().getOriginalFilename().substring(entity.getLogo().getOriginalFilename().lastIndexOf('.'));
+//	                System.out.println("NOMBRE SOCIO LOGO:" + nombre);
+	            	
+	                String nombre = "SOCIO - " + entity.getPersona().getCi() +
+	                        entity.getLogo().getOriginalFilename().substring(entity.getLogo().getOriginalFilename().lastIndexOf('.'));
+	                System.out.println("NOMBRE SOCIO LOGO:" + nombre);
+	                
+	                // Guardar localmente
+//	                String nombreLogoLocal = archivoService.guargarArchivo(Constantes.nameFolderLogoSocio, entity.getLogo(), nombre);
+//	                entity.setImagen(nombreLogoLocal);
+	                entity.setImagen(nombre);
+
+	                // Guardar en Google Drive
+	                String idArchivoLogoDrive = archivoService.guargarArchivoDrive(Constantes.nameFolderLogoSocio, entity.getLogo(), nombre);
+	                entity.setImagenDriveId(idArchivoLogoDrive);
+	            }
+
+	            System.out.println("EntityPost:" + entity.toString());
+
+	            // Guardar la entidad de socio en la base de datos
+	            entity = socioRepository.save(entity);
+	        } else {
+	            // Actualizar la entidad de socio existente
+	            entity = socioRepository.save(entity);
+	        }
+
+	        return entity;
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        System.out.println(e.getMessage());
+	        throw new Exception(e.getMessage());
+	    }
+	}
+
     
 	@Override
 	@Transactional
@@ -238,7 +319,7 @@ public class SocioServiceImpl extends GenericServiceImplNormal<SocioEntity, Inte
 			throw new Exception(e.getMessage());
 		}
 	}
-    
+    /*
 	@Override
 	@Transactional
 	public SocioEntity update(Integer id, SocioEntity entidad) throws Exception {
@@ -274,9 +355,63 @@ public class SocioServiceImpl extends GenericServiceImplNormal<SocioEntity, Inte
 			System.out.println(e.getMessage());
 			throw new Exception(e.getMessage());
 		}
-	}
+	}*/
+	
 	@Override
-	public SocioEntity renovarQR(Integer id, SocioEntity entidad) throws Exception {
+	@Transactional
+	public SocioEntity update(Integer id, SocioEntity entidad) throws Exception {
+	    try {
+	        System.out.println("Modificar Entity:" + entidad.toString());
+	        
+	        // Obtener el socio existente
+	        SocioEntity entitymod = socioRepository.findById(id).orElseThrow(() -> new Exception("Socio no encontrado"));
+
+	        // Actualizar los datos del socio
+	        entitymod.getPersona().setCi(entidad.getPersona().getCi());
+	        entitymod.setMatricula(entidad.getMatricula());
+	        entitymod.setNombresocio(entidad.getNombresocio());
+	        entitymod.getPersona().setCelular(entidad.getPersona().getCelular());
+	        entitymod.setFechaemision(entidad.getFechaemision());
+	        entitymod.setFechaexpiracion(entidad.getFechaexpiracion());
+	        entitymod.setLejendario(entidad.getLejendario());
+
+	        // Actualizar el logo del socio
+	        if (!entidad.getLogo().isEmpty()) {
+	            // Eliminar el logo existente localmente
+//	            this.archivoService.eliminarArchivo(Constantes.nameFolderLogoSocio, entitymod.getImagen());
+
+	            // Eliminar el logo existente en Google Drive
+	            this.archivoService.eliminarArchivoDrive(Constantes.nameFolderLogoSocio, entitymod.getImagen());
+
+	            // Guardar el nuevo logo localmente
+
+	                       
+	            String nombre = "SOCIO - " + entitymod.getPersona().getCi() + 
+                        entidad.getLogo().getOriginalFilename().substring(entidad.getLogo().getOriginalFilename().lastIndexOf('.'));
+            	
+//	            String nombreLogo = archivoService.guargarArchivo(Constantes.nameFolderLogoSocio, entidad.getLogo(), nombre);
+//	            entitymod.setImagen(nombreLogo);
+	            
+	            entitymod.setImagen(nombre);
+
+	            // Guardar el nuevo logo en Google Drive
+	            String idArchivoLogoDrive = archivoService.guargarArchivoDrive(Constantes.nameFolderLogoSocio, entidad.getLogo(), nombre);
+	            entitymod.setImagenDriveId(idArchivoLogoDrive); // Asumimos que hay un campo `logoDriveId` para almacenar el ID de Drive
+	        }
+
+	        // Guardar cambios en la base de datos
+	        entitymod = genericRepository.save(entitymod);
+	        return entitymod;
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        System.out.println(e.getMessage());
+	        throw new Exception(e.getMessage());
+	    }
+	}
+	
+	/*
+	@Override
+	public SocioEntity renovarQR(Integer id, SocioEntity entidad) throws Exception{
 		try {
 			System.out.println("Modificar Entity:"+entidad.toString());
 			//observado
@@ -331,6 +466,69 @@ public class SocioServiceImpl extends GenericServiceImplNormal<SocioEntity, Inte
 			throw new Exception(e.getMessage());
 		}
 	}
+	*/
+	
+	@Override
+	public SocioEntity renovarQR(Integer id, SocioEntity entidad) throws Exception {
+	    try {
+	        System.out.println("Modificar Entity QR*****************:" + entidad.toString());
+
+	        // Buscar y actualizar los datos del socio
+	        SocioEntity entitymod = socioRepository.findById(id)
+	            .orElseThrow(() -> new Exception("Socio no encontrado"));
+	        entitymod.getPersona().setCi(entidad.getPersona().getCi());
+	        entitymod.setMatricula(entidad.getMatricula());
+	        entitymod.setNombresocio(entidad.getNombresocio());
+	        entitymod.getPersona().setCelular(entidad.getPersona().getCelular());
+	        entitymod.setFechaemision(entidad.getFechaemision());
+	        entitymod.setFechaexpiracion(entidad.getFechaexpiracion());
+
+	        // Generar el contenido del QR
+	        String codigoDocumento = entitymod.getNrodocumento();
+	        System.out.println("************************** NUMERO DE DOCUMENTO UPDATE QR:" + codigoDocumento);
+
+	        InstitucionEntity institucionEntity = institucionRepository.findById(1)
+	            .orElseThrow(() -> new Exception("Institución no encontrada"));
+	        System.out.println("*************INSTITUCION:" + institucionEntity.toString());
+	        String bodyQR = institucionEntity.getHost() + "/socios/estadosocio/" + codigoDocumento;
+	        System.out.println("****************CONTENIDO QR:" + bodyQR);
+
+	        // Intentar eliminar el QR anterior en Google Drive
+	        try {
+	            System.out.println("************* ELIMINANDO QR EN GOOGLE DRIVE: " + entitymod.getLinkqr());
+	            this.archivoService.eliminarArchivoDrive(Constantes.nameFolderQrSocio, entitymod.getLinkqr());
+	        } catch (Exception e) {
+	            System.out.println("No se pudo eliminar el QR anterior en Google Drive: " + e.getMessage());
+	        }
+
+	        // Codificar el número de documento para generar un nombre seguro para el archivo
+	        String codigoDocumento_md = codigoDocumento.replace("/", "c")
+	                                                   .replace(".", "a")
+	                                                   .replace("$", "d");
+//	        entitymod.setNrodocumento(codigoDocumento);
+
+	        // Generar el nuevo nombre del archivo QR
+//	        String qr_nuevo = "qr-" + codigoDocumento_md;
+	        String qr_nuevo = "qr-" + entitymod.getPersona().getCi();
+
+	        // Generar el QR localmente y en Google Drive
+	        qrCodeGeneratorService.generateQRCode(bodyQR, qr_nuevo);  // Asegúrate de que se guarda localmente y en Google Drive
+	        
+	        // Actualizar el enlace del QR en la entidad
+	        entitymod.setLinkqr(qr_nuevo + ".png");
+	        entitymod = genericRepository.save(entitymod);
+
+	        System.out.println("**************************** QR NUEVO MODIFICADO: " + qr_nuevo + ".png");
+
+	        return entitymod;
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        System.out.println(e.getMessage());
+	        throw new Exception(e.getMessage());
+	    }
+	}
+
+
 	
 	@Override
 	public SocioEntity findByNrodocumento(String  codigo) throws Exception {

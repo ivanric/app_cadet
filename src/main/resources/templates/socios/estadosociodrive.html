@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ESTADO de Socio</title>
+    <link rel="icon" href="../../img/logo_cadet.png" type="image/png">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+  	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.min.css" crossorigin="anonymous">
+   	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" integrity="sha512-5A8nwdMOWrSz20fDsjczgUidUBR8liPYU+WymTZP1lmY9G6Oc7HlZv156XqnsgNUzTyMefFTcsFH/tnJE/+xBg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.5.4/css/fileinput.min.css" crossorigin="anonymous">
+	
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@300&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+
+	<!-- Google Fonts -->
+	<link
+	  href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+	  rel="stylesheet"
+	/>
+	<!-- MDB -->
+	<link
+	  href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.1.0/mdb.min.css"
+	  rel="stylesheet"
+	/>
+		<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+    
+    <style>
+    	@import url('https://fonts.googleapis.com/css?family=Montserrat');
+        body {
+    		width: 100vw;
+    		height: auto;
+ 		 	font-family: "Poppins", sans-serif;
+              background-color: #eaeaea; 
+             display: flex;
+		    justify-content: center;
+		    align-items: center;
+		    
+		    background-image: url(../../img/poster3.png);
+		    background-size: cover;
+		    
+		    background-repeat: no-repeat;
+        }
+
+        .tarjeta {
+/* 		    box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px; */
+		    overflow: hidden;
+		    /* border-radius: 10px; */
+		    /* width: 25rem; */
+		    /* margin: 10px; */
+/* 		    background-image: url(../../img/fondocatalogo.png); */
+/* 		    background-size: 100%; */
+/* 		    background-repeat: no-repeat; */
+		    height: 100vh;
+		    width: auto;
+        }
+
+        .titulo {
+/*             
+            background-color: #ffffff; */
+            color: #3eba3e; /* Cambiado a verde */
+            text-align: center;
+            padding: 12px; /* Añadido un padding para separar el texto del borde */
+            border-radius: 10px 10px 0 0;
+        	display: inline-flex;
+        	justify-content: center;
+        	align-items: center;
+        	font-weight: 900;
+        }
+        .titulo_colegio{
+       		 font-size: 12px;
+		    margin: 0 22px;
+		    text-align: center;
+		    display: flex;
+		    justify-content: center;
+        } 
+
+        .titulo img {
+            width: 50px; /* Ajustar el tamaño */
+          
+        }
+
+  		.izquierda{
+  			width: 200px
+  		}
+
+        .contenido {
+			align-items:center;
+/* 			display: inline-flex; */
+			justify-content: center;
+			flex-direction: column;
+			text-align: center;
+			padding-top:6px;
+        }
+
+		
+		.logo_cadet{
+			width: 120px;
+			margin: 1.5rem
+		}
+        .datos-socio {
+            flex: 1;
+            padding: 20px;
+            border-bottom: 1px solid #ccc;
+        }
+
+        .datos-socio h2 {
+            margin-top: 0;
+        }
+
+
+        .dato span {
+            font-weight: bold;
+        }
+		.cont-imagen-socio{
+			text-align: center;
+			padding:0.5rem 0;
+		}
+        .imagen-socio {
+		    width: 190px;
+		    height: 190px;
+	        border-radius: 6px;
+        }
+
+		 .boton-socio {
+		    background-color: #f0f0f0;
+		    color: #000;
+		    text-align: center;
+		    padding: 1rem 3rem;
+		    /* border-radius: 10px 10px; */
+		    text-decoration: none;
+		    display: inline-flex;
+		    /* height: 4rem; */
+		    /* align-items: center; */
+		    /* justify-content: center; */
+		    font-weight: 900;
+		    font-size: 18px;
+		    flex-direction: column;
+		    margin-top: 1.5rem;
+		    font-size: 22px;
+	        width: 95%;
+}
+		.boton-activo-socio{
+			background-color: #3eba3ede;
+			color: #fff;
+		}
+		.boton-inactivo-socio{
+			background-color: #ff6900;
+			color: #fff;
+		}
+		.detallesocio{
+		    margin: 10px;
+		}
+		.nombresocio {
+   			color: #333;
+			text-transform: uppercase;
+			font-weight: 600;
+			font-size: 20px;
+		}
+		.profesion{
+		   font-family: arial, cursive;
+   			
+		}
+/* 		
+        .boton-socio:hover {
+            background-color: #000;
+        }
+         
+        .titulo span {
+   			font-size: 16px; 
+		}
+		*/
+	/*
+		@media only screen and (max-width: 767px) {
+	
+ 	       .titulo span {
+	   			font-size: 13px; 
+			}
+	
+		  
+          .tarjeta {
+
+			    margin: 0 0.5rem;
+	        }
+	       .datos-socio{
+	       	    font-size: 14px;
+	       }
+		}
+		
+		
+		@media only screen and (min-width: 768px){
+		
+           	.tarjeta {
+
+			    margin: 0 8rem;
+	        }
+		}
+		
+		@media only screen and (min-width: 1024px)  {
+	
+           	.tarjeta {
+
+			    margin: 0 10rem;
+	        }
+		}
+		
+		@media only screen and (min-width: 1124px)  {
+		
+           	.tarjeta {
+
+			    margin: 0 15rem;
+	        }
+		}
+		@media only screen and (min-width: 1300px)  {
+		
+           	.tarjeta {
+
+			    margin: 0 20rem;
+	        }
+		}
+		@media only screen and (min-width: 1370px)  {
+		  
+           	.tarjeta {
+
+			    margin: 0 25rem;
+	        }
+		}
+
+*/
+
+		
+    </style>
+    
+     <style>
+		.selected {
+			background-color: #B0BED9;
+		}
+		
+		.contenido_gestion {
+			padding: 20px 10px 0px 10px;
+		}
+		 
+		.ocultar {
+		    display: none;
+		}
+		 
+		.mostrar {
+		    display: block;
+		}
+		
+		td {
+		    vertical-align: middle !important;
+		}
+		.input_cata{
+			background: #f9f9f9;
+		    width:60%;
+		    border: none;
+		    height: 2em;
+		    padding: 0 0.5rem;
+		    outline: none;
+		}
+		.label_cata{
+			background: #f9f9f9;
+		    width: 40%; 
+		    border: none;
+		    padding: 0 0.5rem;
+		    align-items: center;
+		    display: flex;
+		    font-weight: 900;
+		}
+		.input_group_cata{
+			display: flex;
+		}
+		
+		.select2-results{
+			position:relative;
+			z-index: 9000;
+		}
+		.titulo_socio{
+			text-align: center;
+		    margin-bottom: 0;
+		    font-weight: bold;
+		    padding: 6px;
+		}
+		.card_socio{
+		/* 	padding: 10px; */
+/* 			    padding-top: 10rem; */
+		}
+		.titulo_descuentos{
+			border-radius: 2px;
+		    background-color: #01c339;
+		    padding: 1px;
+		    text-align: center;
+		    font-weight: bold;
+			color: white;
+		}
+		.boton_catalogo{
+			width: 100%;
+		    border: none;
+		    background: #0884af;
+		    border: none;
+		    border-radius: 4px;
+		    color: white;
+		    font-weight: bold;
+		    font-size: 12px;
+		    transition: background-color 0.3s ease, transform 0.3s ease; /* Transición */
+		    margin: 2px;
+		        
+		}
+		.boton_catalogo:hover{
+			background: #1a24c8;
+			transform: scale(1.01);
+		}
+		</style>
+</head>
+<body>
+    <div class="tarjeta">
+    	
+    	<input type="hidden" th:value="${codigosocio}" id="codigo">
+    	<img src="../../img/logo_cadet_blanco.png" th:href="@{../img/logo_cadet_blanco.png}"  alt="Imagen izquierda" class="logo_cadet">	
+				
+        <div class="card_socio">
+            <div class="contenido">
+      	  	    	
+    	  	    	<div class=" cont-imagen-socio">
+		            	<img class=" imagen-socio " src="../img/user.png" th:src="@{/img/user.png}" th:href="@{/img/user.png}"  alt="Imagen del Socio">
+		            	<div class="badge_socio">
+		            		<span class="badge bg-warning text-dark">Warning</span>
+		            	</div>
+	            	</div>
+
+		            <div class="row" >
+		            	<div class="col-md-12">
+	     			        <div class="detallesocio">
+			                    <span id="nombresocio" class="nombresocio ">Juan Pérez</span> 
+			                    <p id="profesion" class="profesion">ADMINISTRADOR DE EMPRESAS</p>
+			                </div>
+			                <div class="dato">
+			                    <span>CARNET DE IDENTIDAD</span>
+			                    <label id="ci">10528402</label> 
+			                </div>
+			                <div class="dato">
+			                    <span>MATRICULA</span>
+			                    <label id="matricula">1245</label> 
+			                </div>
+			                <div class="dato">
+			                    <span id="">Fecha de Emisión:</span> 
+			                    <label id="fechaemision">ADMINISTRADOR DE EMPRESAS</label> 
+			                </div>
+			                <div class="dato">
+			                    <span id="">Fecha de Expiración:</span>
+			                     <label id="fechaexpiracion">ADMINISTRADOR DE EMPRESAS</label> 
+			                </div>
+		            	</div>
+
+		            </div>
+                	<a class="boton-socio" id="boton-socio" data-mdb-ripple-init><b>
+    					<label id="boton-socio-txt">SOCIO ACTIVO</label></b>
+    				</a>
+    				
+				  <div class="row ">
+				    <div class="col-12" style="margin-top:4px;margin-bottom:4px ;display: flex;flex-flow:wrap;justify-content: center;align-items: center;flex-direction:column;flex-flow: column; ">
+					     <label style="font-size: 10px;text-align: center; width: 462px;" >	TARIJA-BOLIVIA</label>
+				    </div>
+
+				  </div>
+
+			</div>
+   
+        </div>
+        
+        
+        </div>
+
+
+
+
+
+  
+    
+    
+    <script  src="#" th:src="@{/js/jquery-3.6.3.min.js}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.5.4/js/fileinput.min.js" ></script>
+
+	<!-- MDB -->
+	<script
+	  type="text/javascript"
+	  src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.1.0/mdb.umd.min.js"
+	></script>
+	
+  	<script
+		src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+    <script type="text/javascript">
+    
+    	var nameEntity="../../RestSocios"
+    
+		let id=document.getElementById("codigo").value;
+		console.log("DATO:",id)
+    	var xhr = new XMLHttpRequest();//inicializando un objeto para realizar solicitudes HTTP asincronas
+  		xhr.open('GET', nameEntity + '/findByNrodocumento/' + id);//abre una solicitud GET y hacia la direccion establecida
+  		xhr.responseType = 'json';//el tipo de respuesta que espera desde el servidor
+  		xhr.onload = function() {//cuando se complete la solicitud de manera exitosa
+  		  if (xhr.status === 200) {//se verifica el estado de la respuesta
+  		    var objeto = xhr.response;//se asigna la respuesta
+  		    // Hacer algo con el resultado aquí
+  		    console.log("resultado por AJAX VANILLA",objeto);
+  		  	let boton = document.getElementById("boton-socio");
+  		    if (objeto!=null) {
+  		    	
+  		    	//CARGAR FOTO
+	    		if (objeto.imagen!=null) {
+ 		    			if (objeto.lejendario==1) {
+ 	  		    			console.log("IMAGEN:",objeto.imagen)
+ 	  	  		    		$('.cont-imagen-socio').html(`
+ 	  	  		    				<img class=" imagen-socio " src="${nameEntity}/logo_socio/${objeto.imagen}" th:src="@{${nameEntity}/logo_socio/${objeto.imagen}}"  alt="Imagen del Socio">
+  	  			            	<div class="badge_socio">
+  			            			<span class="badge bg-warning text-dark">LEGENDARIO</span>
+  			            		</div>
+ 	  	  		    				`)
+					}else{
+  		    			
+  	  		    		$('.cont-imagen-socio').html(`
+  	  		    				<img class=" imagen-socio " src="${nameEntity}/logo_socio/${objeto.imagen}" th:src="@{${nameEntity}/logo_socio/${objeto.imagen}}" th:href="@{${nameEntity}/logo_socio/${objeto.imagen}}"  alt="Imagen del Socio">
+  	  				            
+  	  		    				`)
+					}
+
+				} else {
+  		    		$('.cont-imagen-socio').html(`
+  		    				<img class=" imagen-socio " src="../../img/user.png" th:src="@{../img/user.png}" th:href="@{../img/user.png}"  alt="Imagen del Socio">
+  				            
+  		    				`)
+				}
+  		    	
+	    		
+	    		//DATOS
+  		    	if (objeto.estado==1) {
+
+  	  		    	document.getElementById("nombresocio").innerText =objeto.nombresocio;
+  	  		    	document.getElementById("ci").innerText =objeto.persona.ci;
+  	  		    	document.getElementById("profesion").innerText =objeto.profesion.nombre;
+  	  		    	document.getElementById("matricula").innerText =objeto.matricula;
+  	  		    	document.getElementById("fechaemision").innerText =objeto.fechaemision;
+  	  		    	document.getElementById("fechaexpiracion").innerText =objeto.fechaexpiracion;
+  	  		    	
+  	  		    	let botontxt = document.getElementById("boton-socio-txt");
+  		    		botontxt.innerText="SOCIO ACTIVO"
+  	  		    	boton.classList.add("boton-activo-socio");
+  	  		    	boton.classList.remove("boton-inactivo-socio");
+  	  		   		boton.href = '../empresas/'+objeto.nrodocumento;
+				}else{
+ 	  		    	document.getElementById("nombresocio").innerText =objeto.nombresocio;
+  	  		    	document.getElementById("ci").innerText =objeto.persona.ci;
+  	  		    	document.getElementById("profesion").innerText =objeto.profesion.nombre;
+  	  		    	document.getElementById("matricula").innerText =objeto.matricula;
+  	  		    	document.getElementById("fechaemision").innerText =objeto.fechaemision;
+  	  		    	document.getElementById("fechaexpiracion").innerText =objeto.fechaexpiracion;
+	  		    	
+	  		    	
+	  		    	let botontxt = document.getElementById("boton-socio-txt");
+	  		    	botontxt.innerText="SOCIO INACTIVO"
+	  		    	boton.classList.add("boton-inactivo-socio");
+	  		    	boton.classList.remove("boton-activo-socio");
+	  		    	boton.href = '#';
+				}
+
+			}else{
+ 		    	document.getElementById("nombresocio").innerText ="";
+  		    	document.getElementById("ci").innerText ="";
+  		    	document.getElementById("profesion").innerText ="";
+  		    	document.getElementById("matricula").innerText ="";
+  		    	document.getElementById("fechaemision").innerText ="";
+  		    	document.getElementById("fechaexpiracion").innerText ="";
+  		    	
+  		    	let botontxt = document.getElementById("boton-socio-txt");
+  		    	botontxt.innerText="NINGUNO"
+  		    	boton.classList.add("boton-inactivo-socio");
+  		    	boton.classList.remove("boton-activo-socio");
+  		    	boton.href = '#';
+			}
+  		  }
+  		};
+  		xhr.send();
+    </script>
+</body>
+
+</html>

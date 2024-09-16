@@ -6,6 +6,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.security.GeneralSecurityException;
+import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +19,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.FileSystemUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.google.api.client.http.FileContent;
+import com.google.api.client.http.InputStreamContent;
+import com.google.api.services.drive.Drive;
+import com.google.api.services.drive.model.File;
+import com.google.api.services.drive.model.FileList;
+
+import app.config.GoogleDriveConfig;
 import app.repository.CatalogoRepository;
 import app.util.URIS;
 
@@ -25,6 +34,10 @@ import app.util.URIS;
 @Service
 public class ArchivoServiceImpl implements ArchivoService {
 
+   @Autowired
+    private GoogleDriveConfig googleDriveConfig;
+	
+	
 	private String ruta_logos="/static/logos/";
 	private String ruta_socio_logos="/static/socioslogos/";
 //	private String ruta_logos=".//src//main//resources//static//logos//";
@@ -32,6 +45,128 @@ public class ArchivoServiceImpl implements ArchivoService {
 	private String ruta_catalogos="/static/catalogosimg/";
 //	private ResourceLoader resourceLoader=new DefaultResourceLoader();
 	private ResourceLoader resourceLoader=new DefaultResourceLoader();
+	
+	
+	//drive
+    private Drive getDriveService() throws IOException, GeneralSecurityException {
+        return googleDriveConfig.getDriveService();
+    }
+    
+    public String getOrCreateFolder(String folderName) throws IOException, GeneralSecurityException {
+        Drive driveService = getDriveService();
+        
+        // Search for the folder
+        FileList result = driveService.files().list()
+                .setQ("mimeType='application/vnd.google-apps.folder' and name='" + folderName + "' and trashed=false")
+                .setSpaces("drive")
+                .setFields("files(id, name)")
+                .execute();
+
+        List<File> files = result.getFiles();
+        if (files.isEmpty()) {
+            // Folder does not exist, create it
+            File fileMetadata = new File();
+            fileMetadata.setName(folderName);
+            fileMetadata.setMimeType("application/vnd.google-apps.folder");
+
+            File folder = driveService.files().create(fileMetadata)
+                    .setFields("id")
+                    .execute();
+
+            return folder.getId();
+        } else {
+            // Folder exists
+            return files.get(0).getId();
+        }
+    }
+    
+    public String obtenerIdArchivoDrivePorNombre(String nombreArchivo, String folderId) throws IOException, GeneralSecurityException {
+        Drive driveService = getDriveService();
+        
+        // Buscar el archivo dentro de la carpeta usando folderId directamente
+        FileList result = driveService.files().list()
+                .setQ("mimeType!='application/vnd.google-apps.folder' and name='" + nombreArchivo + "' and '" + folderId + "' in parents and trashed=false")
+                .setSpaces("drive")
+                .setFields("files(id, name)")
+                .execute();
+
+        List<File> files = result.getFiles();
+        if (!files.isEmpty()) {
+            return files.get(0).getId();  // Devolver el ID del archivo encontrado
+        }
+        
+        return null;  // Retorna null si no se encuentra el archivo
+    }
+
+
+    public String guargarArchivoDriveFile(String nameFolder, java.io.File archivo, String nombreArchivo) throws IOException, GeneralSecurityException {
+        // Obtén el servicio de Google Drive (asegúrate de que este método esté implementado y devuelva una instancia válida de Drive)
+        Drive driveService = getDriveService();
+
+        // Obtén o crea la carpeta en Google Drive
+        String folderId = getOrCreateFolder(nameFolder);
+        System.out.println("ID CARPETA: " + folderId);
+
+        // Crea los metadatos para el archivo que se subirá a Google Drive
+        com.google.api.services.drive.model.File fileMetadata = new com.google.api.services.drive.model.File();
+        fileMetadata.setName(nombreArchivo);
+        fileMetadata.setParents(Collections.singletonList(folderId)); // Asigna el archivo a la carpeta especificada
+
+        // Convierte el java.io.File a un Path
+        Path filePath = Paths.get(archivo.getAbsolutePath());
+
+        // Determina el tipo de contenido del archivo (tipo MIME)
+        String mimeType = Files.probeContentType(filePath);
+        if (mimeType == null) {
+            mimeType = "application/octet-stream"; // Tipo MIME predeterminado si no se detecta ninguno
+        }
+
+        // Crea el FileContent con el tipo MIME y el archivo real
+        FileContent mediaContent = new FileContent(mimeType, archivo);
+
+        // Sube el archivo a Google Drive
+        com.google.api.services.drive.model.File fileUploaded = driveService.files()
+                .create(fileMetadata, mediaContent)
+                .setFields("id") // Devuelve solo el ID del archivo
+                .execute();
+
+        // Devuelve el ID del archivo subido
+        return fileUploaded.getId();
+    }
+
+    
+    public String guargarArchivoDrive(String nameFolder, MultipartFile archivo, String nombre) throws IOException, GeneralSecurityException {
+        if (!archivo.isEmpty()) {
+            Drive driveService = getDriveService();
+
+            // Obtener o crear la carpeta
+            String folderId = getOrCreateFolder(nameFolder);
+            System.out.println("ID CARPETA: " + folderId);
+
+            // Crear metadatos del archivo
+            File fileMetadata = new File();
+            fileMetadata.setName(nombre);
+            fileMetadata.setParents(Collections.singletonList(folderId));
+
+            // Definir el contenido del archivo usando InputStreamContent
+            InputStream inputStream = archivo.getInputStream();
+            InputStreamContent mediaContent = new InputStreamContent(archivo.getContentType(), inputStream);
+
+            // Subir el archivo
+            File fileUploaded = driveService.files().create(fileMetadata, mediaContent)
+                    .setFields("id")
+                    .execute();
+
+            // Cerrar el InputStream
+            inputStream.close();
+
+            return fileUploaded.getId();  // Devolver el ID del archivo o URL si es necesario
+        } else {
+            System.out.println("El archivo está vacío.");
+            return null;
+        }
+    }
+	
 	
 	 public String obtenerRutaCarpetaRecursos(String nombreCarpeta) {
         try { 
@@ -98,6 +233,8 @@ public class ArchivoServiceImpl implements ArchivoService {
 	        e.printStackTrace();
 	    }
 	}
+	
+	
 	
 
 //	@Override
@@ -352,5 +489,38 @@ public class ArchivoServiceImpl implements ArchivoService {
 			System.out.println(e);
 		}
 	}
+	
+	
+	public void eliminarArchivoDrive(String folderName, String nombreArchivo) throws IOException, GeneralSecurityException {
+	    Drive driveService = getDriveService();
+
+	    // Obtener el ID de la carpeta
+	    String folderId = getOrCreateFolder(folderName);
+	    System.out.println("ID de la carpeta: " + folderId);
+	    
+	    // Buscar el archivo dentro de la carpeta
+	    FileList result = driveService.files().list()
+	            .setQ("mimeType!='application/vnd.google-apps.folder' and name='" + nombreArchivo + "' and '" + folderId + "' in parents and trashed=false")
+	            .setSpaces("drive")
+	            .setFields("files(id, name)")
+	            .execute();
+
+	    List<File> files = result.getFiles();
+	    if (!files.isEmpty()) {
+	        // El archivo existe, eliminarlo
+	        for (File file : files) {
+	            try {
+	                driveService.files().delete(file.getId()).execute();
+	                System.out.println("Archivo eliminado: " + nombreArchivo + " (ID: " + file.getId() + ")");
+	            } catch (IOException e) {
+	                System.err.println("Error al eliminar el archivo: " + nombreArchivo + " (ID: " + file.getId() + ")");
+	                e.printStackTrace();
+	            }
+	        }
+	    } else {
+	        System.out.println("Archivo no encontrado en la carpeta: " + nombreArchivo + " (Carpeta ID: " + folderId + ")");
+	    }
+	}
+
 
 }

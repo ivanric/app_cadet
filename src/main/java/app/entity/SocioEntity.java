@@ -42,6 +42,11 @@ public class SocioEntity implements Serializable{
 	
 	@Column(name = "imagen") 
 	private String imagen;
+	
+	@Column(name = "imagenDriveId") 
+	private String imagenDriveId;
+	
+	
 	@Column(name = "qr")
 	private String qr;
 	@Column(name = "linkqr")
@@ -105,15 +110,16 @@ public class SocioEntity implements Serializable{
 		// TODO Auto-generated constructor stub 
 	}
 
-	public SocioEntity(Integer id, Integer codigo, String nrodocumento, String imagen, String qr, String linkqr,
-			String matricula, String nombresocio, LocalDate fechaemision, LocalDate fechaexpiracion, Integer lejendario,
-			Integer estado, ProfesionEntity profesion, PersonaEntity persona, InstitucionEntity institucion,
-			Collection<CatalogoEntity> catalogos, MultipartFile logo) {
+	public SocioEntity(Integer id, Integer codigo, String nrodocumento, String imagen, String imagenDriveId, String qr,
+			String linkqr, String matricula, String nombresocio, LocalDate fechaemision, LocalDate fechaexpiracion,
+			Integer lejendario, Integer estado, ProfesionEntity profesion, PersonaEntity persona,
+			InstitucionEntity institucion, Collection<CatalogoEntity> catalogos, MultipartFile logo) {
 		super();
 		this.id = id;
 		this.codigo = codigo;
 		this.nrodocumento = nrodocumento;
 		this.imagen = imagen;
+		this.imagenDriveId = imagenDriveId;
 		this.qr = qr;
 		this.linkqr = linkqr;
 		this.matricula = matricula;
@@ -159,6 +165,14 @@ public class SocioEntity implements Serializable{
 
 	public void setImagen(String imagen) {
 		this.imagen = imagen;
+	}
+
+	public String getImagenDriveId() {
+		return imagenDriveId;
+	}
+
+	public void setImagenDriveId(String imagenDriveId) {
+		this.imagenDriveId = imagenDriveId;
 	}
 
 	public String getQr() {
@@ -268,10 +282,11 @@ public class SocioEntity implements Serializable{
 	@Override
 	public String toString() {
 		return "SocioEntity [id=" + id + ", codigo=" + codigo + ", nrodocumento=" + nrodocumento + ", imagen=" + imagen
-				+ ", qr=" + qr + ", linkqr=" + linkqr + ", matricula=" + matricula + ", nombresocio=" + nombresocio
-				+ ", fechaemision=" + fechaemision + ", fechaexpiracion=" + fechaexpiracion + ", lejendario="
-				+ lejendario + ", estado=" + estado + ", profesion=" + profesion + ", persona=" + persona
-				+ ", institucion=" + institucion + ", catalogos=" + catalogos + ", logo=" + logo + "]";
+				+ ", imagenDriveId=" + imagenDriveId + ", qr=" + qr + ", linkqr=" + linkqr + ", matricula=" + matricula
+				+ ", nombresocio=" + nombresocio + ", fechaemision=" + fechaemision + ", fechaexpiracion="
+				+ fechaexpiracion + ", lejendario=" + lejendario + ", estado=" + estado + ", profesion=" + profesion
+				+ ", persona=" + persona + ", institucion=" + institucion + ", catalogos=" + catalogos + ", logo="
+				+ logo + "]";
 	}
 
 	

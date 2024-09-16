@@ -54,6 +54,9 @@ public class CatalogoEntity implements Serializable{
 	@Column(name = "nombrelogo")    
 	private String nombrelogo;
 	
+	@Column(name = "nombrelogoDriveId")    
+	private String nombrelogoDriveId;
+	
 	@Column(name = "longitud")    
 	private String longitud;
 	
@@ -83,8 +86,9 @@ public class CatalogoEntity implements Serializable{
 	}
 
 	public CatalogoEntity(Integer id, Integer codigo, String nombre, String descripcion, String direccion,
-			int descuento, String tipo, String nombrelogo, String longitud, String latitud, Integer estado,
-			List<ImagenesCatalogoEntity> imagenesCatalogos, MultipartFile logo, List<MultipartFile> catalogo) {
+			int descuento, String tipo, String nombrelogo, String nombrelogoDriveId, String longitud, String latitud,
+			Integer estado, List<ImagenesCatalogoEntity> imagenesCatalogos, MultipartFile logo,
+			List<MultipartFile> catalogo) {
 		super();
 		this.id = id;
 		this.codigo = codigo;
@@ -94,6 +98,7 @@ public class CatalogoEntity implements Serializable{
 		this.descuento = descuento;
 		this.tipo = tipo;
 		this.nombrelogo = nombrelogo;
+		this.nombrelogoDriveId = nombrelogoDriveId;
 		this.longitud = longitud;
 		this.latitud = latitud;
 		this.estado = estado;
@@ -166,6 +171,14 @@ public class CatalogoEntity implements Serializable{
 		this.nombrelogo = nombrelogo;
 	}
 
+	public String getNombrelogoDriveId() {
+		return nombrelogoDriveId;
+	}
+
+	public void setNombrelogoDriveId(String nombrelogoDriveId) {
+		this.nombrelogoDriveId = nombrelogoDriveId;
+	}
+
 	public String getLongitud() {
 		return longitud;
 	}
@@ -218,8 +231,9 @@ public class CatalogoEntity implements Serializable{
 	public String toString() {
 		return "CatalogoEntity [id=" + id + ", codigo=" + codigo + ", nombre=" + nombre + ", descripcion=" + descripcion
 				+ ", direccion=" + direccion + ", descuento=" + descuento + ", tipo=" + tipo + ", nombrelogo="
-				+ nombrelogo + ", longitud=" + longitud + ", latitud=" + latitud + ", estado=" + estado
-				+ ", imagenesCatalogos=" + imagenesCatalogos + ", logo=" + logo + ", catalogo=" + catalogo + "]";
+				+ nombrelogo + ", nombrelogoDriveId=" + nombrelogoDriveId + ", longitud=" + longitud + ", latitud="
+				+ latitud + ", estado=" + estado + ", imagenesCatalogos=" + imagenesCatalogos + ", logo=" + logo
+				+ ", catalogo=" + catalogo + "]";
 	}
 
 	
