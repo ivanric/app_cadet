@@ -23,11 +23,11 @@ import java.util.List;
 import org.springframework.context.annotation.Configuration;
 @Configuration
 public class GoogleDriveConfig {
-
+	//config
     private static final String APPLICATION_NAME = "Google Drive API Java";
     private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
     private static final String TOKENS_DIRECTORY_PATH = "tokens";
-
+ 
     private static final List<String> SCOPES = Collections.singletonList(DriveScopes.DRIVE);
     private static final String CREDENTIALS_FILE_PATH = "/credendesktop.json";  // Debe coincidir con el nombre del archivo en resources
 
