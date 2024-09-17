@@ -84,9 +84,23 @@ public class CadetappApplication  extends SpringBootServletInitializer{
 	        	ProvinciaEntity proviniciaEntity=new ProvinciaEntity(1,"CERCADO",1, departamentosave); 
 	        	ProvinciaEntity provinciasave=provinciaRepository.save(proviniciaEntity);
 	        	
-	        	InstitucionEntity institucionEntitybd = institucionRepository.findById(1).orElseThrow(() -> new Exception("Institución no encontrada"));
+	        	System.out.println("**************INIT PRE INSTI****");
+	        	InstitucionEntity institucionEntitybd=null;
+	        	try {
+	        		institucionEntitybd = institucionRepository.findById(1).get();
+				} catch (Exception e) {
+					e.printStackTrace();
+					System.out.println(e.getMessage());
+					// TODO: handle exception
+					institucionEntitybd=null;
+				}
+	        	
+//	        	InstitucionEntity institucionEntitybd = institucionRepository.findById(1).orElseThrow(() -> new Exception("Institución no encontrada"));
 		        
+	        	System.out.println("**************INIT INSTITUCION:"+institucionEntitybd);
+	        	
 	        	if (institucionEntitybd==null) {
+	        		System.out.println("****************AGREGANDO INSTITUCION NUEVA");
 //		        	InstitucionEntity institucionEntity=new InstitucionEntity(1,"123456789","CADET","COLEGIO DE ADMINISTRADOR DE EMPRESAS DE TARIJA","cadet", "cadet.tarija@gmail.com", "direccion", "75119900", null, "cadetarija.com", null, 1, provinciasave);
 		        	InstitucionEntity institucionEntity=new InstitucionEntity(1,"123456789","CADET","COLEGIO DE ADMINISTRADOR DE EMPRESAS DE TARIJA","cadet", "cadet.tarija@gmail.com", "direccion", "75119900", null, "192.168.100.2:8080", null, 1, provinciasave);
 		        	institucionRepository.save(institucionEntity);

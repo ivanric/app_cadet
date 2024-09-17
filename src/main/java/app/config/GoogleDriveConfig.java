@@ -29,8 +29,8 @@ public class GoogleDriveConfig {
     private static final String TOKENS_DIRECTORY_PATH = "tokens";
    
     private static final List<String> SCOPES = Collections.singletonList(DriveScopes.DRIVE);
-    private static final String CREDENTIALS_FILE_PATH = "/appwebdriver.json";  // Debe coincidir con el nombre del archivo en resources
-//  private static final String CREDENTIALS_FILE_PATH = "/drivelocal.json";  // Debe coincidir con el nombre del archivo en resources
+//    private static final String CREDENTIALS_FILE_PATH = "/appwebdriver.json";  // Debe coincidir con el nombre del archivo en resources
+  private static final String CREDENTIALS_FILE_PATH = "/drivelocal.json";  // Debe coincidir con el nombre del archivo en resources
 
     public static Credential getCredentials(final NetHttpTransport HTTP_TRANSPORT) throws IOException {
         // Cargar las credenciales desde el classpath
@@ -47,7 +47,8 @@ public class GoogleDriveConfig {
                 .setDataStoreFactory(new FileDataStoreFactory(new java.io.File(TOKENS_DIRECTORY_PATH)))
                 .setAccessType("offline")
                 .build();
-        LocalServerReceiver receiver = new LocalServerReceiver.Builder().setPort(8888).build();
+//        LocalServerReceiver receiver = new LocalServerReceiver.Builder().setPort(8888).build();
+        LocalServerReceiver receiver = new LocalServerReceiver.Builder().setPort(8080).build();
         return new AuthorizationCodeInstalledApp(flow, receiver).authorize("user");
     }
 
