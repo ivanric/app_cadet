@@ -8,8 +8,8 @@ public class Constantes {
 	}
 
 	public static Integer NUM_MAX_DATATABLE=10;
-	public static String nameFolderLogoSocio="bSIST_SOCIOS_LOGOS";
-	public static String nameFolderQrSocio="bSIST_SOCIOS_QRS";
-	public static String nameFolderLogoCatalogo="bSIST_EMPRESAS_LOGOS";
-	public static String nameFolderImgCatalogo="bSIST_EMPRESAS_CATALOGOS";
+	public static String nameFolderLogoSocio="SIST_SOCIOS_LOGOS";
+	public static String nameFolderQrSocio="SIST_SOCIOS_QRS";
+	public static String nameFolderLogoCatalogo="SIST_EMPRESAS_LOGOS";
+	public static String nameFolderImgCatalogo="SIST_EMPRESAS_CATALOGOS";
 }
