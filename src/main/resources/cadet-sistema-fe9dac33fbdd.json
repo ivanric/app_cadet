@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "cadet-sistema",
+  "private_key_id": "fe9dac33fbddb9f40224237e9d6f7d40b8b882ae",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQCvcRzJzGfqnA2f\nKmeea5j0LHwPqpSRLNIetuG1i3Ei8QH7JXX6wptx7lnkYE0BmqY1LbaQ9PiAItHd\nHfiOQdpGiTwpGWR+RnJN2jRAeG0BShba8cApZq7iYaoGyF0uZe8ZOkqJQjiN1dR4\n295OKshFhl2BGoRrnUytr4lepYPBJhcLu9rQP8raznDPnQSi1WIotbjWwoyM+gJ2\nGmJbbVjTShkwYluFgCYS+xaprPQfEGb/62nSM7C2O3PxIzw46GtvBrNVFOOL/QxM\nG4vNuvNxamm9HJvff0KKYeYNvdVNe7KpGEpigXK/rGEQU4igNkX8C+XKFFnanH8Q\nfNrbixBlAgMBAAECggEABJd6CKkOJjSH4bzPIfUQd4GLjLBq+4K4DCA+t4zq/N5g\nbiWMmS/LODfkB+diVJKq23TzFIeo0le29OnSJc0A7LwuRCgbOnfXCYUWvYI5XiGF\niBzwKdU7agbi15MaZzq5P4iIR1/hkYrBaRleD98sRy+NVnHuec+P4HLZ7k14LY+p\nzlaGD05t52BmkaUmJZ2L/tlQ8jExogT3JTVbWARpwfsbJ15KWlea1SDAcoIpdSGc\nKKCQj9lgoxBoYeBX2BjDnbwObSp9ZjTm01oTLvz8yS9vL9ielxlmfyWTlFpuKEzN\nfpISenn4/jJbvKEj/75AOCPtLeptNnoY0TEfilpwQQKBgQDURtLQMm2gyzsXdigG\n+iVJ/cdNHl8TRVFLlnqkfHIPFzOuT+0WDHLrh1wx6sgvK1TLd34BMtetc9nKzZuP\nEiTC6gssmH4186S1vQ7r2/u2rQsVZGxhZ/EnhhG2OXcYcqOXjbgUmJuVCMscpWHm\nTd7wkFZ4RrbVuKpz7WRNcce3QQKBgQDTlATt1jOXwDQ/fDMXSlVVj+OrCb7z0bM2\nO1/uBdKdJMTesriy9vy15w+HPUqjGnP2Pbtmi73/PQB4VEN5S9YrtblY9WP1/TFX\nh0QQzgN6YZxtyfXTTZSCSlZr6Z4Vlih4VQNxvgo2fhNQIrm4k7/s/+3L3L/22FtL\niEu/YLyUJQKBgCXRqGVnVpi7HIAFkQQNNO+Fwyg+LPol82HgIWGEul1t6Ms5eiff\nd+n2Z7qM9bVRpv3JAC3+fOZuKXM0Rm6q8Nm5ENyVHodGLSYj1LC4tJPLKJpbFeQU\nvKYqAKXSfyFf6z1pBk7FEZLvyiAEZvi9DucVEBLFpnVVPSkCNkiF6OsBAoGAbuKV\njryDP5XZDCigciVgAb6umBY8gHY3kUWe6hUdI4SAtSI/kHPHT+IwDjW+JysW+Uez\nLnQweFNVKrsmvaxUK4ZLBGdfIy22LWRT9OazhfEgVZ3R+xMesQYasuW2FyQiQ6Zy\nbqslmReMMaRxZ13v6VrcGsqvxMPxXO2qnTsqug0CgYB2FBiZwEPjx19rfZQBf0Xf\nJs8Z7uLzyNRRA3ZIFHyE42kxinvGp0oxHepo4qgE1Xf3gKhsmWM3ee+vRFpGdk6E\nccksKdoRAiYxGgr+RVJeRWq5GEZYGgYSq9m4fDoiLThRnuRyKJAgoAv25ox4O2rx\nvgudsNQ4Y4R+cLK1QpdrZw==\n-----END PRIVATE KEY-----\n",
+  "client_email": "cadet-tarija-gmail-com@cadet-sistema.iam.gserviceaccount.com",
+  "client_id": "108707720590490972689",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/cadet-tarija-gmail-com%40cadet-sistema.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}
