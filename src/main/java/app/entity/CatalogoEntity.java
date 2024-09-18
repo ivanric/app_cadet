@@ -36,6 +36,9 @@ public class CatalogoEntity implements Serializable{
 	@Column(name = "codigo")
 	private Integer codigo; 
 	
+	@Column(name = "nit")
+	private String nit;
+	
 	@Column(name = "nombre")
 	private String nombre;
 	
@@ -85,13 +88,14 @@ public class CatalogoEntity implements Serializable{
 		// TODO Auto-generated constructor stub 
 	}
 
-	public CatalogoEntity(Integer id, Integer codigo, String nombre, String descripcion, String direccion,
+	public CatalogoEntity(Integer id, Integer codigo, String nit, String nombre, String descripcion, String direccion,
 			int descuento, String tipo, String nombrelogo, String nombrelogoDriveId, String longitud, String latitud,
 			Integer estado, List<ImagenesCatalogoEntity> imagenesCatalogos, MultipartFile logo,
 			List<MultipartFile> catalogo) {
 		super();
 		this.id = id;
 		this.codigo = codigo;
+		this.nit = nit;
 		this.nombre = nombre;
 		this.descripcion = descripcion;
 		this.direccion = direccion;
@@ -121,6 +125,14 @@ public class CatalogoEntity implements Serializable{
 
 	public void setCodigo(Integer codigo) {
 		this.codigo = codigo;
+	}
+
+	public String getNit() {
+		return nit;
+	}
+
+	public void setNit(String nit) {
+		this.nit = nit;
 	}
 
 	public String getNombre() {
@@ -226,15 +238,6 @@ public class CatalogoEntity implements Serializable{
 	public void setCatalogo(List<MultipartFile> catalogo) {
 		this.catalogo = catalogo;
 	}
-
-	@Override
-	public String toString() {
-		return "CatalogoEntity [id=" + id + ", codigo=" + codigo + ", nombre=" + nombre + ", descripcion=" + descripcion
-				+ ", direccion=" + direccion + ", descuento=" + descuento + ", tipo=" + tipo + ", nombrelogo="
-				+ nombrelogo + ", nombrelogoDriveId=" + nombrelogoDriveId + ", longitud=" + longitud + ", latitud="
-				+ latitud + ", estado=" + estado + ", imagenesCatalogos=" + imagenesCatalogos + ", logo=" + logo
-				+ ", catalogo=" + catalogo + "]";
-	}
-
+	
 	
 }

@@ -136,6 +136,18 @@ td {
 									<div class="row">
 										<div class="col-md-12">
 											<div class="mb-1">
+												<label for="exampleFormControlInput1" class=""><b>NIT</b></label>
+												<input placeholder="Ingrese nit"
+													class="form-control fg-input data-per field_css"
+													name="nit" type="number" required="required" >
+											</div>
+		
+										</div>
+									</div>
+									
+									<div class="row">
+										<div class="col-md-12">
+											<div class="mb-1">
 												<label for="exampleFormControlInput1" class=""><b>Nombre</b></label>
 												<input placeholder="Ingrese nombre de empresa"
 													class="form-control fg-input data-per field_css"
@@ -276,7 +288,7 @@ td {
 					<div class="row" style="margin-bottom: 10px;">
 						<div class="col-md-3 col-xs-12">
 							<input type="text" id="js_filtro" name="" class="form-control"
-								placeholder=" Buscar por nombre de empresa..">
+								placeholder=" Buscar por nit..">
 						</div>
 
 						<div class="col-md-4 col-xs-12" style="text-align: right;">
@@ -308,7 +320,7 @@ td {
 						style="width: 100%; background: white;">
 						<thead class="table-dark">
 							<tr>
-								<th width="">ID</th>
+								<th width="">NIT</th>
 								<th>EMPRESA</th>
 								<th>DIRECCION</th>
 								<th>DESCUENTO</th>
@@ -427,7 +439,7 @@ td {
 //             	).addClass('text-center');
             	$('td',row).eq(0).html(
             			`
-            				${index+1}
+            				${data.nit}
             			`
             			+""
             			+`<input type="hidden" value="${data.id}" class="idhidden">`
