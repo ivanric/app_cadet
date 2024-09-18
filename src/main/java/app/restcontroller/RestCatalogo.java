@@ -122,6 +122,9 @@ public class RestCatalogo extends RestControllerGenericNormalImpl<CatalogoEntity
 			
 			return ResponseEntity.status(HttpStatus.OK).body(servicio.save(entidad));
 		} catch (Exception e) {//BAD_REQUEST= es error 400
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+			
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("{\"error\":\"Error, Por favor intente mas tarde. \"}");
 		}
 	}

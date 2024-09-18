@@ -154,10 +154,11 @@ public class CatalogoServiceImpl extends GenericServiceImplNormal<CatalogoEntity
 	                ImagenesCatalogoEntity imagenesCatalogoEntity2 = ImagenCatalogoRepository.save(imagenesCatalogoEntity);
 	                array_imagenes_catalogo.add(imagenesCatalogoEntity2);
 	            }
+	            
 	        }
 
 	        entity.setImagenesCatalogos(array_imagenes_catalogo);
-
+	        System.out.println("IMAGENES DE CATALOGO ASIGNADOS");
 	        entity.setId(catalogoRepository.getIdPrimaryKey());
 	        entity.setCodigo(catalogoRepository.getCodigo());
 
@@ -180,6 +181,8 @@ public class CatalogoServiceImpl extends GenericServiceImplNormal<CatalogoEntity
 	        entity = catalogoRepository.save(entity);
 	        return entity;
 	    } catch (Exception e) {
+	    	e.printStackTrace();
+	    	System.out.println(" catalogo service save err:"+e.getMessage());
 	        // Considera agregar más detalles en el mensaje de error
 	        throw new Exception("Error al guardar el catálogo: " + e.getMessage(), e);
 	    }
