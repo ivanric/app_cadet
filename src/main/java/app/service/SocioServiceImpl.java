@@ -235,7 +235,7 @@ public class SocioServiceImpl extends GenericServiceImplNormal<SocioEntity, Inte
 	            codigoDocumento = codigoDocumento.replace(".", "a"); // Eliminar los puntos '.' del resultado
 	            codigoDocumento = codigoDocumento.replace("$", "d"); // Eliminar los signos '$' del resultado
 	            entity.setNrodocumento(codigoDocumento);
-	            entity.setLinkqr(codigoDocumento + ".png");
+	            entity.setLinkqr("QR - "+entity.getPersona().getCi() + ".png");
 
 	            InstitucionEntity institucionEntity = institucionRepository.findById(1).get();
 	            String bodyQR = institucionEntity.getHost() + "/socios/estadosocio/" + codigoDocumento;
@@ -259,7 +259,7 @@ public class SocioServiceImpl extends GenericServiceImplNormal<SocioEntity, Inte
 	                        entity.getLogo().getOriginalFilename().substring(entity.getLogo().getOriginalFilename().lastIndexOf('.'));
 	                System.out.println("NOMBRE SOCIO LOGO:" + nombre);
 	                
-	                // Guardar localmente
+	               // Guardar localmentee
 //	                String nombreLogoLocal = archivoService.guargarArchivo(Constantes.nameFolderLogoSocio, entity.getLogo(), nombre);
 //	                entity.setImagen(nombreLogoLocal);
 	                entity.setImagen(nombre);
@@ -509,7 +509,7 @@ public class SocioServiceImpl extends GenericServiceImplNormal<SocioEntity, Inte
 
 	        // Generar el nuevo nombre del archivo QR
 //	        String qr_nuevo = "qr-" + codigoDocumento_md;
-	        String qr_nuevo = "qr-" + entitymod.getPersona().getCi();
+	        String qr_nuevo = "QR - " + entitymod.getPersona().getCi();
 
 	        // Generar el QR localmente y en Google Drive
 	        qrCodeGeneratorService.generateQRCode(bodyQR, qr_nuevo);  // Asegúrate de que se guarda localmente y en Google Drive
