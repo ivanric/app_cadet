@@ -31,3 +31,5 @@ build/
 
 ### VS Code ###
 .vscode/
+# Ignorar archivo de secreto
+src/main/resources/cadet-sistema-97e2062b979e.json

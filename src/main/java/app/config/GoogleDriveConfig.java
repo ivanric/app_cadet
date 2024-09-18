@@ -83,7 +83,7 @@ public class GoogleDriveConfig {
 
     private static final String APPLICATION_NAME = "Google Drive API Java";
     private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
-    private static final String CREDENTIALS_FILE_PATH = "/cadet-sistema-34c12ac5a986.json";
+    private static final String CREDENTIALS_FILE_PATH = "/cadet-sistema-97e2062b979e.json";
 
 //    @Bean
 //    public Drive getDriveService() throws IOException, GeneralSecurityException {
