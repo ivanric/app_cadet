@@ -21,8 +21,8 @@ public interface SocioRepository extends GenericRepositoryNormal<SocioEntity, In
 	@Query(value="SELECT COALESCE(max(codigo),0)+1 as id from socio",nativeQuery = true)
 	public Integer getCodigo();
 	
-	@Query(value = "select t.* from socio t where (t.estado=:estado or :estado=-1) and  (upper(concat(t.id,t.nombresocio,'')) like concat('%',upper(:search),'%')) ORDER BY t.id ASC LIMIT :length OFFSET :start ",
-			countQuery ="SELECT count(t.*) FROM socio t where (t.estado=:estado or :estado=-1) and  (upper(concat(t.id,t.nombresocio,'')) like concat('%',upper(:search),'%')) LIMIT :length OFFSET :start ",		
+	@Query(value = "select t.* from socio t where (t.estado=:estado or :estado=-1) and  (upper(concat(t.id,t.matricula,'')) like concat('%',upper(:search),'%')) ORDER BY t.id ASC LIMIT :length OFFSET :start ",
+			countQuery ="SELECT count(t.*) FROM socio t where (t.estado=:estado or :estado=-1) and  (upper(concat(t.id,t.matricula,'')) like concat('%',upper(:search),'%')) LIMIT :length OFFSET :start ",		
 			nativeQuery = true)
 	public List<SocioEntity> findAll(@Param("estado") int estado,@Param("search") String search,@Param("length") int length,@Param("start") int start);
 	
@@ -32,7 +32,7 @@ public interface SocioRepository extends GenericRepositoryNormal<SocioEntity, In
 	public void updateStatus(Integer status,Integer id); 
 	
 
-	@Query(value="select count(t.*) from socio t where (upper(concat(t.id,t.nombresocio,'')) like concat('%',upper(:search),'%')) and (t.estado=:estado or :estado=-1) ",nativeQuery = true)
+	@Query(value="select count(t.*) from socio t where (upper(concat(t.id,t.matricula,'')) like concat('%',upper(:search),'%')) and (t.estado=:estado or :estado=-1) ",nativeQuery = true)
 	public Integer getTotAll(@Param("search") String search,@Param("estado") Integer estado);
 	
 	SocioEntity findByNrodocumento(String codigo);

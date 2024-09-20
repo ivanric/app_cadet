@@ -137,7 +137,7 @@ public class CatalogoServiceImpl extends GenericServiceImplNormal<CatalogoEntity
 	                System.out.println("CATALOGO:" + catalogoitem.getOriginalFilename());
 
 	                // Guardar en el sistema de archivos local
-	                String nombreLocal = "cat-isert-" + this.ImagenCatalogoRepository.getCodigo() +
+	                String nombreLocal = entity.getNit()+" - " + this.ImagenCatalogoRepository.getCodigo() +
 	                                     catalogoitem.getOriginalFilename().substring(catalogoitem.getOriginalFilename().lastIndexOf('.'));
 	                
 	                
@@ -164,7 +164,7 @@ public class CatalogoServiceImpl extends GenericServiceImplNormal<CatalogoEntity
 
 	        // Guardar logo
 	        if (!entity.getLogo().isEmpty()) {
-	            String nombreLocal = "cod-" + this.catalogoRepository.getCodigo() +
+	            String nombreLocal =  entity.getNit() +
 	                                 entity.getLogo().getOriginalFilename().substring(entity.getLogo().getOriginalFilename().lastIndexOf('.'));
 
 	            // Guardar en el sistema de archivos local
@@ -333,7 +333,7 @@ public class CatalogoServiceImpl extends GenericServiceImplNormal<CatalogoEntity
 	                    imagenesCatalogoEntity.setId(ImagenCatalogoRepository.getIdPrimaryKey());
 	                    imagenesCatalogoEntity.setCodigo(ImagenCatalogoRepository.getCodigo());
 
-	                    String nombre = "cat-modif-" + catalogoEntity2.getCodigo() + "-" + this.ImagenCatalogoRepository.getCodigo() + catalogoitem.getOriginalFilename().substring(catalogoitem.getOriginalFilename().lastIndexOf('.'));
+	                    String nombre =catalogoEntity2.getNit()+ "-" + this.ImagenCatalogoRepository.getCodigo() + catalogoitem.getOriginalFilename().substring(catalogoitem.getOriginalFilename().lastIndexOf('.'));
 	                    System.out.println("NOMBRECATALOGOLOG: " + nombre);
 
 	                    // Guardar archivo local
@@ -362,7 +362,7 @@ public class CatalogoServiceImpl extends GenericServiceImplNormal<CatalogoEntity
 	            // Eliminar logo en Google Drive
 	            this.archivoService.eliminarArchivoDrive(Constantes.nameFolderLogoCatalogo, catalogoEntity2.getNombrelogo());
 
-	            String nombre = "mod-" + catalogoEntity2.getCodigo() + entity.getLogo().getOriginalFilename().substring(entity.getLogo().getOriginalFilename().lastIndexOf('.'));
+	            String nombre =catalogoEntity2.getNit() + entity.getLogo().getOriginalFilename().substring(entity.getLogo().getOriginalFilename().lastIndexOf('.'));
 	            
 //	            String nombreLogo = archivoService.guargarArchivo(Constantes.nameFolderLogoCatalogo, entity.getLogo(), nombre);
 //	            entity.setNombrelogo(nombreLogo);
