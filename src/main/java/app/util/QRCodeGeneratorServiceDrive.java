@@ -58,7 +58,7 @@ public class QRCodeGeneratorServiceDrive {
             archivoService.guargarArchivoDriveFile(Constantes.nameFolderQrSocio, localQRCodeFile, nombre + "." + FILE_EXTENSION);
 
             // Opcional: Elimina el archivo local después de subirlo a Google Drive, si ya no es necesario
-//            Files.deleteIfExists(localQRCodeFile.toPath());
+            Files.deleteIfExists(localQRCodeFile.toPath());
 
         } catch (WriterException | IOException e) {
             e.printStackTrace();
