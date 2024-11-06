@@ -8,6 +8,7 @@
 		<version>2.7.10</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
+	
 	<groupId>app</groupId>
 	<artifactId>app</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
@@ -19,6 +20,7 @@
 		<java.version>11</java.version>
 		<start-class>app.CadetappApplication</start-class>
 	</properties>
+	
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -90,26 +92,26 @@
 		
 
 
-<dependency>
-  <groupId>com.google.api-client</groupId>
-  <artifactId>google-api-client</artifactId>
-  <version>1.34.1</version>
-</dependency>
-<dependency>
-  <groupId>com.google.oauth-client</groupId>
-  <artifactId>google-oauth-client-jetty</artifactId>
-  <version>1.31.5</version>
-</dependency>
-<dependency>
-  <groupId>com.google.apis</groupId>
-  <artifactId>google-api-services-drive</artifactId>
-  <version>LATEST</version>
-</dependency>
-<dependency>
-      <groupId>com.google.http-client</groupId>
-      <artifactId>google-http-client-jackson2</artifactId>
-      <version>1.40.1</version>
-</dependency>
+		<dependency>
+		  <groupId>com.google.api-client</groupId>
+		  <artifactId>google-api-client</artifactId>
+		  <version>1.34.1</version>
+		</dependency>
+		<dependency>
+		  <groupId>com.google.oauth-client</groupId>
+		  <artifactId>google-oauth-client-jetty</artifactId>
+		  <version>1.31.5</version>
+		</dependency>
+		<dependency>
+		  <groupId>com.google.apis</groupId>
+		  <artifactId>google-api-services-drive</artifactId>
+		  <version>LATEST</version>
+		</dependency>
+		<dependency>
+		      <groupId>com.google.http-client</groupId>
+		      <artifactId>google-http-client-jackson2</artifactId>
+		      <version>1.40.1</version>
+		</dependency>
 		
 	</dependencies>
 	

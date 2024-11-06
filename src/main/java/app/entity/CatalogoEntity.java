@@ -49,7 +49,7 @@ public class CatalogoEntity implements Serializable{
 	private String direccion;
 	
 	@Column(name = "descuento")
-	private int descuento;
+	private String descuento;
 	
 	@Column(name = "tipo")
 	private String tipo;
@@ -89,7 +89,7 @@ public class CatalogoEntity implements Serializable{
 	}
 
 	public CatalogoEntity(Integer id, Integer codigo, String nit, String nombre, String descripcion, String direccion,
-			int descuento, String tipo, String nombrelogo, String nombrelogoDriveId, String longitud, String latitud,
+			String descuento, String tipo, String nombrelogo, String nombrelogoDriveId, String longitud, String latitud,
 			Integer estado, List<ImagenesCatalogoEntity> imagenesCatalogos, MultipartFile logo,
 			List<MultipartFile> catalogo) {
 		super();
@@ -159,11 +159,11 @@ public class CatalogoEntity implements Serializable{
 		this.direccion = direccion;
 	}
 
-	public int getDescuento() {
+	public String getDescuento() {
 		return descuento;
 	}
 
-	public void setDescuento(int descuento) {
+	public void setDescuento(String descuento) {
 		this.descuento = descuento;
 	}
 
